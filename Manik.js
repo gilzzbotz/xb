@@ -46,11 +46,11 @@ chats: {},
 
 global.called = false
 global.Prefix = 'Multi'
-global.ownerNumber = '6282142961010'
-global.botname = 'XionsBot - Md' 
+global.ownerNumber = '6288293406700'
+global.botname = 'RzBot - Md' 
 global.ownername = 'Own-Manik√'
-global.owner = ['6282142961010'] 
-global.pemilik = ['6282142961010'] 
+global.owner = ['6288293406700'] 
+global.pemilik = ['6288293406700'] 
 global.pengguna = 'Radja'
 global.ownernma = 'Own-Radja√'
 global.packname = 'Arya' 
@@ -325,10 +325,10 @@ const mentions = (teks, memberr, id) => {
 }
 	
 const reply = (teks) => {
-Manik.sendMessage(m.chat, { text: teks, contextInfo:{"externalAdReply": {"title": ` ${global.botname}`,"body": `Radja OFFICIAL Goup`, "previewType": "PHOTO","thumbnailUrl": ``,"thumbnail": fs.readFileSync(`./media/Manik.jpg`),"sourceUrl": "https://chat.whatsapp.com/Gz9bSMZnFFr9avr61IVOKa"}}}, { quoted: m})
+Manik.sendMessage(m.chat, { text: teks, contextInfo:{"externalAdReply": {"title": ` ${global.botname}`,"body": `bot OFFICIAL Goup`, "previewType": "PHOTO","thumbnailUrl": ``,"thumbnail": fs.readFileSync(`./media/Manik.jpg`),"sourceUrl": "https://chat.whatsapp.com/Gz9bSMZnFFr9avr61IVOKa"}}}, { quoted: m})
 }       
 const reply1 = (teks) => {
-Manik.sendMessage(m.chat, { text: teks, contextInfo:{"externalAdReply": {"title": ` ${global.botname}`,"body": `Follow Instagram Arya Manik`, "previewType": "PHOTO","thumbnailUrl": ``,"thumbnail": fs.readFileSync(`./media/Manik.jpg`),"sourceUrl": "https://instagram.com/callme_xions"}}}, { quoted: m})
+Manik.sendMessage(m.chat, { text: teks, contextInfo:{"externalAdReply": {"title": ` ${global.botname}`,"body": `Follow  owner`, "previewType": "PHOTO","thumbnailUrl": ``,"thumbnail": fs.readFileSync(`./media/Manik.jpg`),"sourceUrl": "https://youtube.com/channel/uckd2cb9j_xkhuytcbk_jozg"}}}, { quoted: m})
 }
 
 try {
@@ -511,22 +511,22 @@ function clockString(ms) {
   return [h, ' H ', m, ' M ', s, ' S '].map(v => v.toString().padStart(2, 0)).join('')
 }
 const buttonsDefault = [
-			{ callButton: { displayText: `Call Owner!`, phoneNumber: `+6282142961010` } },
-			{ urlButton: { displayText: `Instagram Owner`, url : `https://instagram.com/callme_xions` } },
+			{ callButton: { displayText: `Call Owner!`, phoneNumber: `+6288293406700` } },
+			{ urlButton: { displayText: `Youtube Owner`, url : `https://youtube.com/channel/uckd2cb9j_xkhuytcbk_jozg` } },
 			{ quickReplyButton: { displayText: `🧑 Owner`, id: `${prefix}owner` } },
 			{ quickReplyButton: { displayText: `💰 Donasi`, id: `${prefix}donate` } },
 			{ quickReplyButton: { displayText: `📜 Dashboard`, id: `${prefix}dashboard` } }
 		]
 const buttonsFirst = [
-			{ callButton: { displayText: `Call Owner!`, phoneNumber: `+6282142961010` } },
-			{ urlButton: { displayText: `Instagram Owner`, url : `https://instagram.com/callme_xions` } },
+			{ callButton: { displayText: `Call Owner!`, phoneNumber: `+6288293406700` } },
+			{ urlButton: { displayText: `Youtube Owner`, url : `https://youtube.com/channel/uckd2cb9j_xkhuytcbk_jozg` } },
 			{ quickReplyButton: { displayText: `🧑 Owner`, id: `${prefix}owner` } },
 			{ quickReplyButton: { displayText: `📝 Menu`, id: `${prefix}menu` } },
 			{ quickReplyButton: { displayText: `📜 Rules`, id: `${prefix}rules` } }
 		]
 const buttonsAnon = [
-			{ callButton: { displayText: `Call Owner!`, phoneNumber: `+6282142961010` } },
-			{ urlButton: { displayText: `Instagram Owner`, url : `https://instagram.com/callme_xions` } },
+			{ callButton: { displayText: `Call Owner!`, phoneNumber: `+6288293406700` } },
+			{ urlButton: { displayText: `Youtube Owner`, url : `https://youtube.com/channel/uckd2cb9j_xkhuytcbk_jozg` } },
 			{ quickReplyButton: { displayText: `📱 Search`, id: `${prefix}search` } },
 			{ quickReplyButton: { displayText: `📲 Skip`, id: `${prefix}skip` } }
 		]
@@ -1094,7 +1094,7 @@ case prefix+'menu': case prefix+'help':{
 const more = String.fromCharCode(8206)
 const readmore = more.repeat(4001)
 addCountCmd(`#${command.slice(1)}`, sender, _cmd) 
-                anu = `*── 「 XionsBot - Versi MD 」 ──*
+                anu = `*── 「 RzBot - Versi MD 」 ──*
                 
     _*${ucapanWaktu} ${pushname !== undefined ? pushname : 'Kak'}*_
   
@@ -1284,7 +1284,7 @@ addCountCmd(`#${command.slice(1)}`, sender, _cmd)
  ● ${prefix}tiktok [url]
  ● ${prefix}tiktokaudio [url]
  ● ${prefix}tiktoknowm [url]     
- ● ${prefix}instagram [url]
+ ● ${prefix}youtube [url]
  ● ${prefix}twitter [url]
  ● ${prefix}twittermp3 [url]
  ● ${prefix}facebook [url]
@@ -1631,10 +1631,10 @@ addCountCmd(`#${command.slice(1)}`, sender, _cmd)
  ●Ortuku
  ●Penyemangatku
  ●Manik
- ●Radja
+ ●Radithstore
 
  © DESIGN: Radja`
- Manik.sendMessage(m.chat, { caption: anu, image: { url: "./media/menu.jpg" }, templateButtons: buttonsDefault, footer: 'XionsBot By Own-Radja√', mentions: [m.sender] })
+ Manik.sendMessage(m.chat, { caption: anu, image: { url: "./media/menu.jpg" }, templateButtons: buttonsDefault, footer: 'RzBot By Own-Radith√', mentions: [m.sender] })
 break 
 }
 //━━━━━━━━━━━━━━━[ Fitur topup Otomatis server 1 Case Dan Fitur By Manik Only! ]━━━━━━━━━━━━━━━\\
@@ -1666,15 +1666,15 @@ case prefix+'deposit':
 let depisi = `*─ 「 CARA DEPOSIT 」 ─*
      
 _Berikut Adalah Cara Deposit User!._
-_For Your Information, XionsBot Hanya Mendukung Deposit Melalui Ovo, Shopeepay, Dana, Qris Saja._
+_For Your Information, RzBot Hanya Mendukung Deposit Melalui Ovo, Shopeepay, Dana, Qris Saja._
 
-_》Ovo : 082142961010_
-_》Gopay : 082142961010_
+_》Ovo : 088293406700_
+_》Gopay : 088293406700_
 
 _Jika Sudah Melakukan Transfer Harap Kirim Bukti Dengan Cara Mengirim Screenshot Dengan Caption, Contoh:_
 ${prefix}bukti JUMLAH|CATATAN
 _Contoh:_
-${prefix}bukti 10000|isi Saldo 6282142961010
+${prefix}bukti 10000|isi Saldo 6288293406700
 Saldo Akan Masuk Ketika Owner Mengklik Tombol Acc Yang Dikirim Bot!.`
 reply(depisi)
 break
@@ -1693,12 +1693,12 @@ _》Catatan : ${catatnya}_
 Silahkan Segera Melakukan Pengisian Saldo User Jika Bukti Sudah Benar!.`
 if (/image/.test(mime)) {
 let media = await quoted.download()
-let encmedia = await Manik.sendImage(`6282142961010@s.whatsapp.net`, media, `Bukti Dari: ${sender.replace("@s.whatsapp.net", "")}`, m)
+let encmedia = await Manik.sendImage(`6288293406700@s.whatsapp.net`, media, `Bukti Dari: ${sender.replace("@s.whatsapp.net", "")}`, m)
 let buttons = [
 { buttonId: prefix+`depoyes ${depo}|${m.sender}`, buttonText: { displayText: 'Acc' }, type: 1 },
 { buttonId: prefix+`depono`, buttonText: { displayText: 'salah' }, type: 1 }
 ]
-Manik.sendButtonText(`6282142961010@s.whatsapp.net`, buttons, `${bukti}`, Manik.user.name, m)
+Manik.sendButtonText(`6288293406700@s.whatsapp.net`, buttons, `${bukti}`, Manik.user.name, m)
 }
 break
 case prefix+'depoyes':
@@ -1711,7 +1711,7 @@ let nbuttons = [
 { buttonId: prefix+`mydepo`, buttonText: { displayText: 'My Deposit' }, type: 1 },
 { buttonId: prefix+`topup`, buttonText: { displayText: 'TopUp' }, type: 1 }
 ]
-Manik.sendButtonText(`${siapah}`, nbuttons, `Topup Anda Berhasil Di Acc, Silahkan Melakukan TopUp Dengan Mudah Hanya Di XionsBot!`, Manik.user.name, m)
+Manik.sendButtonText(`${siapah}`, nbuttons, `Topup Anda Berhasil Di Acc, Silahkan Melakukan TopUp Dengan Mudah Hanya Di RzBot!`, Manik.user.name, m)
 break
 case prefix+'depono':
 if (!isManik) throw mess.owner
@@ -1745,7 +1745,7 @@ Saldo Hanya Bisa Untuk Topup Saja, Tidak Bisa Ditarik!.`
 const listMessage = {
   text: isian,
   footer: "Powered By @Radja",
-  title: "━━[ List Topup XionsBot ]━━",
+  title: "━━[ List Topup RzBot ]━━",
   buttonText: "Klik Disini",
   sections
 }
@@ -2288,7 +2288,7 @@ _》355 Diamond : Rp63.068_
 _》720 Diamond : Rp126.136_
 _》1450 Diamond : Rp252.273_
 
-Untuk Saat Ini XionsBot Hanya Menyediakan Diamond Free Fire Dengan 7 List Saja, Dukung Terus XionsBot Agar Berkembang 🙏😊.
+Untuk Saat Ini RzBot Hanya Menyediakan Diamond Free Fire Dengan 7 List Saja, Dukung Terus RzBot Agar Berkembang 🙏😊.
 
 Cara Pembelian:
 ${prefix}topupff ID|JUMLAH DIAMOND
@@ -2308,7 +2308,7 @@ var baseURL = "https://duniagames.co.id";
 var axios = require('axios');
 axios.get(`https://api.lolhuman.xyz/api/freefire/${idff}?apikey=${lolkey}`)
             .then(({data}) => {
-reply('Tunggu Sebentar Kak, XionsBot Akan Cek Id Kakak😊')
+reply('Tunggu Sebentar Kak, RzBot Akan Cek Id Kakak😊')
             })
             .catch((err) => {
                 reply('Id Atau NickName Tidak Ditemukan!')
@@ -2834,7 +2834,7 @@ Please @${m.mentionedJid[0].split`@`[0]} to type accept/reject`
             break
 	    case prefix+'donasi': case prefix+'donate': case prefix+'sewabot': case prefix+'sewa': case prefix+'buypremium': case prefix+'donate':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                reply(` MENU DONATE \n\nHi ${pushname} \n\`\`\`OVO : 082142961010\`\`\`\n\`\`\`GOPAY : 082142961010\`\`\`\nTerimakasih untuk kamu yang sudah donasi untuk perkembangan bot ini dan jika total donasi telah sampai 50k-60k akan ada bagi apikey free _^\n THX FOR YOU ! `)
+                reply(` MENU DONATE \n\nHi ${pushname} \n\`\`\`OVO : 088293406700\`\`\`\n\`\`\`GOPAY : 088293406700\`\`\`\nTerimakasih untuk kamu yang sudah donasi untuk perkembangan bot ini dan jika total donasi telah sampai 50k-60k akan ada bagi apikey free _^\n THX FOR YOU ! `)
             }
             break
             case prefix+'sc': case prefix+'script':{
@@ -3478,7 +3478,7 @@ Bot gw jalan awokawoak
 Jika sudah dipahami rules-nya, silakan ketik *#menu* untuk memulai!
 
 Owner  BOTZ:
-wa.me/6282142961010
+wa.me/6288293406700
 `
              reply(rulesBot)
              break
@@ -4586,11 +4586,11 @@ sendFile(m.chat,data.medias[0].url,txt,msg)
 
 break
 
-case prefix+'ig': case prefix+'igdl': case prefix+'instagram': case prefix+'instagramdl':
+case prefix+'ig': case prefix+'igdl': case prefix+'youtube': case prefix+'youtubedl':
 if (!q) reply(`Kirim perintah ${command.slice(1)} link`)
  reply(mess.wait)
-xfar.Instagram(q).then(async data => {
-let txt = `*Instagram Downloader*\n\n`
+xfar.youtube(q).then(async data => {
+let txt = `*youtube Downloader*\n\n`
 txt += `*Title :* ${data.title}\n`
 txt += `*Url Source :* ${data.url}\n\n`
 txt += `*Tunggu sebentar kak, media sedang di kirim..*`
@@ -4843,7 +4843,7 @@ let woi = `*「 𝗜𝗡𝗦𝗧𝗔𝗚𝗥𝗔𝗠 」*
 
 _Username : ${i.username}_
 _Nickname : ${i.fullname}_
-_Source : https://instagram.com/${q}_
+_Source : https://youtube.com/${q}_
 _Verified : ${i.verified}_
 _Followers : ${i.followers}_
 _Following : ${i.follow}_
@@ -4896,7 +4896,7 @@ break
 🔮 ${prefix}owner - _kirim kontak pemilik bot_
 👤 ${prefix}author - _kirim kontak pembuat bot_
 ———————————————————
-Note: Owner Tidak Bertanggung Jawab Jika Ada Masalah Antara Pengguna Bot`, image: { url: "./media/anonymous.jpg" }, templateButtons: buttonsAnon, footer: 'XionsBot By Own-Manik√', mentions: [m.sender] })
+Note: Owner Tidak Bertanggung Jawab Jika Ada Masalah Antara Pengguna Bot`, image: { url: "./media/anonymous.jpg" }, templateButtons: buttonsAnon, footer: 'RzBot By Own-Manik√', mentions: [m.sender] })
 			break
 			}
 case prefix+'sendprofile': case prefix+'sendcontact':{
@@ -5092,16 +5092,16 @@ ${cpus.map((cpu, i) => `${i + 1}. ${cpu.model.trim()} (${cpu.speed} MHZ)\n${Obje
     + 'N:;Radja;;;'
     + 'FN:Radja\n'
     + 'ORG:Radja;\n'
-    + 'item1.TEL;type=CELL;type=VOICE;waid=6282142961010:+62 857-3713-4572\n' 
-    + 'item1.X-ABLabel:Creator Xions Bott\n'
-    + 'item2.EMAIL;type=INTERNET:radjagamer01@gmail.com\n'
+    + 'item1.TEL;type=CELL;type=VOICE;waid=6288293406700:+62 882-9340-6700\n' 
+    + 'item1.X-ABLabel:Creator Rz Bott\n'
+    + 'item2.EMAIL;type=INTERNET:none\n'
     + 'item2.X-ABLabel:Email\n'
-    + 'item3.URL:https://instagram.com/callme_xions\n'
-    + 'item3.X-ABLabel:Instagram\n'
+    + 'item3.URL:https://youtube.com/channel/uckd2cb9j_xkhuytcbk_jozg\n'
+    + 'item3.X-ABLabel:youtube\n'
     + 'item4.ADR:;;Indonesia;;;;\n'
     + 'item4.X-ABLabel:Region\n'
     + 'END:VCARD'
-Manik.sendMessage(m.chat, { contacts: { displayName: 'Radja√', contacts: [{ vcard }] } }, { quoted: m })
+Manik.sendMessage(m.chat, { contacts: { displayName: 'radithstore', contacts: [{ vcard }] } }, { quoted: m })
             }
             break            
             case prefix+'author':{
@@ -5111,23 +5111,23 @@ Manik.sendMessage(m.chat, { contacts: { displayName: 'Radja√', contacts: [{ vc
     + 'N:;Radja;;;'
     + 'FN:Radja\n'
     + 'ORG:Radja;\n'
-    + 'item1.TEL;type=CELL;type=VOICE;waid=6282142961010:+62 821-4296-1010\n' 
-    + 'item1.X-ABLabel:Creator Xions Bott\n'
-    + 'item2.EMAIL;type=INTERNET:radjagamer01@gmail.com\n'
+    + 'item1.TEL;type=CELL;type=VOICE;waid=6288293406700:+62 882-9340-6700\n' 
+    + 'item1.X-ABLabel:Creator Rz Bott\n'
+    + 'item2.EMAIL;type=INTERNET:none\n'
     + 'item2.X-ABLabel:Email\n'
-    + 'item3.URL:https://instagram.com/callme_xions\n'
-    + 'item3.X-ABLabel:Instagram\n'
+    + 'item3.URL:https://youtube.com/channel/uckd2cb9j_xkhuytcbk_jozg\n'
+    + 'item3.X-ABLabel:youtube\n'
     + 'item4.ADR:;;Indonesia;;;;\n'
     + 'item4.X-ABLabel:Region\n'
     + 'END:VCARD'
-Manik.sendMessage(m.chat, { contacts: { displayName: 'Radja', contacts: [{ vcard }] } }, { quoted: m })
+Manik.sendMessage(m.chat, { contacts: { displayName: 'radithstore', contacts: [{ vcard }] } }, { quoted: m })
 reply('Hai Kak Ini Adalah Nomor Author Saya')
             }
             break            
                     case prefix+'bug': case prefix+'report':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
                     	if(!text) throw `Enter The Bug Example\n\n${command.slice(1)} Menu Error `
-                    	Manik.sendMessage(`6282142961010@s.whatsapp.net`, {text: `*Bug Report From:* wa.me/${m.sender.split("@")[0]}
+                    	Manik.sendMessage(`6288293406700@s.whatsapp.net`, {text: `*Bug Report From:* wa.me/${m.sender.split("@")[0]}
 Report Message: ${text}` })
 reply(`Successfully Reported To The Owner\n\nPlease Make Sure The Bug Is Valid, If You Play With This, Use This Feature Again And Again For No Reason, You Will Be Blocked For Sure !`)
                     }
@@ -5140,11 +5140,11 @@ const template = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
                             hydratedContentText: anu,
                             locationMessage: {
                             jpegThumbnail: fs.readFileSync('./media/Manik.jpg')},
-                            hydratedFooterText: `XionsBot - Md Beta`,
+                            hydratedFooterText: `RzBot - Md Beta`,
                             hydratedButtons: [{
                                 urlButton: {
-                                    displayText: 'Instagram',
-                                    url: 'https://instagram.com/callme_xions'
+                                    displayText: 'youtube',
+                                    url: 'https://youtube.com/channel/uckd2cb9j_xkhuytcbk_jozg'
                                 }
                             }, {
                             	urlButton: {
@@ -5201,7 +5201,7 @@ case prefix+'loli':
 case prefix+'manga':
 addCountCmd(`#${command.slice(1)}`, sender, _cmd)
               if (!text) throw `Example : ${prefix + command} black rover`
-              reply('Tunggu Ya Kakak😊, XionsBot Carikan')
+              reply('Tunggu Ya Kakak😊, RzBot Carikan')
               get_result = await fetchJson(`https://api.lolhuman.xyz/api/manga?apikey=${lolkey}&query=${text}`)
               get_result = get_result.result
               ini_txt = `Id : ${get_result.id}\n`
@@ -5230,7 +5230,7 @@ addCountCmd(`#${command.slice(1)}`, sender, _cmd)
          break
          case prefix+'anime':
              if (!text) throw `Example : ${prefix + command} black rover`
-             reply('Tunggu Ya Kakak😊, XionsBot Carikan')
+             reply('Tunggu Ya Kakak😊, RzBot Carikan')
              get_result = await fetchJson(`https://api.lolhuman.xyz/api/anime?apikey=${lolkey}&query=${text}`)
              get_result = get_result.result
              ini_txt = `Id : ${get_result.id}\n`
@@ -5261,7 +5261,7 @@ addCountCmd(`#${command.slice(1)}`, sender, _cmd)
              break
       case prefix+'kusonime':
              if (!text) throw `Example : ${prefix + command} black rover`
-             reply('Tunggu Ya Kakak😊, XionsBot Carikan')
+             reply('Tunggu Ya Kakak😊, RzBot Carikan')
              get_result = await fetchJson(`https://api.lolhuman.xyz/api/kusonimesearch?apikey=${lolkey}&query=${query}`)
              get_result = get_result.result
              ini_txt = `Title : ${get_result.title}\n`
@@ -5289,7 +5289,7 @@ addCountCmd(`#${command.slice(1)}`, sender, _cmd)
        case prefix+'otakudesu':
 addCountCmd(`#${command.slice(1)}`, sender, _cmd)
               if (!text) throw `Example : ${prefix + command} black rover`
-             reply('Tunggu Ya Kakak😊, XionsBot Carikan')
+             reply('Tunggu Ya Kakak😊, RzBot Carikan')
               get_result = await fetchJson(`https://api.lolhuman.xyz/api/otakudesusearch?apikey=${lolkey}&query=${query}`)
               get_result = get_result.result
               ini_txt = `Title : ${get_result.title}\n`
@@ -5326,7 +5326,7 @@ addCountCmd(`#${command.slice(1)}`, sender, _cmd)
        case prefix+'megumin':
        case prefix+'wallnime':
        addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-              reply('Tunggu Ya Kak😊, XionsBot Carikan')
+              reply('Tunggu Ya Kak😊, RzBot Carikan')
               buff = await getBuffer(`https://api.lolhuman.xyz/api/random/${command.slice(1)}?apikey=${lolkey}`)
               Manik.sendImage(m.chat, buff, `Nih Kak😊`, m)
               break
@@ -5355,13 +5355,13 @@ addCountCmd(`#${command.slice(1)}`, sender, _cmd)
        case prefix+'storyanime':
               case prefix+'videoanime':
        addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-              reply('Tunggu Ya Kak😊, XionsBot Carikan')
+              reply('Tunggu Ya Kak😊, RzBot Carikan')
               anu = await fetchJson(`https://api.lolhuman.xyz/api/storynime?apikey=${lolkey}`)
               Manik.sendMessage(m.chat, { video: { url: anu.result }, mimetype: 'video/mp4', caption: `Nih Kak😊` }, { quoted: m })
               break
               case prefix+'doujindesu':
              if (!text) throw `Example : ${prefix + command} Textnya Mana Kak😡`
-             reply('Tunggu Ya Kakak😊, XionsBot Carikan')
+             reply('Tunggu Ya Kakak😊, RzBot Carikan')
              try {
              doujinnya = await fetchJson(`http://api-melodicxt-2.herokuapp.com/api/doujindesu/search?query=${text}&apiKey=administrator`)
              let { data } = await doujinnya
@@ -5418,7 +5418,7 @@ case prefix+'quotesimage':
 if (!isPremium && global.db.users[m.sender].limit < 1) return reply(mess.endLimit) // respon ketika limit habis
             db.users[m.sender].limit -= 1 // -1 limit
     buff = await getBuffer(`https://api.lolhuman.xyz/api/random/${command.slice(1)}?apikey=${lolkey}`)
-    Manik.sendImage(m.chat, buff, `XionsBot - By ©Radja`, m)
+    Manik.sendImage(m.chat, buff, `RzBot - By ©Radja`, m)
  break
 case prefix+'faktaunik':
 case prefix+'katabijak':
@@ -5862,8 +5862,8 @@ const sendMsg = await Manik.sendMessage(m.chat, listMessage)
             let numb = m.sender
             let proses = `「 *TRANSAKSI PENDING* 」\n\n\`\`\`📆 TANGGAL : ${tanggal}\n⌚ JAM     : ${jam}\n✨ STATUS  : Pending\`\`\`\n\n📝 Catatan :\n${text}\n\nPesanan @${numb.split("@")[0]} sedang di proses!`
             mentions(proses, numb, true)
-            m.quoted.copyNForward(`6282142961010@s.whatsapp.net`, true)
-            Manik.sendMessage(`6282142961010@s.whatsapp.net`, {text: proses })
+            m.quoted.copyNForward(`6288293406700@s.whatsapp.net`, true)
+            Manik.sendMessage(`6288293406700@s.whatsapp.net`, {text: proses })
             break
         case 'done':
             if (!isManik) return
@@ -5960,7 +5960,7 @@ const sendMsg = await Manik.sendMessage(m.chat, listMessage)
                             for (let o of _cmd) {
                               total = total + o.count
                             }
-                            var teks = `*XIONS BOT DASHBOARD*\n\n*HIT*\n• GLOBAL : ${total}\n• USER : ${totalUser}\n\n`
+                            var teks = `*RZ BOT DASHBOARD*\n\n*HIT*\n• GLOBAL : ${total}\n• USER : ${totalUser}\n\n`
                             teks += `*Most Command Global*\n`
                             for (let u = 0; u < jumlahCmd; u ++) {
                               teks += `• ${_cmd[u].nama} : ${_cmd[u].count}\n`
