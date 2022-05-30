@@ -51,10 +51,10 @@ global.botname = 'RzBot - Md'
 global.ownername = 'Own-Manik√'
 global.owner = ['6288293406700'] 
 global.pemilik = ['6288293406700'] 
-global.pengguna = 'Radja'
-global.ownernma = 'Own-Radja√'
+global.pengguna = 'Radithstore'
+global.ownernma = 'Own-Radithstore√'
 global.packname = 'Arya' 
-global.author = 'Radja√' 
+global.author = 'Radithstore√' 
 global.sessionName = 'Qr'
 global.limitawal = { premium: "∞", free: 100 }
 global.thumb = fs.readFileSync('./media/Manik.jpg')
@@ -1633,7 +1633,7 @@ addCountCmd(`#${command.slice(1)}`, sender, _cmd)
  ●Manik
  ●Radithstore
 
- © DESIGN: Radja`
+ © DESIGN: Radithstore`
  Manik.sendMessage(m.chat, { caption: anu, image: { url: "./media/menu.jpg" }, templateButtons: buttonsDefault, footer: 'RzBot By Own-Radith√', mentions: [m.sender] })
 break 
 }
@@ -1744,7 +1744,7 @@ _》Id : ${sender.replace("@s.whatsapp.net", "")}_
 Saldo Hanya Bisa Untuk Topup Saja, Tidak Bisa Ditarik!.`
 const listMessage = {
   text: isian,
-  footer: "Powered By @Radja",
+  footer: "Powered By @Radithstore",
   title: "━━[ List Topup RzBot ]━━",
   buttonText: "Klik Disini",
   sections
@@ -2400,7 +2400,7 @@ reply(statusnya.message)
 }
 break
 case prefix+'registration':
-if (!q.includes("|")) return reply(`Gunakan dengan cara ${command.slice(1)} *Nama|Email|Password*\n\n_Contoh_\n\n${command.slice(1)} Arya|Radja000@gmail.com|Radja00`)
+if (!q.includes("|")) return reply(`Gunakan dengan cara ${command.slice(1)} *Nama|Email|Password*\n\n_Contoh_\n\n${command.slice(1)} Arya|Radithstore000@gmail.com|Radithstore00`)
 let trenpon = sender.replace("@s.whatsapp.net", "")
 let trennma = text.split("|")[0]
 let trenmail = text.split("|")[1]
@@ -5089,9 +5089,9 @@ ${cpus.map((cpu, i) => `${i + 1}. ${cpu.model.trim()} (${cpu.speed} MHZ)\n${Obje
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
                 let vcard = 'BEGIN:VCARD\n'
     + 'VERSION:3.0\n' 
-    + 'N:;Radja;;;'
-    + 'FN:Radja\n'
-    + 'ORG:Radja;\n'
+    + 'N:;Radithstore;;;'
+    + 'FN:Radithstore\n'
+    + 'ORG:Radithstore;\n'
     + 'item1.TEL;type=CELL;type=VOICE;waid=6288293406700:+62 882-9340-6700\n' 
     + 'item1.X-ABLabel:Creator Rz Bott\n'
     + 'item2.EMAIL;type=INTERNET:none\n'
@@ -5108,9 +5108,9 @@ Manik.sendMessage(m.chat, { contacts: { displayName: 'radithstore', contacts: [{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
                 let vcard = 'BEGIN:VCARD\n'
     + 'VERSION:3.0\n' 
-    + 'N:;Radja;;;'
-    + 'FN:Radja\n'
-    + 'ORG:Radja;\n'
+    + 'N:;Radithstore;;;'
+    + 'FN:Radithstore\n'
+    + 'ORG:Radithstore;\n'
     + 'item1.TEL;type=CELL;type=VOICE;waid=6288293406700:+62 882-9340-6700\n' 
     + 'item1.X-ABLabel:Creator Rz Bott\n'
     + 'item2.EMAIL;type=INTERNET:none\n'
@@ -5418,7 +5418,7 @@ case prefix+'quotesimage':
 if (!isPremium && global.db.users[m.sender].limit < 1) return reply(mess.endLimit) // respon ketika limit habis
             db.users[m.sender].limit -= 1 // -1 limit
     buff = await getBuffer(`https://api.lolhuman.xyz/api/random/${command.slice(1)}?apikey=${lolkey}`)
-    Manik.sendImage(m.chat, buff, `RzBot - By ©Radja`, m)
+    Manik.sendImage(m.chat, buff, `RzBot - By ©Radithstore`, m)
  break
 case prefix+'faktaunik':
 case prefix+'katabijak':
@@ -5743,7 +5743,7 @@ const reactionMessage = {
             }
 const listMessage = {
   text: `${ucapanWaktu} ${pushname} 👋\n\nBerikut Adalah List Item\nSilahkan Pilih Salah Satu!\n🗓 Tanggal : ${tanggal}\n🕰 Jam : ${moment().format("HH:mm:ss z")} `,
-  footer: "Powered By @Radja",
+  footer: "Powered By @Radithstore",
   buttonText: "Click Here!",
   sections: [{
                     title: groupName, rows: arr_rows
