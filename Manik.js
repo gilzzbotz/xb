@@ -2834,7 +2834,7 @@ Please @${m.mentionedJid[0].split`@`[0]} to type accept/reject`
             break
 	    case prefix+'donasi': case prefix+'donate': case prefix+'sewabot': case prefix+'sewa': case prefix+'buypremium': case prefix+'donate':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                reply(` MENU DONATE \n\nHi ${pushname} \n\`\`\`OVO : 088293406700\`\`\`\n\`\`\`GOPAY : 088293406700\`\`\`\nTerimakasih untuk kamu yang sudah donasi untuk perkembangan bot ini dan jika total donasi telah sampai 50k-60k akan ada bagi apikey free _^\n THX FOR YOU ! `)
+                reply(` MENU DONATE \n\nHi ${pushname} \n\`\`\`Qris : https://ibb.co/0dn2dcj\`\`\`\nTerimakasih untuk kamu yang sudah donasi untuk perkembangan bot ini dan jika total donasi telah sampai 50k-60k akan ada bagi apikey free _^\n THX FOR YOU ! `)
             }
             break
             case prefix+'sc': case prefix+'script':{
