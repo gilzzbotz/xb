@@ -47,14 +47,14 @@ chats: {},
 global.called = false
 global.Prefix = 'Multi'
 global.ownerNumber = '17242332244'
-global.botname = 'CekilBot-TOPUP' 
-global.ownername = 'Owner'
+global.botname = 'RzBot - Md' 
+global.ownername = 'Own-Manik√'
 global.owner = ['17242332244'] 
 global.pemilik = ['17242332244'] 
-global.pengguna = 'Cekil-STORE'
-global.ownernma = 'Cekil-STORE'
-global.packname = 'Cekil' 
-global.author = 'Store√' 
+global.pengguna = 'Radithstore'
+global.ownernma = 'Own-Radithstore√'
+global.packname = 'Arya' 
+global.author = 'Radithstore√' 
 global.sessionName = 'Qr'
 global.limitawal = { premium: "∞", free: 100 }
 global.thumb = fs.readFileSync('./media/Manik.jpg')
@@ -325,10 +325,10 @@ const mentions = (teks, memberr, id) => {
 }
 	
 const reply = (teks) => {
-Manik.sendMessage(m.chat, { text: teks, contextInfo:{"externalAdReply": {"title": ` ${global.botname}`,"body": `bot OFFICIAL Goup`, "previewType": "PHOTO","thumbnailUrl": ``,"thumbnail": fs.readFileSync(`./media/Manik.jpg`),"sourceUrl": "https://chat.whatsapp.com/Gz9bSMZnFFr9avr61IVOKa"}}}, { quoted: m})
+Manik.sendMessage(m.chat, { text: teks, contextInfo:{"externalAdReply": {"title": ` ${global.botname}`,"body": `bot OFFICIAL Goup`, "previewType": "PHOTO","thumbnailUrl": ``,"thumbnail": fs.readFileSync(`./media/Manik.jpg`),"sourceUrl": "https://chat.whatsapp.com/CF4jm8T9FVx5MnD037B1nN"}}}, { quoted: m})
 }       
 const reply1 = (teks) => {
-Manik.sendMessage(m.chat, { text: teks, contextInfo:{"externalAdReply": {"title": ` ${global.botname}`,"body": `Follow  owner`, "previewType": "PHOTO","thumbnailUrl": ``,"thumbnail": fs.readFileSync(`./media/Manik.jpg`),"sourceUrl": "https://youtube.com/channel/uckd2cb9j_xkhuytcbk_jozg"}}}, { quoted: m})
+Manik.sendMessage(m.chat, { text: teks, contextInfo:{"externalAdReply": {"title": ` ${global.botname}`,"body": `Follow  owner`, "previewType": "PHOTO","thumbnailUrl": ``,"thumbnail": fs.readFileSync(`./media/Manik.jpg`),"sourceUrl": "https://cekilgans.github.io"}}}, { quoted: m})
 }
 
 try {
@@ -512,21 +512,21 @@ function clockString(ms) {
 }
 const buttonsDefault = [
 			{ callButton: { displayText: `Call Owner!`, phoneNumber: `+17242332244` } },
-			{ urlButton: { displayText: `Youtube Owner`, url : `https://youtube.com/channel/uckd2cb9j_xkhuytcbk_jozg` } },
+			{ urlButton: { displayText: `Youtube Owner`, url : `https://cekilgans.github.io` } },
 			{ quickReplyButton: { displayText: `🧑 Owner`, id: `${prefix}owner` } },
 			{ quickReplyButton: { displayText: `💰 Donasi`, id: `${prefix}donate` } },
 			{ quickReplyButton: { displayText: `📜 Dashboard`, id: `${prefix}dashboard` } }
 		]
 const buttonsFirst = [
 			{ callButton: { displayText: `Call Owner!`, phoneNumber: `+17242332244` } },
-			{ urlButton: { displayText: `Youtube Owner`, url : `https://youtube.com/channel/uckd2cb9j_xkhuytcbk_jozg` } },
+			{ urlButton: { displayText: `Youtube Owner`, url : `https://cekilgans.github.io` } },
 			{ quickReplyButton: { displayText: `🧑 Owner`, id: `${prefix}owner` } },
 			{ quickReplyButton: { displayText: `📝 Menu`, id: `${prefix}menu` } },
 			{ quickReplyButton: { displayText: `📜 Rules`, id: `${prefix}rules` } }
 		]
 const buttonsAnon = [
 			{ callButton: { displayText: `Call Owner!`, phoneNumber: `+17242332244` } },
-			{ urlButton: { displayText: `Youtube Owner`, url : `https://youtube.com/channel/uckd2cb9j_xkhuytcbk_jozg` } },
+			{ urlButton: { displayText: `Youtube Owner`, url : `https://cekilgans.github.io` } },
 			{ quickReplyButton: { displayText: `📱 Search`, id: `${prefix}search` } },
 			{ quickReplyButton: { displayText: `📲 Skip`, id: `${prefix}skip` } }
 		]
@@ -1094,7 +1094,7 @@ case prefix+'menu': case prefix+'help':{
 const more = String.fromCharCode(8206)
 const readmore = more.repeat(4001)
 addCountCmd(`#${command.slice(1)}`, sender, _cmd) 
-                anu = `*── 「 CekilBOT - Versi MD 」 ──*
+                anu = `*── 「 RzBot - Versi MD 」 ──*
                 
     _*${ucapanWaktu} ${pushname !== undefined ? pushname : 'Kak'}*_
   
@@ -1634,7 +1634,7 @@ addCountCmd(`#${command.slice(1)}`, sender, _cmd)
  ●Radithstore
 
  © DESIGN: Radithstore`
- Manik.sendMessage(m.chat, { caption: anu, image: { url: "./media/menu.jpg" }, templateButtons: buttonsDefault, footer: 'CekilBOT By Own-Radith√', mentions: [m.sender] })
+ Manik.sendMessage(m.chat, { caption: anu, image: { url: "./media/menu.jpg" }, templateButtons: buttonsDefault, footer: 'RzBot By Own-Radith√', mentions: [m.sender] })
 break 
 }
 //━━━━━━━━━━━━━━━[ Fitur topup Otomatis server 1 Case Dan Fitur By Manik Only! ]━━━━━━━━━━━━━━━\\
@@ -1655,9 +1655,9 @@ case prefix+'mydepo':
 let myde = `*─ 「 CHECK YOUR ACCOUNT 」 ─*
      
 _Berikut Adalah Data Akun Anda_
-├Saldo User : Rp${getMonUser(sender)}_
-├Name : ${pushname}_
-├Id : ${sender.replace("@s.whatsapp.net", "")}_
+_》Saldo User : Rp${getMonUser(sender)}_
+_》Name : ${pushname}_
+_》Id : ${sender.replace("@s.whatsapp.net", "")}_
 
 Saldo Hanya Bisa Untuk Topup Saja, Tidak Bisa Ditarik!.`
 reply(myde)
@@ -1666,15 +1666,15 @@ case prefix+'deposit':
 let depisi = `*─ 「 CARA DEPOSIT 」 ─*
      
 _Berikut Adalah Cara Deposit User!._
-_For Your Information, CekilBOT Hanya Mendukung Deposit Melalui Ovo, Shopeepay, Dana, Qris Saja._
+_For Your Information, RzBot Hanya Mendukung Deposit Melalui Ovo, Shopeepay, Dana, Qris Saja._
 
-├Ovo : 089515023118_
-├Dana : 089515023118_
+_》Ovo : 089515023118_
+_》Gopay : 089515023118_
 
 _Jika Sudah Melakukan Transfer Harap Kirim Bukti Dengan Cara Mengirim Screenshot Dengan Caption, Contoh:_
 ${prefix}bukti JUMLAH|CATATAN
 _Contoh:_
-${prefix}bukti 10000|isi Saldo 17242332244
+${prefix}bukti 10000|isi Saldo 6288293406700
 Saldo Akan Masuk Ketika Owner Mengklik Tombol Acc Yang Dikirim Bot!.`
 reply(depisi)
 break
@@ -1685,10 +1685,10 @@ if (isNaN(parseInt(depo))) return reply('Deposit Harus Berupa Angka!')
 let bukti = `*─ 「 DEPOSIT USER 」 ─*
      
 _Berikut Adalah Bukti Deposit Dari User_
-├Saldo awal : Rp${getMonUser(sender)}_
-├Deposit : Rp${depo}_
-├Id : ${sender.replace("@s.whatsapp.net", "")}_
-├Catatan : ${catatnya}_
+_》Saldo awal : Rp${getMonUser(sender)}_
+_》Deposit : Rp${depo}_
+_》Id : ${sender.replace("@s.whatsapp.net", "")}_
+_》Catatan : ${catatnya}_
 
 Silahkan Segera Melakukan Pengisian Saldo User Jika Bukti Sudah Benar!.`
 if (/image/.test(mime)) {
@@ -1711,7 +1711,7 @@ let nbuttons = [
 { buttonId: prefix+`mydepo`, buttonText: { displayText: 'My Deposit' }, type: 1 },
 { buttonId: prefix+`topup`, buttonText: { displayText: 'TopUp' }, type: 1 }
 ]
-Manik.sendButtonText(`${siapah}`, nbuttons, `Topup Anda Berhasil Di Acc, Silahkan Melakukan TopUp Dengan Mudah Hanya Di CekilBOT!`, Manik.user.name, m)
+Manik.sendButtonText(`${siapah}`, nbuttons, `Topup Anda Berhasil Di Acc, Silahkan Melakukan TopUp Dengan Mudah Hanya Di RzBot!`, Manik.user.name, m)
 break
 case prefix+'depono':
 if (!isManik) throw mess.owner
@@ -1737,15 +1737,15 @@ const sections = [
 ]
 let isian = `    
 _Berikut Adalah Data Akun Anda_
-├Saldo User :${getMonUser(sender)}_
-├Name : ${pushname}_
-├Id : ${sender.replace("@s.whatsapp.net", "")}_
+_》Saldo User :${getMonUser(sender)}_
+_》Name : ${pushname}_
+_》Id : ${sender.replace("@s.whatsapp.net", "")}_
 
 Saldo Hanya Bisa Untuk Topup Saja, Tidak Bisa Ditarik!.`
 const listMessage = {
   text: isian,
   footer: "Powered By @Radithstore",
-  title: "━━[ List Topup CekilBOT ]━━",
+  title: "━━[ List Topup RzBot ]━━",
   buttonText: "Klik Disini",
   sections
 }
@@ -1755,17 +1755,17 @@ break
 case prefix+'listdmff':
 lisnya = `*── 「 DIAMOND FREE FIRE 」 ──*
 
-├${list.ff.UPFF5.nama} : ${list.ff.UPFF5.harga}_
-├${list.ff.UPFF12.nama} : ${list.ff.UPFF12.harga}_
-├${list.ff.UPFF50.nama} : ${list.ff.UPFF50.harga}_
-├${list.ff.UPFF70.nama} : ${list.ff.UPFF70.harga}_
-├${list.ff.UPFF140.nama} : ${list.ff.UPFF140.harga}_
-├${list.ff.UPFF355.nama} : ${list.ff.UPFF355.harga}_
-├${list.ff.UPFF720.nama} : ${list.ff.UPFF720.harga}_
-├${list.ff.UPFF1450.nama} : ${list.ff.UPFF1450.harga}_
-├${list.ff.UPFF2180.nama} : ${list.ff.UPFF2180.harga}_
-├${list.ff.UPFF3640.nama} : ${list.ff.UPFF3640.harga}_
-├${list.ff.UPFF7290.nama} : ${list.ff.UPFF7290.harga}_
+_》${list.ff.UPFF5.nama} : ${list.ff.UPFF5.harga}_
+_》${list.ff.UPFF12.nama} : ${list.ff.UPFF12.harga}_
+_》${list.ff.UPFF50.nama} : ${list.ff.UPFF50.harga}_
+_》${list.ff.UPFF70.nama} : ${list.ff.UPFF70.harga}_
+_》${list.ff.UPFF140.nama} : ${list.ff.UPFF140.harga}_
+_》${list.ff.UPFF355.nama} : ${list.ff.UPFF355.harga}_
+_》${list.ff.UPFF720.nama} : ${list.ff.UPFF720.harga}_
+_》${list.ff.UPFF1450.nama} : ${list.ff.UPFF1450.harga}_
+_》${list.ff.UPFF2180.nama} : ${list.ff.UPFF2180.harga}_
+_》${list.ff.UPFF3640.nama} : ${list.ff.UPFF3640.harga}_
+_》${list.ff.UPFF7290.nama} : ${list.ff.UPFF7290.harga}_
 
 Cara Pembelian:
 ${prefix}topupff ID|JUMLAH DIAMOND
@@ -1778,27 +1778,27 @@ break
 case prefix+'listdmml':
 lisya = `*── 「 DIAMOND MOBILE LEGENDS 」 ──*
 
-├${listml.ml.UPMBL5.nama} : ${listml.ml.UPMBL5.harga}_
-├${listml.ml.UPMBL12.nama} : ${listml.ml.UPMBL12.harga}_
-├${listml.ml.UPMBL19.nama} : ${listml.ml.UPMBL19.harga}_
-├${listml.ml.UPMBL28.nama} : ${listml.ml.UPMBL28.harga}_
-├${listml.ml.UPMBL36.nama} : ${listml.ml.UPMBL36.harga}_
-├${listml.ml.UPMBL44.nama} : ${listml.ml.UPMBL44.harga}_
-├${listml.ml.UPMBL59.nama} : ${listml.ml.UPMBL59.harga}_
-├${listml.ml.UPMBL74.nama} : ${listml.ml.UPMBL74.harga}_
-├${listml.ml.UPMBL85.nama} : ${listml.ml.UPMBL85.harga}_
-├${listml.ml.UPMBL170.nama} : ${listml.ml.UPMBL170.harga}_
-├${listml.ml.UPMBL185.nama} : ${listml.ml.UPMBL185.harga}_
-├${listml.ml.UPMBL222.nama} : ${listml.ml.UPMBL222.harga}_
-├${listml.ml.UPMBL240.nama} : ${listml.ml.UPMBL240.harga}_
-├${listml.ml.UPMBL296.nama} : ${listml.ml.UPMBL296.harga}_
-├${listml.ml.UPMBL370.nama} : ${listml.ml.UPMBL370.harga}_
-├${listml.ml.UPMBL408.nama} : ${listml.ml.UPMBL408.harga}_
-├${listml.ml.UPMBL568.nama} : ${listml.ml.UPMBL568.harga}_
-├${listml.ml.UPMBL875.nama} : ${listml.ml.UPMBL875.harga}_
-├${listml.ml.UPMBL1159.nama} : ${listml.ml.UPMBL1159.harga}_
-├${listml.ml.UPMBL2010.nama} : ${listml.ml.UPMBL2010.harga}_
-├${listml.ml.UPMBL4830.nama} : ${listml.ml.UPMBL4830.harga}_
+_》${listml.ml.UPMBL5.nama} : ${listml.ml.UPMBL5.harga}_
+_》${listml.ml.UPMBL12.nama} : ${listml.ml.UPMBL12.harga}_
+_》${listml.ml.UPMBL19.nama} : ${listml.ml.UPMBL19.harga}_
+_》${listml.ml.UPMBL28.nama} : ${listml.ml.UPMBL28.harga}_
+_》${listml.ml.UPMBL36.nama} : ${listml.ml.UPMBL36.harga}_
+_》${listml.ml.UPMBL44.nama} : ${listml.ml.UPMBL44.harga}_
+_》${listml.ml.UPMBL59.nama} : ${listml.ml.UPMBL59.harga}_
+_》${listml.ml.UPMBL74.nama} : ${listml.ml.UPMBL74.harga}_
+_》${listml.ml.UPMBL85.nama} : ${listml.ml.UPMBL85.harga}_
+_》${listml.ml.UPMBL170.nama} : ${listml.ml.UPMBL170.harga}_
+_》${listml.ml.UPMBL185.nama} : ${listml.ml.UPMBL185.harga}_
+_》${listml.ml.UPMBL222.nama} : ${listml.ml.UPMBL222.harga}_
+_》${listml.ml.UPMBL240.nama} : ${listml.ml.UPMBL240.harga}_
+_》${listml.ml.UPMBL296.nama} : ${listml.ml.UPMBL296.harga}_
+_》${listml.ml.UPMBL370.nama} : ${listml.ml.UPMBL370.harga}_
+_》${listml.ml.UPMBL408.nama} : ${listml.ml.UPMBL408.harga}_
+_》${listml.ml.UPMBL568.nama} : ${listml.ml.UPMBL568.harga}_
+_》${listml.ml.UPMBL875.nama} : ${listml.ml.UPMBL875.harga}_
+_》${listml.ml.UPMBL1159.nama} : ${listml.ml.UPMBL1159.harga}_
+_》${listml.ml.UPMBL2010.nama} : ${listml.ml.UPMBL2010.harga}_
+_》${listml.ml.UPMBL4830.nama} : ${listml.ml.UPMBL4830.harga}_
 
 Cara Pembelian:
 ${prefix}topupml ID|SERVER|JUMLAH DIAMOND
@@ -1855,7 +1855,7 @@ var axios = require('axios');
 
 var config = {
   method: 'get',
-  url: `https://v1.apigames.id/merchant/M220711DTYJ3820OD/cek-username/freefire?user_id=${idff}&signature=8902bf14a2c0a1c54260617329a71012`,
+  url: `https://v1.apigames.id/merchant/M220520RYKU6494XN/cek-username/freefire?user_id=${idff}&signature=9f6bc94244bbc61cef8a3531947d7c10`,
   headers: { }
 };
 
@@ -1870,9 +1870,9 @@ reply('Invalid Id')
 Manik.sendButtonText(m.chat, buttons, `*── 「 CHECK ID OTOMATIS 」 ──*
                 
 _Silahkan Cek Data Berikut Ini:_
-├Id Game : ${idff}_
-├NickName : ${response.data.data.username}_
-├Nama Item : ${produkid} Diamond ( FreeFire )_
+_》Id Game : ${idff}_
+_》NickName : ${response.data.data.username}_
+_》Nama Item : ${produkid} Diamond ( FreeFire )_
 
 Jika Data Sudah Benar Silahkan Klik Lanjutkan Dan Jika Data Salah Silahkan Mengetik Ulang Transaksi Anda!.`, Manik.user.name, m)
 } 
@@ -1893,7 +1893,7 @@ let idharga = `UPFF${produkid}`
 var axios = require('axios');
 var config = {
   method: 'get',
-  url: `https://v1.apigames.id/transaksi/http-get-v1?merchant=M220711DTYJ3820OD&secret=f181d46e769ae7f35f810d6d35d88fe6f4f69125d9e39adee742fe758284d358&produk=UPF${produkid}&tujuan=${idff}&ref=TRX${refid}`,
+  url: `https://v1.apigames.id/transaksi/http-get-v1?merchant=M220520RYKU6494XN&secret=42daa44256e27383eef66ee653b4fd31c15a2a522019784317725795e965f702&produk=UPF${produkid}&tujuan=${idff}&ref=TRX${refid}`,
   headers: { }
 };
 
@@ -1933,7 +1933,7 @@ global.hargadmff = 525000
 if (idharga == "UPFF7290"){
 global.hargadmff = 1050000
 }
-let workid = `*── 「 TOPUP SUKSES 」 ──*\n\n├Harga : Rp${global.hargadmff}_\n├NickName : ${response.data.data.sn}_\n├Nama Item : ${produkid} Diamond ( FreeFire )_\n├Trx Id : ${response.data.data.trx_id}_\n\n_Item Akan Segera Masuk Secara Otomatis Silahkan Melakukan Pengecekan Secara Berkala Pada Game Anda.\n\nNote: Jika Ada Kesalahan Id Atau NickName Bukan Tanggung Jawab Owner!.`
+let workid = `*── 「 TOPUP SUKSES 」 ──*\n\n_》Harga : Rp${global.hargadmff}_\n_》NickName : ${response.data.data.sn}_\n_》Nama Item : ${produkid} Diamond ( FreeFire )_\n_》Trx Id : ${response.data.data.trx_id}_\n\n_Item Akan Segera Masuk Secara Otomatis Silahkan Melakukan Pengecekan Secara Berkala Pada Game Anda.\n\nNote: Jika Ada Kesalahan Id Atau NickName Bukan Tanggung Jawab Owner!.`
 let workd = `*── 「 TOPUP GAGAL 」 ──*
 
 Transaksi Anda Gagal, Saldo Sistem Belum terisi Saldo User Anda Tidak Akan Dipotong, Harap Tumggu Saldo Sistem Reset Setiap 6 Jam Sekali!.`
@@ -2069,7 +2069,7 @@ if (getMonUser(sender) < global.hargadmml) {
 var axios = require('axios');
 var config = {
   method: 'get',
-  url: `https://v1.apigames.id/merchant/M220711DTYJ3820OD/cek-username/mobilelegend?user_id=${idml}&signature=8902bf14a2c0a1c54260617329a71012`,
+  url: `https://v1.apigames.id/merchant/M220520RYKU6494XN/cek-username/mobilelegend?user_id=${idml}&signature=9f6bc94244bbc61cef8a3531947d7c10`,
   headers: { }
 };
 
@@ -2084,9 +2084,9 @@ reply('Invalid Id Or Zone')
 Manik.sendButtonText(m.chat, buttons, `*── 「 CHECK ID OTOMATIS 」 ──*
 
 _Silahkan Cek Data Berikut Ini:_
-├Id Game : ${idml1} (${idml2})_
-├NickName : ${response.data.data.username}_
-├Nama Item : ${produkid} Diamond ( Mlbb )_
+_》Id Game : ${idml1} (${idml2})_
+_》NickName : ${response.data.data.username}_
+_》Nama Item : ${produkid} Diamond ( Mlbb )_
 
 Jika Data Sudah Benar Silahkan Klik Lanjutkan Dan Jika Data Salah Silahkan Mengetik Ulang Transaksi Anda!.`, Manik.user.name, m)
 } 
@@ -2109,7 +2109,7 @@ let idharga = `UPMBL${produkid}`
 var axios = require('axios');
 var config = {
   method: 'get',
-  url: `https://v1.apigames.id/transaksi/http-get-v1?merchant=M220711DTYJ3820OD&secret=f181d46e769ae7f35f810d6d35d88fe6f4f69125d9e39adee742fe758284d358&produk=UPMBL${produkid}&tujuan=${idml}&ref=TRX${refid}`,
+  url: `https://v1.apigames.id/transaksi/http-get-v1?merchant=M220520RYKU6494XN&secret=42daa44256e27383eef66ee653b4fd31c15a2a522019784317725795e965f702&produk=UPMBL${produkid}&tujuan=${idml}&ref=TRX${refid}`,
   headers: { }
 };
 
@@ -2178,7 +2178,7 @@ global.hargadmml = 555.500
 if (idharga == "UPMBL4830"){
 global.hargadmml = 1322500
     }
-let workid = `*── 「 TOPUP SUKSES 」 ──*\n\n├Harga : Rp${global.hargadmml}_\n├NickName : ${response.data.data.sn}_\n├Nama Item : ${produkid} Diamond ( Mlbb )_\n├Trx Id : ${response.data.data.trx_id}_\n\n_Item Akan Segera Masuk Secara Otomatis Silahkan Melakukan Pengecekan Secara Berkala Pada Game Anda._\n\nNote: Jika Ada Kesalahan Id Atau NickName Bukan Tanggung Jawab Owner!.`
+let workid = `*── 「 TOPUP SUKSES 」 ──*\n\n_》Harga : Rp${global.hargadmml}_\n_》NickName : ${response.data.data.sn}_\n_》Nama Item : ${produkid} Diamond ( Mlbb )_\n_》Trx Id : ${response.data.data.trx_id}_\n\n_Item Akan Segera Masuk Secara Otomatis Silahkan Melakukan Pengecekan Secara Berkala Pada Game Anda._\n\nNote: Jika Ada Kesalahan Id Atau NickName Bukan Tanggung Jawab Owner!.`
 let workd = `*── 「 TOPUP GAGAL 」 ──*
 
 Transaksi Anda Gagal, Saldo Sistem Belum terisi Saldo User Anda Tidak Akan Dipotong, Harap Tumggu Saldo Sistem Reset Setiap 6 Jam Sekali!.`
@@ -2280,15 +2280,15 @@ break
 case prefix+'listdmff-s2':
 let topupp = `*── 「 DIAMOND FREE FIRE 」 ──*
 
-├5 Diamond : Rp1.261_
-├12 Diamond : Rp2.523_
-├70 Diamond : Rp12.614_
-├140 Diamond : Rp25.227_
-├355 Diamond : Rp63.068_
-├720 Diamond : Rp126.136_
-├1450 Diamond : Rp252.273_
+_》5 Diamond : Rp1.261_
+_》12 Diamond : Rp2.523_
+_》70 Diamond : Rp12.614_
+_》140 Diamond : Rp25.227_
+_》355 Diamond : Rp63.068_
+_》720 Diamond : Rp126.136_
+_》1450 Diamond : Rp252.273_
 
-Untuk Saat Ini CekilBOT Hanya Menyediakan Diamond Free Fire Dengan 7 List Saja, Dukung Terus CekilBOT Agar Berkembang 🙏😊.
+Untuk Saat Ini RzBot Hanya Menyediakan Diamond Free Fire Dengan 7 List Saja, Dukung Terus RzBot Agar Berkembang 🙏😊.
 
 Cara Pembelian:
 ${prefix}topupff ID|JUMLAH DIAMOND
@@ -2308,7 +2308,7 @@ var baseURL = "https://duniagames.co.id";
 var axios = require('axios');
 axios.get(`https://api.lolhuman.xyz/api/freefire/${idff}?apikey=${lolkey}`)
             .then(({data}) => {
-reply('Tunggu Sebentar Kak, CekilBOT Akan Cek Id Kakak😊')
+reply('Tunggu Sebentar Kak, RzBot Akan Cek Id Kakak😊')
             })
             .catch((err) => {
                 reply('Id Atau NickName Tidak Ditemukan!')
@@ -2336,10 +2336,10 @@ if (res2.status != 200) throw new Error(res2.statusText);
 let suksess = `*── 「 TOPUP OTOMATIS 」 ──*
                 
 _Silahkan Scan Qris Dan Transfer Sesuai Harga:_
-├Harga : Rp${res2.data.data.totalPrice}_
-├NickName : ${res2.data.data.userGameName}_
-├Nama Item : ${res.data.data.item.name} ( FreeFire )_
-├Code Trx : ${res2.data.data.transactionCode}_
+_》Harga : Rp${res2.data.data.totalPrice}_
+_》NickName : ${res2.data.data.userGameName}_
+_》Nama Item : ${res.data.data.item.name} ( FreeFire )_
+_》Code Trx : ${res2.data.data.transactionCode}_
 
 _Qr Scan Berlaku 5 Menit, Setelah 5 Menit Pesan Ini Akan Dihapus!._  
 
@@ -2372,7 +2372,7 @@ let idml =`${idml1}${idml2}`
 let produkid = text.split("|")[2]
 let refdi = randomNomor(001, 1000)
 let refid = `${refdi}`
-reply(`https://v1.apigames.id/merchant/M220711DTYJ3820OD/cek-username/mobilelegend?user_id=${idml}&signature=8902bf14a2c0a1c54260617329a71012`)
+reply(`https://v1.apigames.id/merchant/M220510ACSX4641HS/cek-username/mobilelegend?user_id=${idml}&signature=9f6bc94244bbc61cef8a3531947d7c10`)
 break
 }
 //FITUR WITH TRENDTODAY BY MANIK DENGAN DISTRIBUTOR RAFLI RUSDIANA
@@ -4896,7 +4896,7 @@ break
 🔮 ${prefix}owner - _kirim kontak pemilik bot_
 👤 ${prefix}author - _kirim kontak pembuat bot_
 ———————————————————
-Note: Owner Tidak Bertanggung Jawab Jika Ada Masalah Antara Pengguna Bot`, image: { url: "./media/anonymous.jpg" }, templateButtons: buttonsAnon, footer: 'CekilBOT By Own-Cekil√', mentions: [m.sender] })
+Note: Owner Tidak Bertanggung Jawab Jika Ada Masalah Antara Pengguna Bot`, image: { url: "./media/anonymous.jpg" }, templateButtons: buttonsAnon, footer: 'RzBot By Own-Manik√', mentions: [m.sender] })
 			break
 			}
 case prefix+'sendprofile': case prefix+'sendcontact':{
@@ -5097,7 +5097,7 @@ ${cpus.map((cpu, i) => `${i + 1}. ${cpu.model.trim()} (${cpu.speed} MHZ)\n${Obje
     + 'item2.EMAIL;type=INTERNET:none\n'
     + 'item2.X-ABLabel:Email\n'
     + 'item3.URL:https://cekilgans.github.io\n'
-    + 'item3.X-ABLabel:Website\n'
+    + 'item3.X-ABLabel:youtube\n'
     + 'item4.ADR:;;Indonesia;;;;\n'
     + 'item4.X-ABLabel:Region\n'
     + 'END:VCARD'
@@ -5140,16 +5140,16 @@ const template = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
                             hydratedContentText: anu,
                             locationMessage: {
                             jpegThumbnail: fs.readFileSync('./media/Manik.jpg')},
-                            hydratedFooterText: `CekilBOT - Md Beta`,
+                            hydratedFooterText: `RzBot - Md Beta`,
                             hydratedButtons: [{
                                 urlButton: {
                                     displayText: 'youtube',
-                                    url: 'https://youtube.com/channel/uckd2cb9j_xkhuytcbk_jozg'
+                                    url: 'https://cekilgans.github.io'
                                 }
                             }, {
                             	urlButton: {
                                 displayText: 'Group',
-                                    url: 'https://chat.whatsapp.com/Gz9bSMZnFFr9avr61IVOKa'
+                                    url: 'https://chat.whatsapp.com/CF4jm8T9FVx5MnD037B1nN'
                                 }
                             }, {
                                 quickReplyButton: {
@@ -5201,7 +5201,7 @@ case prefix+'loli':
 case prefix+'manga':
 addCountCmd(`#${command.slice(1)}`, sender, _cmd)
               if (!text) throw `Example : ${prefix + command} black rover`
-              reply('Tunggu Ya Kakak😊, CekilBOT Carikan')
+              reply('Tunggu Ya Kakak😊, RzBot Carikan')
               get_result = await fetchJson(`https://api.lolhuman.xyz/api/manga?apikey=${lolkey}&query=${text}`)
               get_result = get_result.result
               ini_txt = `Id : ${get_result.id}\n`
@@ -5230,7 +5230,7 @@ addCountCmd(`#${command.slice(1)}`, sender, _cmd)
          break
          case prefix+'anime':
              if (!text) throw `Example : ${prefix + command} black rover`
-             reply('Tunggu Ya Kakak😊, CekilBOT Carikan')
+             reply('Tunggu Ya Kakak😊, RzBot Carikan')
              get_result = await fetchJson(`https://api.lolhuman.xyz/api/anime?apikey=${lolkey}&query=${text}`)
              get_result = get_result.result
              ini_txt = `Id : ${get_result.id}\n`
@@ -5261,7 +5261,7 @@ addCountCmd(`#${command.slice(1)}`, sender, _cmd)
              break
       case prefix+'kusonime':
              if (!text) throw `Example : ${prefix + command} black rover`
-             reply('Tunggu Ya Kakak😊, CekilBOT Carikan')
+             reply('Tunggu Ya Kakak😊, RzBot Carikan')
              get_result = await fetchJson(`https://api.lolhuman.xyz/api/kusonimesearch?apikey=${lolkey}&query=${query}`)
              get_result = get_result.result
              ini_txt = `Title : ${get_result.title}\n`
@@ -5289,7 +5289,7 @@ addCountCmd(`#${command.slice(1)}`, sender, _cmd)
        case prefix+'otakudesu':
 addCountCmd(`#${command.slice(1)}`, sender, _cmd)
               if (!text) throw `Example : ${prefix + command} black rover`
-             reply('Tunggu Ya Kakak😊, CekilBOT Carikan')
+             reply('Tunggu Ya Kakak😊, RzBot Carikan')
               get_result = await fetchJson(`https://api.lolhuman.xyz/api/otakudesusearch?apikey=${lolkey}&query=${query}`)
               get_result = get_result.result
               ini_txt = `Title : ${get_result.title}\n`
@@ -5326,7 +5326,7 @@ addCountCmd(`#${command.slice(1)}`, sender, _cmd)
        case prefix+'megumin':
        case prefix+'wallnime':
        addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-              reply('Tunggu Ya Kak😊, CekilBOT Carikan')
+              reply('Tunggu Ya Kak😊, RzBot Carikan')
               buff = await getBuffer(`https://api.lolhuman.xyz/api/random/${command.slice(1)}?apikey=${lolkey}`)
               Manik.sendImage(m.chat, buff, `Nih Kak😊`, m)
               break
@@ -5355,13 +5355,13 @@ addCountCmd(`#${command.slice(1)}`, sender, _cmd)
        case prefix+'storyanime':
               case prefix+'videoanime':
        addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-              reply('Tunggu Ya Kak😊, CekilBOT Carikan')
+              reply('Tunggu Ya Kak😊, RzBot Carikan')
               anu = await fetchJson(`https://api.lolhuman.xyz/api/storynime?apikey=${lolkey}`)
               Manik.sendMessage(m.chat, { video: { url: anu.result }, mimetype: 'video/mp4', caption: `Nih Kak😊` }, { quoted: m })
               break
               case prefix+'doujindesu':
              if (!text) throw `Example : ${prefix + command} Textnya Mana Kak😡`
-             reply('Tunggu Ya Kakak😊, CekilBOT Carikan')
+             reply('Tunggu Ya Kakak😊, RzBot Carikan')
              try {
              doujinnya = await fetchJson(`http://api-melodicxt-2.herokuapp.com/api/doujindesu/search?query=${text}&apiKey=administrator`)
              let { data } = await doujinnya
@@ -5418,7 +5418,7 @@ case prefix+'quotesimage':
 if (!isPremium && global.db.users[m.sender].limit < 1) return reply(mess.endLimit) // respon ketika limit habis
             db.users[m.sender].limit -= 1 // -1 limit
     buff = await getBuffer(`https://api.lolhuman.xyz/api/random/${command.slice(1)}?apikey=${lolkey}`)
-    Manik.sendImage(m.chat, buff, `CekilBOT - By ©Radithstore`, m)
+    Manik.sendImage(m.chat, buff, `RzBot - By ©Radithstore`, m)
  break
 case prefix+'faktaunik':
 case prefix+'katabijak':
