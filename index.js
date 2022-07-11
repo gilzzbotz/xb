@@ -27,14 +27,14 @@ require('./Manik.js')
 nocache('../Manik.js', module => console.log(color('[WATCH]', 'yellow'), color(`'${module}'`, 'cyan'), 'File is updated!'))
 function title() {
 console.clear()
-console.log(chalk.bold.green(figlet.textSync('ManikBot-MD', {
+console.log(chalk.bold.green(figlet.textSync('XionsBot-MD', {
 font: 'Standard',
 horizontalLayout: 'default',
 vertilLayout: 'default',
 width: 80,
 whitespaceBreak: false
 })))
-console.log(chalk.yellow(`\n                        ${chalk.yellow('[ Created By Manik ]')}\n\n${chalk.red('ManikBot-Md')} : ${chalk.white('WhatsApp Bot Multi Device')}\n${chalk.red('Follow Insta Dev')} : ${chalk.white('@Aryamanik___')}\n${chalk.red('Message Me On WhatsApp')} : ${chalk.white('+62 857-3713-4572')}\n${chalk.red('Donate')} : ${chalk.white('085737134572 ( Ovo/Pulsa )')}\n`))
+console.log(chalk.yellow(`\n                        ${chalk.yellow('[ Created By Xions ]')}\n\n${chalk.red('XionsBot-Md')} : ${chalk.white('WhatsApp Bot Multi Device')}\n${chalk.red('Follow Insta Dev')} : ${chalk.white('@callme_xions')}\n${chalk.red('Message Me On WhatsApp')} : ${chalk.white('+6282142961010')}\n${chalk.red('Donate')} : ${chalk.white('082142961010 ( Ovo/Gopay )')}\n`))
 }
 async function startManik() {
 let { version, isLatest } = await fetchLatestBaileysVersion()
@@ -53,7 +53,7 @@ const callerId = json.content[0].attrs['call-creator']
 if (json.content[0].tag == 'offer') {
 let latna = await Manik.sendContact(callerId, global.owner)
 Manik.sendMessage(callerId, { text: `Automatic block system!\nDon't call bot!\nPlease contact the owner to open !`}, { quoted : latna })
-Manik.sendMessage(`6285737134572@s.whatsapp.net`, {text: '*Report Bot:*'+ callerId+ 'Called Bot'})
+Manik.sendMessage(`6282142961010@s.whatsapp.net`, {text: '*Report Bot:*'+ callerId+ 'Called Bot'})
 await sleep(8000)
 await Manik.updateBlockStatus(callerId, "block")
 }
