@@ -29,6 +29,8 @@ const { isLimit, limitAdd, getDeposit, addDeposit, kurangDeposit, getLimit, give
 const { addResponList, delResponList, isAlreadyResponList, isAlreadyResponListGroup, sendResponList, updateResponList, getDataResponList } = require('./FuncBot/respon-list');
 const { addRespons, checkRespons, deleteRespons } = require('./FuncBot/respon');
 const Dym = require("didyoumean");
+const { convertSaldo } = require("./FuncBot/dana");
+const { csrfGenerator, listProduct, isProductValid, getDetailProduct, getQrCode, convertGopay } = require("./FuncBot/gopay");
 
 let Manik = fs.readFileSync('./media/Manik.jpg')
 const antilink = JSON.parse(fs.readFileSync('./database/antilink.json'))
@@ -46,21 +48,29 @@ chats: {},
 
 global.called = false
 global.Prefix = 'Multi'
-global.ownerNumber = '6288293406700'
-global.botname = 'RzBot - Md' 
-global.ownername = 'Own-Manik√'
-global.owner = ['6288293406700'] 
-global.pemilik = ['6288293406700'] 
-global.pengguna = 'Radithstore'
-global.ownernma = 'Own-Radithstore√'
-global.packname = 'Arya' 
-global.author = 'Radithstore√' 
-global.sessionName = 'Qr'
+global.ownerNumber = '17242332244'
+global.botName = 'CekilBOT - Md' 
+global.owner = ['17242332244'] 
+global.ownerName = 'CekilXD'
+global.packName = 'CekilXd' 
+global.author = 'Cekil√' 
+global.sessionName = 'cekilxd'
 global.limitawal = { premium: "∞", free: 100 }
 global.thumb = fs.readFileSync('./media/Manik.jpg')
 global.fakeImg = fs.readFileSync('./media/fake.jpg')
 global.hargadmff = 1261
 global.hargadmml = 1700
+// FITUR TOPUP OTOMATIS
+global.merchant = 'M220711DTYJ3820OD'
+global.secret = 'f181d46e769ae7f35f810d6d35d88fe6f4f69125d9e39adee742fe758284d358'
+global.signature = '8902bf14a2c0a1c54260617329a71012'
+//CARA AKTIFIN:
+//1. DAFTAR DI APIGAMES.UD
+//2. AMBIL MERCHANT ID DAN SECRET KEY
+//3. DAFTAR DI UNIPIN
+//4. HUBUNGKAN AKUN UNIPIN DENGAN APIGANES DI BAGIAN KONEKSI
+//5. BUAT SIGNATURE DENGAN TOOLS ENCRYPT MD5 MERCHANTID+SECRETKEY
+//6 PASANG DIATAS SITU DAJ SELESAI.
 let tebaklagu = db.game.tebaklagu = []
 let _family100 = db.game.family100 = []
 let kuismath = db.game.math = []
@@ -77,7 +87,7 @@ let trennama = db.others.trennama = []
 let trenemail = db.others.trenemail =[]
 let trenpw = db.others.trenpw =[]
 let daftarlist = []
-let lolkey = 'xions'
+let lolkey = 'Papah-Chan'
 let antiyt = JSON.parse(fs.readFileSync('./database/antiyt.json'));
 let antitele = JSON.parse(fs.readFileSync('./database/antitele.json'));
 let antibitly = JSON.parse(fs.readFileSync('./database/antibitly.json'));
@@ -93,66 +103,403 @@ let deposit = JSON.parse(fs.readFileSync('./deposit.json'));
 let limit = JSON.parse(fs.readFileSync('./database/limit.json'));
 let glimit = JSON.parse(fs.readFileSync('./database/glimit.json'));
 let setting = JSON.parse(fs.readFileSync('./config.json'));
+let simin = JSON.parse(fs.readFileSync('./database/simi.json'))
 let responDB = JSON.parse(fs.readFileSync('./database/respon.json'));
 let db_respon_list = JSON.parse(fs.readFileSync('./database/list-message.json'));
 let list = {
   "ff": {
-    "UPFF5": {
+    "FF5": {
     "nama": "5 Diamond",
-    "hargaid": 1261,
-    "harga":"Rp1.261",
+    "hargaid": 900,
+    "harga":"Rp900",
     },
-        "UPFF12": {
-    "nama": "12 Diamond",
-    "hargaid": 2523,
-    "harga":"Rp2.523",
+        "FF10": {
+    "nama": "10 Diamond",
+    "hargaid": 1800,
+    "harga":"Rp1.800",
     },
-        "UPFF50": {
+        "FF15": {
+    "nama": "15 Diamond",
+    "hargaid": 2700,
+    "harga":"Rp2.700",
+    },
+        "FF20": {
+    "nama": "20 Diamond",
+    "hargaid": 3000,
+    "harga":"Rp3.000",
+    },
+        "FF25": {
+    "nama": "25 Diamond",
+    "hargaid": 3900,
+    "harga":"Rp3.900",
+    },
+        "FF30": {
+    "nama": "30 Diamond",
+    "hargaid": 4800,
+    "harga":"Rp4.800",
+    },
+        "FF40": {
+    "nama": "40 Diamond",
+    "hargaid": 6000,
+    "harga":"Rp6.000",
+    },
+        "FF50": {
     "nama": "50 Diamond",
-    "hargaid": 8500,
-    "harga":"Rp8.500",
+    "hargaid": 7200,
+    "harga":"Rp7.200",
     },
-        "UPFF70": {
+        "FF55": {
+    "nama": "55 Diamond",
+    "hargaid": 8100,
+    "harga":"Rp8.100",
+    },
+        "FF60": {
+    "nama": "60 Diamond",
+    "hargaid": 9000,
+    "harga":"Rp9.000",
+    },
+        "FF70": {
     "nama": "70 Diamond",
-    "hargaid": 11000,
-    "harga":"Rp11.000",
+    "hargaid": 9900,
+    "harga":"Rp9.900",
     },
-        "UPFF140": {
-    "nama": "140 Diamond",
-    "hargaid": 21000,
-    "harga":"Rp21.000",
+        "FF75": {
+    "nama": "75 Diamond",
+    "hargaid": 10800,
+    "harga":"Rp10.800",
     },
-        "UPFF355": {
-    "nama": "355 Diamond",
-    "hargaid": 51500,
-    "harga":"Rp51.500",
-    },
-        "UPFF720": {
-    "nama": "720 Diamond",
-    "hargaid": 105000,
-    "harga":"Rp105.000",
-    },
-        "UPFF1450": {
-    "nama": "1450 Diamond",
-    "hargaid": 210000,
-    "harga":"Rp210.000",
-    },
-        "UPFF2180": {
-    "nama": "2180 Diamond",
-    "hargaid": 315000,
-    "harga":"Rp315.000",
-    },
-        "UPFF3640": {
-    "nama": "3640 Diamond",
-    "hargaid": 525000,
-    "harga":"Rp525.000",
-    },
-        "UPFF7290": {
-    "nama": "7290 Diamond",
-    "hargaid": 1050000,
-    "harga":"Rp1050.000",
-    },
- },
+"FF80": {
+"nama": "80 Diamond",	
+"hargaid":11700,
+"harga":"Rp11.700",
+},
+"FF90": {
+"nama": "90 Diamond",	
+"hargaid":12900,
+"harga":"Rp12.900",
+},
+"FF95": {
+"nama": "95 Diamond",	
+"hargaid":13800,
+"harga":"Rp13.800",	
+},
+"FF100": {
+"nama": "100 Diamond",	
+"hargaid": 14400,
+"harga":"Rp14.400",
+},
+"FF120": {
+"nama": "120 Diamond",	
+"hargaid":17100,
+"harga":"Rp17.100",
+},
+"FF130": {
+"nama": "130 Diamond",	
+"hargaid":18900,
+"harga":"Rp18.900",
+},
+"FF140": {
+"nama": "140 Diamond",	
+"hargaid":19800,
+"harga":"Rp19.800",	
+},
+"FF145": {
+"nama": "145 Diamond",	
+"hargaid":20700,
+"harga":"Rp20.700",
+},
+"FF150": {
+"nama": "150 Diamond",	
+"hargaid":21600,
+"harga":"Rp21.600",
+},
+"FF160": {
+"nama": "160 Diamond",	
+"hargaid":22800,
+"harga":"Rp22.800",
+},
+"FF180": {
+"nama": "180 Diamond",	
+"hargaid":25800,
+"harga":"Rp25.800",
+},
+"FF190": {
+"nama": "190 Diamond",	
+"hargaid":27000,
+"harga":"Rp27.000",
+},
+"FF200": {
+"nama": "200 Diamond",	
+"hargaid":28800,
+"harga":"Rp28.800",
+},
+"FF210": {
+"nama": "210 Diamond",	
+"hargaid":29700,
+"harga":"Rp29.700",
+},
+"FFM": {
+"nama": "Member Mingguan",
+"hargaid":30000,
+"harga":"Rp30.000",
+},
+"FF250": {
+"nama": "250 Diamond",	
+"hargaid":35700,
+"harga":"Rp35.700",
+},
+"FF280": {
+"nama": "280 Diamond",	
+"hargaid":39600,
+"harga":"Rp39.600",
+},
+"FF300": {
+"nama": "300 Diamond",	
+"hargaid":42600,
+"harga":"Rp42.600",
+},
+"FF355": {
+"nama": "355 Diamond",	
+"hargaid":49900,
+"harga":"Rp49.900",
+},
+"FF350": {
+"nama": "350 Diamond",	
+"hargaid":49500,
+"harga":"Rp49.500",
+},
+"FF375": {
+"nama": "375 Diamond",	
+"hargaid":52500,
+"harga":"Rp52.500",
+},
+"FF400": {
+"nama": "400 Diamond",	
+"hargaid":56400,
+"harga":"Rp56.400",
+},
+"FF405": {
+"nama": "405 Diamond",	
+"hargaid":56700,
+"harga":"Rp56.700",
+},
+"FF425": {
+"nama": "425 Diamond",	
+"hargaid":59400,
+"harga":"Rp59.400",
+},
+"FF475": {
+"nama": "475 Diamond",	
+"hargaid":66600,
+"harga":"Rp66.600",
+},
+"FF500": {
+"nama": "500 Diamond",	
+"hargaid":70200,
+"harga":"Rp70.200",
+},
+"FF510": {
+"nama": "510 Diamond",	
+"hargaid": 72000,
+"harga":"Rp72.000",
+},
+"FF515": {
+"nama": "515 Diamond",	
+"hargaid": 72300,
+"harga":"Rp72.300",
+},
+
+"FF512": {
+"nama": "512+3 Diamond",	
+"hargaid":72300,
+"harga":"Rp72.300",
+},
+"FF545": {
+"nama": "545 Diamond",	
+"hargaid":76500,
+"harga":"Rp76.500",
+},
+"FF565": {
+"nama": "565 Diamond",	
+"hargaid":79200,
+"harga":"Rp79.200",	
+},
+"FF600": {
+"nama": "600 Diamond",	
+"hargaid":84600,
+"harga":"Rp84.600",
+},
+"FF635": {
+"nama": "635 Diamond",	
+"hargaid": 89100,
+"harga":"Rp89.100",
+},
+"FF645": {
+"nama": "645 Diamond",	
+"hargaid":90900,
+"harga":"Rp90.900",
+},
+"FF655": {
+"nama": "655 Diamond",	
+"hargaid":92100,
+"harga":"Rp92.100",
+},
+"FF720": {
+"nama": "720 Diamond",	
+"hargaid": 99000,
+"harga":"Rp99.000",
+},
+"FF700": {
+"nama": "700 Diamond",	
+"hargaid":99000,
+"harga":"Rp99.000",
+},
+"FF770": {
+"nama": "770 Diamond",	
+"hargaid":106200,
+"harga":"Rp106.200",	
+},
+"FF790": {
+"nama": "790 Diamond",	
+"hargaid": 108900,
+"harga":"Rp108.900",
+},
+"FF800": {
+"nama": "800 Diamond",	
+"hargaid": 110700,
+"harga":"Rp110.700",
+},
+"FF860": {
+"nama": "860 Diamond",	
+"hargaid": 118800,
+"harga":"Rp118.800",
+},
+"FF930": {
+"nama": "930 Diamond",	
+"hargaid":128700,
+"harga":"Rp128.700",
+},
+"FF1000": {
+"nama": "1000 Diamond",	
+"hargaid":138600,
+"harga":"Rp138.600",	
+},
+"FF1050": {
+"nama": "1050 Diamond",	
+"hargaid":145800,
+"harga":"Rp145.800",
+},
+"FF1075": {
+"nama": "1075 Diamond",	
+"hargaid":148500,
+"harga":"Rp148.500",
+},
+"FF1080": {
+"nama": "1080 Diamond",	
+"hargaid":149400,
+"harga":"Rp149.400",
+},
+"FFB": {
+"nama": "Member Bulanan",
+"hargaid":150000,
+"harga":"Rp150.000",
+},
+"FF1200": {
+"nama": "1200 Diamond",	
+"hargaid":166800,
+"harga":"Rp166.800",
+},
+"FF1215": {
+"nama": "1215 Diamond",	
+"hargaid":16830,
+"harga":"Rp168.300",
+},
+"FF1300": {
+"nama": "1300 Diamond",	
+"hargaid":180900,
+"harga":"Rp180.900",
+},
+"FF1440": {
+"nama": "1440 Diamond",	
+"hargaid":198000,
+"harga":"Rp198.000",
+},
+"FF1450": {
+"nama": "1450 Diamond",	
+"hargaid":199800,
+"harga":"Rp199.800",
+},
+"FF1490": {
+"nama": "1490 Diamond",	
+"hargaid":205200,
+"harga":"Rp205.200",
+},
+"FF1510": {
+"nama": "1510 Diamond",	
+"hargaid":207900,
+"harga":"Rp207.900",
+},
+"FF1580": {
+"nama": "1580 Diamond",	
+"hargaid":217800,
+"harga":"Rp217.800",
+},
+"FF1795": {
+"nama": "1795 Diamond",	
+"hargaid":247500,
+"harga":"Rp247.500",
+},
+"FF1800": {
+"nama": "1800, Diamond",	
+"hargaid": 248400,
+"harga":"Rp248.400",
+},
+"FF2000": {
+"nama": "2000 Diamond",	
+"hargaid":270000,
+"harga":"Rp270.000",
+},
+"FF2140": {
+"nama": "2140 Diamond",	
+"hargaid": 289800,
+"harga":"Rp289.800",
+},
+"FF2190": {
+"nama": "2190 Diamond",	
+"hargaid": 297000,
+"harga":"Rp297.000",
+},
+"FF2210": {
+"nama": "2210 Diamond",	
+"hargaid": 299700,
+"harga":"Rp299.700",
+},
+"FF2280": {
+"nama": "2280 Diamond",	
+"hargaid": 309600,
+"harga":"Rp309.600",
+},
+"FF2355": {
+"nama": "2355 Diamond",	
+"hargaid": 319500,
+"harga":"Rp319.500",
+},
+"FF2720": {
+"nama": "2720 Diamond",	
+"hargaid": 369000,
+"harga":"Rp369.000",
+},
+"FF4000": {
+"nama": "4000 Diamond",	
+"hargaid": 540000,
+"harga":"Rp540.000",
+},
+"FF77290": {
+"nama": "7290 Diamond",	
+"hargaid": 990000,
+"harga":"Rp990.000",
+},
+},
 };
 let listml = {
   "ml": {
@@ -165,6 +512,11 @@ let listml = {
     "nama": "12 Diamond",
     "hargaid": 4000,
     "harga":"Rp4.000",
+    },
+    "ZIDMBL17": {
+    "nama": "17 Diamond",
+    "hargaid": 4500,
+    "harga":"Rp4.500",
     },
         "UPMBL19": {
     "nama": "19 Diamond",
@@ -262,8 +614,57 @@ let listml = {
     "harga":"Rp1322.500",
     },
  },
+};
+let listmlbb = {
+  "ml": {
+    "ZIDMBL17": {
+    "nama": "17 Diamond",
+    "hargaid": 4500,
+    "harga":"Rp4.500",
+    },
+        "ZIDMBL34": {
+    "nama": "34 Diamond",
+    "hargaid": 9000,
+    "harga":"Rp9.000",
+    },
+    "ZIDMBL50": {
+    "nama": "50 Diamond",
+    "hargaid": 13500,
+    "harga":"Rp13.500",
+    },
+        "ZIDMBL66": {
+    "nama": "66 Diamond",
+    "hargaid": 18000,
+    "harga":"Rp18.000",
+    },
+        "ZIDMBL74": {
+    "nama": "74 Diamond",
+    "hargaid": 20000,
+    "harga":"Rp20.000",
+    },
+        "ZIDMBL83": {
+    "nama": "83 Diamond",
+    "hargaid": 22500,
+    "harga":"Rp22.500",
+    },
+        "ZIDMBL184": {
+    "nama": "184 Diamond",
+    "hargaid": 5000,
+    "harga":"Rp50.000",
+    },
+        "ZIDMBL366": {
+    "nama": "366 Diamond",
+    "hargaid": 100000,
+    "harga":"Rp100.000",
+    },
+        "ZIDMBL758": {
+    "nama": "758 Diamond",
+    "hargaid": 200000,
+    "harga":"Rp200.000",
+    },
+ },
 }
-	
+
 const stire = makeInMemoryStore({ logger: pino().child({ level: 'silent', stream: 'store' }) })
 module.exports = Manik = async (Manik, m, mentioned, chatUpdate, store) => {
     try {
@@ -304,6 +705,7 @@ module.exports = Manik = async (Manik, m, mentioned, chatUpdate, store) => {
         const gcounti = setting.gcount
 		const gcount = isPremium ? gcounti.prem : gcounti.user
 		const { ownerNumber, botName, gamewaktu, limitCount } = setting
+		const isSami = simin.includes(from)
 		
 let dt = moment(Date.now()).tz('Asia/Jakarta').locale('id').format('a')
 const ucapanWaktu = "Selamat "+dt.charAt(0).toUpperCase() + dt.slice(1)	
@@ -323,12 +725,14 @@ return dDisplay + hDisplay + mDisplay + sDisplay;
 const mentions = (teks, memberr, id) => {
 (id == null || id == undefined || id == false) ? Manik.sendMessage(from, {text: teks.trim(), jpegThumbnail: fs.readFileSync('./media/Manik.jpg')}, text, { sendEphemeral: true, contextInfo: { mentions: memberr } }) : Manik.sendMessage(from, {text: teks.trim(), jpegThumbnail: fs.readFileSync('./media/Manik.jpg')}, text, { sendEphemeral: true, quoted: m, contextInfo: { mentions: memberr } })
 }
-	
 const reply = (teks) => {
-Manik.sendMessage(m.chat, { text: teks, contextInfo:{"externalAdReply": {"title": ` ${global.botname}`,"body": `bot OFFICIAL Goup`, "previewType": "PHOTO","thumbnailUrl": ``,"thumbnail": fs.readFileSync(`./media/Manik.jpg`),"sourceUrl": "https://chat.whatsapp.com/Gz9bSMZnFFr9avr61IVOKa"}}}, { quoted: m})
+			Manik.sendMessage(from, { text: teks }, { quoted: m })
+}
+const reply2 = (teks) => {
+Manik.sendMessage(m.chat, { text: teks, contextInfo:{"externalAdReply": {"title": ` ${global.botName}`,"body": `LIST DM CEKIL`, "previewType": "PHOTO","thumbnailUrl": ``,"thumbnail": fs.readFileSync(`./media/Manik.jpg`),"sourceUrl": "https://chat.whatsapp.com/JO6WNiEfdyZCiviZ0tZcih"}}}, { quoted: m})
 }       
 const reply1 = (teks) => {
-Manik.sendMessage(m.chat, { text: teks, contextInfo:{"externalAdReply": {"title": ` ${global.botname}`,"body": `Follow  owner`, "previewType": "PHOTO","thumbnailUrl": ``,"thumbnail": fs.readFileSync(`./media/Manik.jpg`),"sourceUrl": "https://youtube.com/channel/uckd2cb9j_xkhuytcbk_jozg"}}}, { quoted: m})
+Manik.sendMessage(m.chat, { text: teks, contextInfo:{"externalAdReply": {"title": ` ${global.botName}`,"body": `Follow Instagram Cekil Xd`, "previewType": "PHOTO","thumbnailUrl": ``,"thumbnail": fs.readFileSync(`./media/Manik.jpg`),"sourceUrl": "https://instagram.com/cekilgans"}}}, { quoted: m})
 }
 
 try {
@@ -511,22 +915,22 @@ function clockString(ms) {
   return [h, ' H ', m, ' M ', s, ' S '].map(v => v.toString().padStart(2, 0)).join('')
 }
 const buttonsDefault = [
-			{ callButton: { displayText: `Call Owner!`, phoneNumber: `+6288293406700` } },
-			{ urlButton: { displayText: `Youtube Owner`, url : `https://youtube.com/channel/uckd2cb9j_xkhuytcbk_jozg` } },
-			{ quickReplyButton: { displayText: `🧑 Owner`, id: `${prefix}owner` } },
-			{ quickReplyButton: { displayText: `💰 Donasi`, id: `${prefix}donate` } },
-			{ quickReplyButton: { displayText: `📜 Dashboard`, id: `${prefix}dashboard` } }
+			{ callButton: { displayText: `Owner`, phoneNumber: `+17242332244` } },
+			{ urlButton: { displayText: `Instagram Owner`, url : `https://instagram.com/cekilgans` } },
+			{ quickReplyButton: { displayText: `Contact`, id: `${prefix}owner` } },
+			{ quickReplyButton: { displayText: `Deposit`, id: `${prefix}deposit` } },
+			{ quickReplyButton: { displayText: `Top Up`, id: `${prefix}topup` } }
 		]
 const buttonsFirst = [
-			{ callButton: { displayText: `Call Owner!`, phoneNumber: `+6288293406700` } },
-			{ urlButton: { displayText: `Youtube Owner`, url : `https://youtube.com/channel/uckd2cb9j_xkhuytcbk_jozg` } },
-			{ quickReplyButton: { displayText: `🧑 Owner`, id: `${prefix}owner` } },
-			{ quickReplyButton: { displayText: `📝 Menu`, id: `${prefix}menu` } },
-			{ quickReplyButton: { displayText: `📜 Rules`, id: `${prefix}rules` } }
+			{ callButton: { displayText: `Call Owner!`, phoneNumber: `+17242332244` } },
+			{ urlButton: { displayText: `Instagram Owner`, url : `https://instagram.com/cekilgans` } },
+			{ quickReplyButton: { displayText: `Owner`, id: `${prefix}owner` } },
+			{ quickReplyButton: { displayText: `Menu`, id: `${prefix}menu` } },
+			{ quickReplyButton: { displayText: `Rules`, id: `${prefix}rules` } }
 		]
 const buttonsAnon = [
-			{ callButton: { displayText: `Call Owner!`, phoneNumber: `+6288293406700` } },
-			{ urlButton: { displayText: `Youtube Owner`, url : `https://youtube.com/channel/uckd2cb9j_xkhuytcbk_jozg` } },
+			{ callButton: { displayText: `Call Owner!`, phoneNumber: `+17242332244` } },
+			{ urlButton: { displayText: `Instagram Owner`, url : `https://instagram.com/cekilgans` } },
 			{ quickReplyButton: { displayText: `📱 Search`, id: `${prefix}search` } },
 			{ quickReplyButton: { displayText: `📲 Skip`, id: `${prefix}skip` } }
 		]
@@ -1094,7 +1498,7 @@ case prefix+'menu': case prefix+'help':{
 const more = String.fromCharCode(8206)
 const readmore = more.repeat(4001)
 addCountCmd(`#${command.slice(1)}`, sender, _cmd) 
-                anu = `*── 「 RzBot - Versi MD 」 ──*
+                anu = `*── 「 CekilBOT - Versi MD 」 ──*
                 
     _*${ucapanWaktu} ${pushname !== undefined ? pushname : 'Kak'}*_
   
@@ -1108,535 +1512,298 @@ addCountCmd(`#${command.slice(1)}`, sender, _cmd)
   Limit Game : ${cekGLimit(sender, gcount, glimit)}
   Total Pengguna : ${pendaftar.length}
   ${readmore}
-   *｢  TOPUP MENU OTOMATIS  ｣*
-  ● ${prefix}topup
-  ● ${prefix}topupff
-  ● ${prefix}topupml
-  ● ${prefix}listdmff
-  ● ${prefix}listdmml
-  ● ${prefix}topupff-s2
-  ● ${prefix}listdmff-s2
-  ● ${prefix}mydepo
-  ● ${prefix}deposit
-  ● ${prefix}topdeposit
-    
-  *｢  WITH TRENDTODAY  ｣*
-  ● ${prefix}myotp
-  ● ${prefix}verification
-  ● ${prefix}registration
-  
- *｢  ANONYMOUS MENU  ｣*  	
- ● ${prefix}anonymous
- ● ${prefix}start
- ● ${prefix}next
- ● ${prefix}stop
- ● ${prefix}sendprofile
- ● ${prefix}author
- ● ${prefix}bug
- 
-  *｢ STORE MENU ｣*
- ● ${prefix}item
- ● ${prefix}additem
- ● ${prefix}delitem
- ● ${prefix}changeitem
- ● proses
- ● done
- 
-  *｢ MOVIE MENU ｣*    
- ● ${prefix}addtugas
- ● ${prefix}resettugas
- ● ${prefix}outputtugas
- ● ${prefix}hapustugas
- ● ${prefix}addjudultugas
- ● ${prefix}tambah
- ● ${prefix}kali
- ● ${prefix}kurang
- ● ${prefix}bagi
- 
-  *｢  BANK & PAYMENT  ｣*
- ● ${prefix}topbalance
- ● ${prefix}buylimit
- ● ${prefix}buyglimit
- ● ${prefix}transfer
- ● ${prefix}checklimit
- ● ${prefix}balance
- 
- *｢  GROUP MENU  ｣*
- ● ${prefix}linkgroup
- ● ${prefix}antilink [enable/disable]
- ● ${prefix}ephemeral [option]
- ● ${prefix}setppgc [image]
- ● ${prefix}setname [text]
- ● ${prefix}setdesc [text]
- ● ${prefix}group [option]
- ● ${prefix}editinfo [option]
- ● ${prefix}add @tag
- ● ${prefix}kick @tag
- ● ${prefix}hidetag [text]
- ● ${prefix}tagall [text]
- ● ${prefix}promote @tag
- ● ${prefix}demote @tag
- ● ${prefix}vote [text]
- ● ${prefix}devote
- ● ${prefix}upvote
- ● ${prefix}cekvote
- ● ${prefix}hapusvote         
- 
- *｢  OWNER MENU  ｣*    
- ● ${prefix}chat [option]
-  ● ${prefix}getcase [name]
- ● ${prefix}join [link]
- ● ${prefix}leave
- ● ${prefix}setbotpp
- ● ${prefix}block @user
- ● ${prefix}unblock @user
- ● ${prefix}bcgroup
- ● ${prefix}bcall
- ● ${prefix}self
- ● ${prefix}public
- ● ${prefix}setcmd
- ● ${prefix}listcmd
- ● ${prefix}delcmd
- ● ${prefix}lockcmd
- ● ${prefix}addmsg
- ● ${prefix}listmsg
- ● ${prefix}getmsg
- ● ${prefix}delmsg
- 
- *｢  MAIN MENU  ｣*  
- ● ${prefix}ping
- ● ${prefix}owner
- ● ${prefix}donate
- ● ${prefix}menu
- ● ${prefix}delete
- ● ${prefix}chatinfo
- ● ${prefix}quoted
- ● ${prefix}listpc
- ● ${prefix}listgc
- ● ${prefix}listonline
- ● ${prefix}report     
- ● ${prefix}dashboard
- ● ${prefix}rules
-  
- *｢ MOVIE MENU ｣*    
- ● ${prefix}drakorongoing
- ● ${prefix}lk21 query
- ● ${prefix}wattpad url_wattpad
- ● ${prefix}wattpadsearch query
- ● ${prefix}cerpen
- ● ${prefix}ceritahoror
- 
- *｢ RANDOM TEXT MENU ｣*    
- ● ${prefix}quotes
- ● ${prefix}quotesdiLan
- ● ${prefix}quotesanime
- ● ${prefix}quotesimage
- ● ${prefix}faktaunik
- ● ${prefix}katabijak
- ● ${prefix}pantun
- ● ${prefix}bucin
- ● ${prefix}randomnama
-  
- *｢  WIBU MENU  ｣*  
- ● ${prefix}'
- ● ${prefix}manga
- ● ${prefix}anime 
- ● ${prefix}videoanime
- ● ${prefix}husbu
- ● ${prefix}waifu
- ● ${prefix}milf
- ● ${prefix}neko
- ● ${prefix}kanna
- ● ${prefix}sagiri
- ● ${prefix}hentai
- ● ${prefix}cosplay
- ● ${prefix}wallnime
- ● ${prefix}kusonime
- ● ${prefix}megumin
- ● ${prefix}otakudesu
- ● ${prefix}doujindesu
- ● ${prefix}storyanime
- ● ${prefix}nakanomiku
- ● ${prefix}nakanonino
- ● ${prefix}nakanoitsuki
- ● ${prefix}otakuongoing
- ● ${prefix}nhentai *code*
- ● ${prefix}nekopoi *link*
- ● ${prefix}nekopoisearch
- 
-  *｢  FUN GAME MENU  ｣*  	
- ● ${prefix}piatu
- ● ${prefix}holoh
- ● ${prefix}jadian
- ● ${prefix}jodohku
- ● ${prefix}delttt
- ● ${prefix}tictactoe
- ● ${prefix}family100
- ● ${prefix}tebak [option]
- ● ${prefix}math [mode]
- ● ${prefix}suitpvp [@tag]
- ● ${prefix}casino
- ● ${prefix}delcasino
- ● ${prefix}akinator
- ● ${prefix}cancelakinator
-  
- *｢  DOWNLOAD MENU  ｣*
- ● ${prefix}tiktok [url]
- ● ${prefix}tiktokaudio [url]
- ● ${prefix}tiktoknowm [url]     
- ● ${prefix}youtube [url]
- ● ${prefix}twitter [url]
- ● ${prefix}twittermp3 [url]
- ● ${prefix}facebook [url]
- ● ${prefix}pinterestdl [url]
- ● ${prefix}ytmp3 [url]
- ● ${prefix}ytmp4 [url]
- ● ${prefix}getmusic [query]
- ● ${prefix}getvideo [query]
- ● ${prefix}umma [url]
- ● ${prefix}joox [query]
- ● ${prefix}soundcloud [url]
- ● ${prefix}ttnowm [url] 
- ● ${prefix}ttaudio [url]     
-                
- *｢  TOOLS MENU  ｣*
- ● ${prefix}toimage
- ● ${prefix}removebg
- ● ${prefix}sticker
- ● ${prefix}emojimix
- ● ${prefix}tovideo
- ● ${prefix}togif
- ● ${prefix}tourl
- ● ${prefix}tovn
- ● ${prefix}tomp3
- ● ${prefix}toaudio
- ● ${prefix}ebinary
- ● ${prefix}dbinary
-
- *｢  RANDOM MENU  ｣*
- ● ${prefix}coffe
- ● ${prefix}quotesanime
- ● ${prefix}motivasi
- ● ${prefix}dilanquote
- ● ${prefix}bucinquote
- ● ${prefix}katasenja
- ● ${prefix}puisi
- ● ${prefix}ppcp
- ● ${prefix}anime
- ● ${prefix}waifu
- ● ${prefix}husbu
- ● ${prefix}neko
- ● ${prefix}shinobu
- ● ${prefix}megumin
- ● ${prefix}loli
-
- *｢  SEARCH MENU  ｣*
- ● ${prefix}play [query]
- ● ${prefix}yts [query]
- ● ${prefix}google [query]
- ● ${prefix}gimage [query]
- ● ${prefix}pinterest [query]
- ● ${prefix}wallpaper [query]
- ● ${prefix}wikimedia [query]
- ● ${prefix}ytsearch [query]
- ● ${prefix}ringtone [query]
- ● ${prefix}nickff 
- ● ${prefix}nickml
- ● ${prefix}nickpubg
- ● ${prefix}nickdomino
-  
- *｢  VOCAL MENU  ｣*  	
- ● ${prefix}halah
- ● ${prefix}hilih
- ● ${prefix}huluh
- ● ${prefix}heleh
- ● ${prefix}holoh
-  
- *｢  AUDIO MENU  ｣*  	
- ● ${prefix}bass
- ● ${prefix}blown
- ● ${prefix}deep
- ● ${prefix}earrape
- ● ${prefix}fast
- ● ${prefix}fat
- ● ${prefix}nightcore
- ● ${prefix}reverse
- ● ${prefix}robot
- ● ${prefix}slow
- ● ${prefix}squirrel
-
- *｢  ISLAM MENU  ｣*  	
- ● ${prefix}iqra
- ● ${prefix}hadith
- ● ${prefix}alquran
- ● ${prefix}juzamma
- ● ${prefix}tafsirsurah
- 
- *｢ CEK MENU ｣*  	
- ● ${prefix}goblokcek 
- ● ${prefix}jelekcek 
- ● ${prefix}rate
- ● ${prefix}haram
- ● ${prefix}gaycek
- ● ${prefix}lesbicek
- ● ${prefix}gantengcek 
- ● ${prefix}cantikcek
- ● ${prefix}begocek 
- ● ${prefix}suhucek
- ● ${prefix}pintercek
- ● ${prefix}jagocek
- ● ${prefix}nolepcek
- ● ${prefix}babicek
- ● ${prefix}bebancek
- ● ${prefix}baikcek
- ● ${prefix}jahatcek
- ● ${prefix}anjingcek
- ● ${prefix}haramcek
- ● ${prefix}pakboycek
- ● ${prefix}pakgirlcek
- ● ${prefix}sangecek 
- ● ${prefix}bapercek
- ● ${prefix}fakboycek
- ● ${prefix}alimcek
- ● ${prefix}suhucek
- ● ${prefix}fakgirlcek
- ● ${prefix}kerencek
- ● ${prefix}wibucek
- ● ${prefix}pasarkascek
- 
-  *｢  STALKING MENU  ｣*  	
- ● ${prefix}stalkig    _<nama>_
- ● ${prefix}stalkgithub    _<nama>_
- ● ${prefix}stalktwitter    _<nama>_
- ● ${prefix}mlstalk    _<nama>_
-
- *｢  PRIMBON MENU  ｣*  	
- ● ${prefix}nomorhoki
- ● ${prefix}artimimpi
- ● ${prefix}artinama
- ● ${prefix}ramaljodoh
- ● ${prefix}ramaljodohbali
- ● ${prefix}suamiistri
- ● ${prefix}ramalcinta
- ● ${prefix}cocoknama
- ● ${prefix}pasangan
- ● ${prefix}jadiannikah
- ● ${prefix}sifatusaha
- ● ${prefix}rezeki
- ● ${prefix}pekerjaan
- ● ${prefix}nasib
- ● ${prefix}penyakit
- ● ${prefix}tarot
- ● ${prefix}fengshui
- ● ${prefix}haribaik
- ● ${prefix}harisangar
- ● ${prefix}harisial
- ● ${prefix}nagahari
- ● ${prefix}arahrezeki
- ● ${prefix}peruntungan
- ● ${prefix}weton
- ● ${prefix}karakter
- ● ${prefix}keberuntungan
- ● ${prefix}memancing
- ● ${prefix}masasubur
- ● ${prefix}zodiak
- ● ${prefix}shio
-
- *｢  BOT MENU  ｣*  	
- ● ${prefix}antilink On/Off
- ● ${prefix}mute On/Off
- ● ${prefix}antiwame On/Off
- ● ${prefix}antiyt On/Off
- ● ${prefix}antitele On/Off
- ● ${prefix}antibitly On/Off
- 
-  *｢ Text Pro Me ｣*  	
- ● ${prefix}blackpink text
- ● ${prefix}neon text
- ● ${prefix}greenneon text
- ● ${prefix}advanceglow text
- ● ${prefix}futureneon text
- ● ${prefix}sandwriting text
- ● ${prefix}sandsummer text
- ● ${prefix}sandengraved text
- ● ${prefix}metaldark text
- ● ${prefix}neonlight text
- ● ${prefix}holographic text
- ● ${prefix}text1917 text
- ● ${prefix}minion text
- ● ${prefix}deluxesilver text
- ● ${prefix}newyearcard text
- ● ${prefix}bloodfrosted text
- ● ${prefix}halloween text
- ● ${prefix}jokerlogo text
- ● ${prefix}fireworksparkle text
- ● ${prefix}natureleaves text
- ● ${prefix}bokeh text
- ● ${prefix}toxic text
- ● ${prefix}strawberry text
- ● ${prefix}box3d text
- ● ${prefix}roadwarning text
- ● ${prefix}breakwall text
- ● ${prefix}icecold text
- ● ${prefix}luxury text
- ● ${prefix}cloud text
- ● ${prefix}summersand text
- ● ${prefix}horrorblood text
- ● ${prefix}thunder text
- ● ${prefix}pornhub text1 text2
- ● ${prefix}glitch text1 text2
- ● ${prefix}avenger text1 text2
- ● ${prefix}space text1 text2
- ● ${prefix}ninjalogo text1 text2
- ● ${prefix}marvelstudio text1 text2
- ● ${prefix}lionlogo text1 text2
- ● ${prefix}wolflogo text1 text2
- ● ${prefix}steel3d text1 text2
- ● ${prefix}wallgravity text1 text2
-
-  *｢ Nsfw Anime ｣*  	
- ● ${prefix}chiisaihentai
- ● ${prefix}trap
- ● ${prefix}blowjob
- ● ${prefix}yaoi
- ● ${prefix}ecchi
- ● ${prefix}hentai
- ● ${prefix}ahegao
- ● ${prefix}hololewd
- ● ${prefix}sideoppai
- ● ${prefix}animefeets
- ● ${prefix}animebooty
- ● ${prefix}animethighss
- ● ${prefix}hentaiparadise
- ● ${prefix}animearmpits
- ● ${prefix}hentaifemdom
- ● ${prefix}lewdanimegirls
- ● ${prefix}biganimetiddies
- ● ${prefix}animebellybutton
- ● ${prefix}hentai4everyone
-
-  *｢ Random Image ｣*  	
- ● ${prefix}bj
- ● ${prefix}ero
- ● ${prefix}ppcp
- ● ${prefix}cum
- ● ${prefix}feet
- ● ${prefix}yuri
- ● ${prefix}trap
- ● ${prefix}lewd
- ● ${prefix}feed
- ● ${prefix}eron
- ● ${prefix}solo
- ● ${prefix}gasm
- ● ${prefix}poke
- ● ${prefix}anal
- ● ${prefix}holo
- ● ${prefix}tits
- ● ${prefix}kuni
- ● ${prefix}kiss
- ● ${prefix}erok
- ● ${prefix}smug
- ● ${prefix}baka
- ● ${prefix}solog
- ● ${prefix}feetg
- ● ${prefix}lewdk
- ● ${prefix}waifu
- ● ${prefix}pussy
- ● ${prefix}femdom
- ● ${prefix}cuddle
- ● ${prefix}hentai
- ● ${prefix}eroyuri
- ● ${prefix}cum_jpg
- ● ${prefix}blowjob
- ● ${prefix}erofeet
- ● ${prefix}holoero
- ● ${prefix}classic
- ● ${prefix}erokemo
- ● ${prefix}fox_girl
- ● ${prefix}futanari
- ● ${prefix}lewdkemo
- ● ${prefix}wallpaper
- ● ${prefix}pussy_jpg
- ● ${prefix}kemonomimi
- ● ${prefix}nsfw_avatar
- ● ${prefix}ngif
- ● ${prefix}nsfw_neko_gif
- ● ${prefix}random_hentai_gif
-  
-  *｢ Photo Oxy ｣*  	
- ● ${prefix}shadow text
- ● ${prefix}cup text
- ● ${prefix}cup1 text
- ● ${prefix}romance text
- ● ${prefix}smoke text
- ● ${prefix}burnpaper text
- ● ${prefix}lovemessage text
- ● ${prefix}undergrass text
- ● ${prefix}love text
- ● ${prefix}coffe text
- ● ${prefix}woodheart text
- ● ${prefix}woodenboard text
- ● ${prefix}summer3d text
- ● ${prefix}wolfmetal text
- ● ${prefix}nature3d text
- ● ${prefix}underwater text
- ● ${prefix}goldenrose text
- ● ${prefix}summernature text
- ● ${prefix}letterleaves text
- ● ${prefix}glowingneon text
- ● ${prefix}fallleaves text
- ● ${prefix}flamming text
- ● ${prefix}harrypotter text
- ● ${prefix}carvedwood text
- ● ${prefix}tiktok text1 text2
- ● ${prefix}arcade8bit text1 text2
- ● ${prefix}battlefield4 text1 text2
- ● ${prefix}pubg text1 text2
-
-  *｢ Ephoto 360 ｣*  	
- ● ${prefix}wetglass text
- ● ${prefix}multicolor3d text
- ● ${prefix}watercolor text
- ● ${prefix}luxurygold text
- ● ${prefix}galaxywallpaper text
- ● ${prefix}lighttext text
- ● ${prefix}beautifulflower text
- ● ${prefix}puppycute text
- ● ${prefix}royaltext text
- ● ${prefix}heartshaped text
- ● ${prefix}birthdaycake text
- ● ${prefix}galaxystyle text
- ● ${prefix}hologram3d text
- ● ${prefix}greenneon text
- ● ${prefix}glossychrome text
- ● ${prefix}greenbush text
- ● ${prefix}metallogo text
- ● ${prefix}noeltext text
- ● ${prefix}glittergold text
- ● ${prefix}textcake text
- ● ${prefix}starsnight text
- ● ${prefix}wooden3d text
- ● ${prefix}textbyname text
- ● ${prefix}writegalacy text
- ● ${prefix}galaxybat text
- ● ${prefix}snow3d text
- ● ${prefix}birthdayday text
- ● ${prefix}goldplaybutton text
- ● ${prefix}silverplaybutton text
- ● ${prefix}freefire text
- 
- ♥Thx To♥
- ●All creator bot
- ●Tuhanku
- ●Ortuku
- ●Penyemangatku
- ●Manik
- ●Radithstore
-
- © DESIGN: Radithstore`
- Manik.sendMessage(m.chat, { caption: anu, image: { url: "./media/menu.jpg" }, templateButtons: buttonsDefault, footer: 'RzBot By Own-Radith√', mentions: [m.sender] })
+┌─  *｢  TOPUP MENU OTOMATIS  ｣*
+├ ${prefix}topup
+├ ${prefix}topupff
+├ ${prefix}topupml
+├ ${prefix}topupml2
+├ ${prefix}listdml2
+├ ${prefix}listdmff
+├ ${prefix}listdmml
+├ ${prefix}topupff2
+├ ${prefix}listdmff2
+├ ${prefix}mydepo
+├ ${prefix}deposit
+├ ${prefix}topdeposit
+└────    
+┌─  *｢ CONVERT EWALLET OTOMATIS ｣*
+├ ${prefix}gopay
+├ ${prefix}dana
+├ ${prefix}ovo
+├ ${prefix}shopeepay
+└────  
+┌─  *｢  GROUP MENU  ｣*
+├ ${prefix}linkgroup
+├ ${prefix}antilink [enable/disable]
+├ ${prefix}ephemeral [option]
+├ ${prefix}setppgc [image]
+├ ${prefix}setname [text]
+├ ${prefix}setdesc [text]
+├ ${prefix}group [option]
+├ ${prefix}editinfo [option]
+├ ${prefix}add @tag
+├ ${prefix}kick @tag
+├ ${prefix}hidetag [text]
+├ ${prefix}tagall [text]
+├ ${prefix}promote @tag
+├ ${prefix}demote @tag
+├ ${prefix}vote [text]
+├ ${prefix}devote
+├ ${prefix}upvote
+├ ${prefix}cekvote
+├ ${prefix}hapusvote         
+└──── 
+┌─ *｢  OWNER MENU  ｣*    
+├ ${prefix}chat [option]
+├ ${prefix}getcase [name]
+├ ${prefix}join [link]
+├ ${prefix}leave
+├ ${prefix}setbotpp
+├ ${prefix}block @user
+├ ${prefix}unblock @user
+├ ${prefix}bcgroup
+├ ${prefix}bcall
+├ ${prefix}self
+├ ${prefix}public
+├ ${prefix}setcmd
+├ ${prefix}listcmd
+├ ${prefix}delcmd
+├ ${prefix}lockcmd
+├ ${prefix}addmsg
+├ ${prefix}listmsg
+├ ${prefix}getmsg
+├ ${prefix}delmsg
+└──── 
+┌─ *｢  MAIN MENU  ｣*  
+├ ${prefix}ping
+├ ${prefix}owner
+├ ${prefix}donate
+├ ${prefix}menu
+├ ${prefix}delete
+├ ${prefix}chatinfo
+├ ${prefix}quoted
+├ ${prefix}listpc
+├ ${prefix}listgc
+├ ${prefix}listonline
+├ ${prefix}report     
+├ ${prefix}dashboard
+├ ${prefix}rules
+└────
+┌─ *｢  BOT MENU  ｣*  	
+├ ${prefix}antilink On/Off
+├ ${prefix}mute On/Off
+├ ${prefix}antiwame On/Off
+├ ${prefix}antiyt On/Off
+├ ${prefix}antitele On/Off
+├ ${prefix}antibitly On/Off
+└────
+┌─「 ♥Thx To♥
+├All creator bot
+├Tuhanku
+├Ortuku
+├Penyemangatku
+├Manik~_~
+├CekilXD
+└────
+ © DESIGN: CEKIL XD`
+ Manik.sendMessage(m.chat, { caption: anu, image: { url: "./media/menu.jpg" }, templateButtons: buttonsDefault, footer: 'CekilBOT By CekilXD', mentions: [m.sender] })
 break 
 }
+//━━━━━━━━━━━━━━━[ Fitur topup Otomatis server 1 Case Dan Fitur By Manik Only! ]━━━━━━━━━━━━━━━\\
+case prefix+'shopeepay':{
+if (isGroup) return reply('Fitur Ini Hanya Bisa Digunakan Di Private Chat!')
+let noshp = text
+if (isNaN(parseInt(noshp))) return reply(`${command} 17242332244`)
+const sections = [
+    {
+	title: `Convert ShopeePay`,
+	rows: [
+	    {title: "Rp10.000", rowId: `${prefix}cvspay ${noshp}|1`}
+	]
+    },
+    {
+	title: `Convert ShopeePay`,
+	rows: [
+	    {title: "Rp20.000", rowId: `${prefix}cvspay ${noshp}|2`}
+	]
+    },
+    {
+	title: `Convert ShopeePay`,
+	rows: [
+	    {title: "Rp25.000", rowId: `${prefix}cvspay ${noshp}|3`}
+	]
+    },
+    {
+	title: `Convert ShopeePay`,
+	rows: [
+	    {title: "Rp50.000", rowId: `${prefix}cvspay ${noshp}|4`}
+	]
+    },
+    {
+	title: `Convert ShopeePay`,
+	rows: [
+	    {title: "Rp60.000", rowId: `${prefix}cvspay ${noshp}|6`}
+	]
+    },
+    {
+	title: `Convert ShopeePay`,
+	rows: [
+	    {title: "Rp75.000", rowId: `${prefix}cvspay ${noshp}|7`}
+	]
+    },
+    {
+	title: `Convert ShopeePay`,
+	rows: [
+	    {title: "Rp100.000", rowId: `${prefix}cvspay ${noshp}|8`}
+	]
+    },
+    {
+	title: `Convert ShopeePay`,
+	rows: [
+	    {title: "Rp200.000", rowId: `${prefix}cvspay ${noshp}|10`}
+	]
+    },
+]
+let isian = `    
+Silahkan Pilih Nominal Saldo E-wallet Yang Akan Anda Convert Ke Shopeepay!.
+
+Note: Pembayaran Disini Hanya Menggunakan Server, Owner Tidak Mendapatkan Hasil Apapun Disini Karena Diproses Langsung Dari Server!.
+
+Jika Sudah Melakukan Pemilihan Nominal, Anda Akan Dikirimkan Qris Pembayaran Dan Anda Harus Membayar Melalu Aplikasi E-wallet Yang Mendukung Qris, Pastikan Nominal Yang Anda Krimkan Harus Sama Dengan Nominal Yang Diminta!.
+
+Jika Anda Sudah Melakukan Pembayaran, Silahkan Tunggu 1-5 Menit Dan Melakukan Pengecekan Secara Berkala Pada Saldo Anda!.`
+const listMessage = {
+  text: isian,
+  footer: "Powered By CekilXD",
+  title: "━━[ Nominal saldo Shopeepay ]━━",
+  buttonText: "Klik Disini",
+  sections
+}
+const tessgh = await Manik.sendMessage(from, listMessage)
+break
+}
+case prefix+'ovo':{
+if (isGroup) return reply('Fitur Ini Hanya Bisa Digunakan Di Private Chat!')
+let noshp = text
+if (isNaN(parseInt(noshp))) return reply(`${command} 17242332244`)
+const sections = [
+    {
+	title: `Convert Ovo`,
+	rows: [
+	    {title: "Rp20.000", rowId: `${prefix}cvspay ${noshp}|11`}
+	]
+    },
+    {
+	title: `Convert Ovo`,
+	rows: [
+	    {title: "Rp25.000", rowId: `${prefix}cvspay ${noshp}|12`}
+	]
+    },
+    {
+	title: `Convert Ovo`,
+	rows: [
+	    {title: "Rp30.000", rowId: `${prefix}cvspay ${noshp}|13`}
+	]
+    },
+    {
+	title: `Convert Ovo`,
+	rows: [
+	    {title: "Rp40.000", rowId: `${prefix}cvspay ${noshp}|14`}
+	]
+    },
+    {
+	title: `Convert Ovo`,
+	rows: [
+	    {title: "Rp50.000", rowId: `${prefix}cvspay ${noshp}|15`}
+	]
+    },
+    {
+	title: `Convert Ovo`,
+	rows: [
+	    {title: "Rp60.000", rowId: `${prefix}cvspay ${noshp}|16`}
+	]
+    },
+    {
+	title: `Convert Ovo`,
+	rows: [
+	    {title: "Rp70.000", rowId: `${prefix}cvspay ${noshp}|17`}
+	]
+    },
+    {
+	title: `Convert Ovo`,
+	rows: [
+	    {title: "Rp75.000", rowId: `${prefix}cvspay ${noshp}|18`}
+	]
+    },
+    {
+	title: `Convert Ovo`,
+	rows: [
+	    {title: "Rp90.000", rowId: `${prefix}cvspay ${noshp}|19`}
+	]
+    },
+    {
+	title: `Convert Ovo`,
+	rows: [
+	    {title: "Rp100.000", rowId: `${prefix}cvspay ${noshp}|20`}
+	]
+    },
+    {
+	title: `Convert Ovo`,
+	rows: [
+	    {title: "Rp125.000", rowId: `${prefix}cvspay ${noshp}|21`}
+	]
+    },
+     {
+	title: `Convert Ovo`,
+	rows: [
+	    {title: "Rp150.000", rowId: `${prefix}cvspay ${noshp}|22`}
+	]
+    },
+    {
+	title: `Convert Ovo`,
+	rows: [
+	    {title: "Rp200.000", rowId: `${prefix}cvspay ${noshp}|22`}
+	]
+    },
+]
+let isian = `    
+Silahkan Pilih Nominal Saldo E-wallet Yang Akan Anda Convert Ke Ovo!.
+
+Note: Pembayaran Disini Hanya Menggunakan Server, Owner Tidak Mendapatkan Hasil Apapun Disini Karena Diproses Langsung Dari Server!.
+
+Jika Sudah Melakukan Pemilihan Nominal, Anda Akan Dikirimkan Qris Pembayaran Dan Anda Harus Membayar Melalu Aplikasi E-wallet Yang Mendukung Qris, Pastikan Nominal Yang Anda Krimkan Harus Sama Dengan Nominal Yang Diminta!.
+
+Jika Anda Sudah Melakukan Pembayaran, Silahkan Tunggu 1-2 Menit Dan Melakukan Pengecekan Secara Berkala Pada Saldo Anda!.`
+const listMessage = {
+  text: isian,
+  footer: "Powered By CekilXD",
+  title: "━━[ Nominal saldo Ovo ]━━",
+  buttonText: "Klik Disini",
+  sections
+}
+const tessgh = await Manik.sendMessage(from, listMessage)
+break
+}
+case prefix+'cvspay':{
+if (isGroup) return reply('Fitur Ini Hanya Bisa Digunakan Di Private Chat!')
+let idff = text.split("|")[0]
+let produkid = text.split("|")[1]
+let cvnya = await convertSaldo(`${produkid}`, `${idff}`)
+let byr = `*─ 「 CEK TRANSAKSIMU 」 ─*
+     
+_Berikut Adalah Transaksi Anda_
+├ Saldo : ${cvnya.product}_
+├ No Tujuan : ${idff}_
+├ Total Tagihan : ${cvnya.tagihan}_
+├ Id Trx : ${cvnya.order_id}_
+
+Silahkan Scan Qris Diatas Untuk Melakukan Pembayaran
+Saldo Akan Masuk Otomatis Dalam Waktu 1-5 Menit Setelah Melakukan Pembayaran!.`
+Manik.sendMessage(m.chat, { image: { url: cvnya.img }, caption: `${byr}` }, { quoted: m })
+break
+}
+//━━━━━━━━━━━━━━━[ Fitur topup Otomatis server 1 Case Dan Fitur By Manik Only! ]━━━━━━━━━━━━━━━\\
+
 //━━━━━━━━━━━━━━━[ Fitur topup Otomatis server 1 Case Dan Fitur By Manik Only! ]━━━━━━━━━━━━━━━\\
 case prefix+'topdeposit':{
                 money.sort((a, b) => (a.money < b.money) ? 1 : -1)
@@ -1655,10 +1822,11 @@ case prefix+'mydepo':
 let myde = `*─ 「 CHECK YOUR ACCOUNT 」 ─*
      
 _Berikut Adalah Data Akun Anda_
-_》Saldo User : Rp${getMonUser(sender)}_
-_》Name : ${pushname}_
-_》Id : ${sender.replace("@s.whatsapp.net", "")}_
+├ Saldo User : Rp${getMonUser(sender)}_
+├ Name : ${pushname}_
+├ Id : ${sender.replace("@s.whatsapp.net", "")}_
 
+Note: Jika Undefined Artinya Saldo Kamu Rp0
 Saldo Hanya Bisa Untuk Topup Saja, Tidak Bisa Ditarik!.`
 reply(myde)
 break
@@ -1666,17 +1834,20 @@ case prefix+'deposit':
 let depisi = `*─ 「 CARA DEPOSIT 」 ─*
      
 _Berikut Adalah Cara Deposit User!._
-_For Your Information, RzBot Hanya Mendukung Deposit Melalui Ovo, Shopeepay, Dana, Qris Saja._
+_For Your Information, CekilBOT Hanya Mendukung Deposit Melalui Ovo, Shopeepay, Dana, Qris Saja._
 
-_》Ovo : 088293406700_
-_》Gopay : 088293406700_
+├ Ovo : 089515023118
+├ Shopeepay : 089515023118
+├ Dana : 089515023118
+├ Qris : Chat Owner_
 
 _Jika Sudah Melakukan Transfer Harap Kirim Bukti Dengan Cara Mengirim Screenshot Dengan Caption, Contoh:_
 ${prefix}bukti JUMLAH|CATATAN
 _Contoh:_
-${prefix}bukti 10000|isi Saldo 6288293406700
+${prefix}bukti 10000|isi Saldo 089515023118
 Saldo Akan Masuk Ketika Owner Mengklik Tombol Acc Yang Dikirim Bot!.`
-reply(depisi)
+reply(depisi)`
+Manik.sendMessage(m.chat, { caption: anu, image: { url: "./media/menu.jpg" }, templateButtons: buttonsDefault, footer: 'CekilBOT By CekilXD', mentions: [m.sender] })
 break
 case prefix+'bukti':
 let depo = text.split("|")[0]
@@ -1685,24 +1856,24 @@ if (isNaN(parseInt(depo))) return reply('Deposit Harus Berupa Angka!')
 let bukti = `*─ 「 DEPOSIT USER 」 ─*
      
 _Berikut Adalah Bukti Deposit Dari User_
-_》Saldo awal : Rp${getMonUser(sender)}_
-_》Deposit : Rp${depo}_
-_》Id : ${sender.replace("@s.whatsapp.net", "")}_
-_》Catatan : ${catatnya}_
+├ Saldo awal : Rp${getMonUser(sender)}_
+├ Deposit : Rp${depo}_
+├ Id : ${sender.replace("@s.whatsapp.net", "")}_
+├ Catatan : ${catatnya}_
 
 Silahkan Segera Melakukan Pengisian Saldo User Jika Bukti Sudah Benar!.`
 if (/image/.test(mime)) {
 let media = await quoted.download()
-let encmedia = await Manik.sendImage(`6288293406700@s.whatsapp.net`, media, `Bukti Dari: ${sender.replace("@s.whatsapp.net", "")}`, m)
+let encmedia = await Manik.sendImage(`17242332244@s.whatsapp.net`, media, `Bukti Dari: ${sender.replace("@s.whatsapp.net", "")}`, m)
 let buttons = [
 { buttonId: prefix+`depoyes ${depo}|${m.sender}`, buttonText: { displayText: 'Acc' }, type: 1 },
 { buttonId: prefix+`depono`, buttonText: { displayText: 'salah' }, type: 1 }
 ]
-Manik.sendButtonText(`6288293406700@s.whatsapp.net`, buttons, `${bukti}`, Manik.user.name, m)
+Manik.sendButtonText(`17242332244@s.whatsapp.net`, buttons, `${bukti}`, Manik.user.name, m)
 }
 break
 case prefix+'depoyes':
-if (!isManik) throw mess.owner
+if (!isManik) reply(mess.owner)
 let jumbelah = text.split("|")[0] * 1
 let siapah = text.split("|")[1]
 addMonUser(siapah, jumbelah)
@@ -1711,10 +1882,10 @@ let nbuttons = [
 { buttonId: prefix+`mydepo`, buttonText: { displayText: 'My Deposit' }, type: 1 },
 { buttonId: prefix+`topup`, buttonText: { displayText: 'TopUp' }, type: 1 }
 ]
-Manik.sendButtonText(`${siapah}`, nbuttons, `Topup Anda Berhasil Di Acc, Silahkan Melakukan TopUp Dengan Mudah Hanya Di RzBot!`, Manik.user.name, m)
+Manik.sendButtonText(`${siapah}`, nbuttons, `Topup Anda Berhasil Di Acc, Silahkan Melakukan TopUp Dengan Mudah Hanya Di CekilBOT!`, Manik.user.name, m)
 break
 case prefix+'depono':
-if (!isManik) throw mess.owner
+if (!isManik) reply(mess.owner)
 let umbelah = text.split("|")[0]
 let iapah = text.split("|")[1]
 reply('Deposit Tidak Akan Dilanjutkan')
@@ -1728,24 +1899,37 @@ const sections = [
 	    {title: "List Diamond Free Fire", rowId: `${prefix}listdmff`}
 	]
     },
+    {
+	title: `Format: ${prefix}topupff2 id|jumlah`,
+	rows: [
+	    {title: "List Diamond Free Fire Server 2", rowId: `${prefix}listdmff2`}
+	]
+    },
    {
    	title: `Format: ${prefix}topupml id|server|jumlah`,
 	rows: [
 	    {title: "List Diamond Mobile Legends", rowId: `${prefix}listdmml`}
 	]
     },
+   {
+   	title: `Format: ${prefix}topupml2 id|server|jumlah`,
+	rows: [
+	    {title: "List Diamond Mobile Legends Server 2", rowId: `${prefix}listdmml2`}
+	]
+    },
 ]
 let isian = `    
 _Berikut Adalah Data Akun Anda_
-_》Saldo User :${getMonUser(sender)}_
-_》Name : ${pushname}_
-_》Id : ${sender.replace("@s.whatsapp.net", "")}_
+├ Saldo User : ${getMonUser(sender)}_
+├ Name : ${pushname}_
+├ Id : ${sender.replace("@s.whatsapp.net", "")}_
 
+Note: Jika Undefined Artinya Saldo Kamu Rp0
 Saldo Hanya Bisa Untuk Topup Saja, Tidak Bisa Ditarik!.`
 const listMessage = {
   text: isian,
-  footer: "Powered By @Radithstore",
-  title: "━━[ List Topup RzBot ]━━",
+  footer: "Powered By CekilXD",
+  title: "━━[ List Topup CekilBOT ]━━",
   buttonText: "Klik Disini",
   sections
 }
@@ -1755,17 +1939,84 @@ break
 case prefix+'listdmff':
 lisnya = `*── 「 DIAMOND FREE FIRE 」 ──*
 
-_》${list.ff.UPFF5.nama} : ${list.ff.UPFF5.harga}_
-_》${list.ff.UPFF12.nama} : ${list.ff.UPFF12.harga}_
-_》${list.ff.UPFF50.nama} : ${list.ff.UPFF50.harga}_
-_》${list.ff.UPFF70.nama} : ${list.ff.UPFF70.harga}_
-_》${list.ff.UPFF140.nama} : ${list.ff.UPFF140.harga}_
-_》${list.ff.UPFF355.nama} : ${list.ff.UPFF355.harga}_
-_》${list.ff.UPFF720.nama} : ${list.ff.UPFF720.harga}_
-_》${list.ff.UPFF1450.nama} : ${list.ff.UPFF1450.harga}_
-_》${list.ff.UPFF2180.nama} : ${list.ff.UPFF2180.harga}_
-_》${list.ff.UPFF3640.nama} : ${list.ff.UPFF3640.harga}_
-_》${list.ff.UPFF7290.nama} : ${list.ff.UPFF7290.harga}_
+├ ${list.ff.FF5.nama} : ${list.ff.FF5.harga}_
+├ ${list.ff.FF10.nama} : ${list.ff.FF10.harga}_
+├ ${list.ff.FF15.nama} : ${list.ff.FF15.harga}_
+├ ${list.ff.FF20.nama} : ${list.ff.FF20.harga}_
+├ ${list.ff.FF25.nama} : ${list.ff.FF25.harga}_
+├ ${list.ff.FF30.nama} : ${list.ff.FF30.harga}_
+├ ${list.ff.FF40.nama} : ${list.ff.FF40.harga}_
+├ ${list.ff.FF50.nama} : ${list.ff.FF50.harga}_
+├ ${list.ff.FF55.nama} : ${list.ff.FF55.harga}_
+├ ${list.ff.FF60.nama} : ${list.ff.FF60.harga}_
+├ ${list.ff.FF70.nama} : ${list.ff.FF70.harga}_
+├ ${list.ff.FF75.nama} : ${list.ff.FF75.harga}_
+├ ${list.ff.FF80.nama} : ${list.ff.FF80.harga}_
+├ ${list.ff.FF90.nama} : ${list.ff.FF90.harga}_
+├ ${list.ff.FF95.nama} : ${list.ff.FF95.harga}_
+├ ${list.ff.FF100.nama} : ${list.ff.FF100.harga}_
+├ ${list.ff.FF120.nama} : ${list.ff.FF120.harga}_
+├ ${list.ff.FF130.nama} : ${list.ff.FF130.harga}_
+├ ${list.ff.FF140.nama} : ${list.ff.FF140.harga}_
+├ ${list.ff.FF145.nama} : ${list.ff.FF145.harga}_
+├ ${list.ff.FF150.nama} : ${list.ff.FF150.harga}_
+├ ${list.ff.FF160.nama} : ${list.ff.FF160.harga}_
+├ ${list.ff.FF180.nama} : ${list.ff.FF180.harga}_
+├ ${list.ff.FF190.nama} : ${list.ff.FF190.harga}_
+├ ${list.ff.FF200.nama} : ${list.ff.FF200.harga}_
+├ ${list.ff.FF210.nama} : ${list.ff.FF210.harga}_
+├ ${list.ff.FFM.nama} : ${list.ff.FFM.harga}_
+├ ${list.ff.FF250.nama} : ${list.ff.FF250.harga}_
+├ ${list.ff.FF280.nama} : ${list.ff.FF280.harga}_
+├ ${list.ff.FF300.nama} : ${list.ff.FF300.harga}_
+├ ${list.ff.FF355.nama} : ${list.ff.FF355.harga}_
+├ ${list.ff.FF350.nama} : ${list.ff.FF350.harga}_
+├ ${list.ff.FF375.nama} : ${list.ff.FF375.harga}_
+├ ${list.ff.FF400.nama} : ${list.ff.FF400.harga}_
+├ ${list.ff.FF405.nama} : ${list.ff.FF405.harga}_
+├ ${list.ff.FF425.nama} : ${list.ff.FF425.harga}_
+├ ${list.ff.FF475.nama} : ${list.ff.FF475.harga}_
+├ ${list.ff.FF500.nama} : ${list.ff.FF500.harga}_
+├ ${list.ff.FF510.nama} : ${list.ff.FF510.harga}_
+├ ${list.ff.FF515.nama} : ${list.ff.FF515.harga}_
+├ ${list.ff.FF512.nama} : ${list.ff.FF512.harga}_
+├ ${list.ff.FF545.nama} : ${list.ff.FF545.harga}_
+├ ${list.ff.FF565.nama} : ${list.ff.FF565.harga}_
+├ ${list.ff.FF600.nama} : ${list.ff.FF600.harga}_
+├ ${list.ff.FF635.nama} : ${list.ff.FF635.harga}_
+├ ${list.ff.FF645.nama} : ${list.ff.FF645.harga}_
+├ ${list.ff.FF655.nama} : ${list.ff.FF655.harga}_
+├ ${list.ff.FF720.nama} : ${list.ff.FF720.harga}_
+├ ${list.ff.FF700.nama} : ${list.ff.FF700.harga}_
+├ ${list.ff.FF770.nama} : ${list.ff.FF770.harga}_
+├ ${list.ff.FF790.nama} : ${list.ff.FF790.harga}_
+├ ${list.ff.FF800.nama} : ${list.ff.FF800.harga}_
+├ ${list.ff.FF860.nama} : ${list.ff.FF860.harga}_
+├ ${list.ff.FF930.nama} : ${list.ff.FF930.harga}_
+├ ${list.ff.FF1000.nama} : ${list.ff.FF1000.harga}_
+├ ${list.ff.FF1050.nama} : ${list.ff.FF1050.harga}_
+├ ${list.ff.FF1075.nama} : ${list.ff.FF1075.harga}_
+├ ${list.ff.FF1080.nama} : ${list.ff.FF1080.harga}_
+├ ${list.ff.FFB.nama} : ${list.ff.FFB.harga}_
+├ ${list.ff.FF1200.nama} : ${list.ff.FF1200.harga}_
+├ ${list.ff.FF1215.nama} : ${list.ff.FF1215.harga}_
+├ ${list.ff.FF1300.nama} : ${list.ff.FF1300.harga}_
+├ ${list.ff.FF1440.nama} : ${list.ff.FF1440.harga}_
+├ ${list.ff.FF1450.nama} : ${list.ff.FF1450.harga}_
+├ ${list.ff.FF1490.nama} : ${list.ff.FF1490.harga}_
+├ ${list.ff.FF1510.nama} : ${list.ff.FF1510.harga}_
+├ ${list.ff.FF1580.nama} : ${list.ff.FF1580.harga}_
+├ ${list.ff.FF1795.nama} : ${list.ff.FF1795.harga}_
+├ ${list.ff.FF1800.nama} : ${list.ff.FF1800.harga}_
+├ ${list.ff.FF2000.nama} : ${list.ff.FF2000.harga}_
+├ ${list.ff.FF2140.nama} : ${list.ff.FF2140.harga}_
+├ ${list.ff.FF2190.nama} : ${list.ff.FF2190.harga}_
+├ ${list.ff.FF2210.nama} : ${list.ff.FF2210.harga}_
+├ ${list.ff.FF2280.nama} : ${list.ff.FF2280.harga}_
+├ ${list.ff.FF2355.nama} : ${list.ff.FF2355.harga}_
+├ ${list.ff.FF2720.nama} : ${list.ff.FF2720.harga}_
+├ ${list.ff.FF4000.nama} : ${list.ff.FF4000.harga}_
+├ ${list.ff.FF77290.nama} : ${list.ff.FF77290.harga}_
 
 Cara Pembelian:
 ${prefix}topupff ID|JUMLAH DIAMOND
@@ -1776,34 +2027,57 @@ NOTE: Pembelian Akan Diproses Oleh Sistem Otomatis Jika Saldo User Anda Terisi D
 reply(lisnya)
 break
 case prefix+'listdmml':
-lisya = `*── 「 DIAMOND MOBILE LEGENDS 」 ──*
+lisya = `SISTEM MAINTENANCE!!
 
-_》${listml.ml.UPMBL5.nama} : ${listml.ml.UPMBL5.harga}_
-_》${listml.ml.UPMBL12.nama} : ${listml.ml.UPMBL12.harga}_
-_》${listml.ml.UPMBL19.nama} : ${listml.ml.UPMBL19.harga}_
-_》${listml.ml.UPMBL28.nama} : ${listml.ml.UPMBL28.harga}_
-_》${listml.ml.UPMBL36.nama} : ${listml.ml.UPMBL36.harga}_
-_》${listml.ml.UPMBL44.nama} : ${listml.ml.UPMBL44.harga}_
-_》${listml.ml.UPMBL59.nama} : ${listml.ml.UPMBL59.harga}_
-_》${listml.ml.UPMBL74.nama} : ${listml.ml.UPMBL74.harga}_
-_》${listml.ml.UPMBL85.nama} : ${listml.ml.UPMBL85.harga}_
-_》${listml.ml.UPMBL170.nama} : ${listml.ml.UPMBL170.harga}_
-_》${listml.ml.UPMBL185.nama} : ${listml.ml.UPMBL185.harga}_
-_》${listml.ml.UPMBL222.nama} : ${listml.ml.UPMBL222.harga}_
-_》${listml.ml.UPMBL240.nama} : ${listml.ml.UPMBL240.harga}_
-_》${listml.ml.UPMBL296.nama} : ${listml.ml.UPMBL296.harga}_
-_》${listml.ml.UPMBL370.nama} : ${listml.ml.UPMBL370.harga}_
-_》${listml.ml.UPMBL408.nama} : ${listml.ml.UPMBL408.harga}_
-_》${listml.ml.UPMBL568.nama} : ${listml.ml.UPMBL568.harga}_
-_》${listml.ml.UPMBL875.nama} : ${listml.ml.UPMBL875.harga}_
-_》${listml.ml.UPMBL1159.nama} : ${listml.ml.UPMBL1159.harga}_
-_》${listml.ml.UPMBL2010.nama} : ${listml.ml.UPMBL2010.harga}_
-_》${listml.ml.UPMBL4830.nama} : ${listml.ml.UPMBL4830.harga}_
+*── 「 DIAMOND MOBILE LEGENDS 」 ──*
+
+├ ${listml.ml.UPMBL5.nama} : ${listml.ml.UPMBL5.harga}_
+├ ${listml.ml.UPMBL12.nama} : ${listml.ml.UPMBL12.harga}_
+├ ${listml.ml.UPMBL19.nama} : ${listml.ml.UPMBL19.harga}_
+├ ${listml.ml.UPMBL28.nama} : ${listml.ml.UPMBL28.harga}_
+├ ${listml.ml.UPMBL36.nama} : ${listml.ml.UPMBL36.harga}_
+├ ${listml.ml.UPMBL44.nama} : ${listml.ml.UPMBL44.harga}_
+├ ${listml.ml.UPMBL59.nama} : ${listml.ml.UPMBL59.harga}_
+├ ${listml.ml.UPMBL74.nama} : ${listml.ml.UPMBL74.harga}_
+├ ${listml.ml.UPMBL85.nama} : ${listml.ml.UPMBL85.harga}_
+├ ${listml.ml.UPMBL170.nama} : ${listml.ml.UPMBL170.harga}_
+├ ${listml.ml.UPMBL185.nama} : ${listml.ml.UPMBL185.harga}_
+├ ${listml.ml.UPMBL222.nama} : ${listml.ml.UPMBL222.harga}_
+├ ${listml.ml.UPMBL240.nama} : ${listml.ml.UPMBL240.harga}_
+├ ${listml.ml.UPMBL296.nama} : ${listml.ml.UPMBL296.harga}_
+├ ${listml.ml.UPMBL370.nama} : ${listml.ml.UPMBL370.harga}_
+├ ${listml.ml.UPMBL408.nama} : ${listml.ml.UPMBL408.harga}_
+├ ${listml.ml.UPMBL568.nama} : ${listml.ml.UPMBL568.harga}_
+├ ${listml.ml.UPMBL875.nama} : ${listml.ml.UPMBL875.harga}_
+├ ${listml.ml.UPMBL1159.nama} : ${listml.ml.UPMBL1159.harga}_
+├ ${listml.ml.UPMBL2010.nama} : ${listml.ml.UPMBL2010.harga}_
+├ ${listml.ml.UPMBL4830.nama} : ${listml.ml.UPMBL4830.harga}_
 
 Cara Pembelian:
 ${prefix}topupml ID|SERVER|JUMLAH DIAMOND
 Contoh:
 ${prefix}topupml 123456789|1450|74
+
+NOTE: Pembelian Akan Diproses Oleh Sistem Otomatis Jika Saldo User Anda Terisi Dan Diamond Yang Anda Beli Akan Segera Masuk 3-5 Menit Proses.`
+reply(lisya)
+break
+case prefix+'listdmml2':
+lisya = `*── 「 DIAMOND MOBILE LEGENDS 」 ──*
+
+├ ${listmlbb.ml.ZIDMBL17.nama} : ${listmlbb.ml.ZIDMBL17.harga}_
+├ ${listmlbb.ml.ZIDMBL34.nama} : ${listmlbb.ml.ZIDMBL34.harga}_
+├ ${listmlbb.ml.ZIDMBL50.nama} : ${listmlbb.ml.ZIDMBL50.harga}_
+├ ${listmlbb.ml.ZIDMBL66.nama} : ${listmlbb.ml.ZIDMBL66.harga}_
+├ ${listmlbb.ml.ZIDMBL74.nama} : ${listmlbb.ml.ZIDMBL74.harga}_
+├ ${listmlbb.ml.ZIDMBL83.nama} : ${listmlbb.ml.ZIDMBL83.harga}_
+├ ${listmlbb.ml.ZIDMBL184.nama} : ${listmlbb.ml.ZIDMBL184.harga}_
+├ ${listmlbb.ml.ZIDMBL366.nama} : ${listmlbb.ml.ZIDMBL366.harga}_
+├ ${listmlbb.ml.ZIDMBL758.nama} : ${listmlbb.ml.ZIDMBL758.harga}_
+
+Cara Pembelian:
+${prefix}topupml2 ID|SERVER|JUMLAH DIAMOND
+Contoh:
+${prefix}topupml2 123456789|1450|85
 
 NOTE: Pembelian Akan Diproses Oleh Sistem Otomatis Jika Saldo User Anda Terisi Dan Diamond Yang Anda Beli Akan Segera Masuk 3-5 Menit Proses.`
 reply(lisya)
@@ -1814,39 +2088,241 @@ let idff = text.split("|")[0]
 let produkid = text.split("|")[1]
 if (isNaN(parseInt(idff))) return reply('Id Harus Berupa Angka!')
 if (isNaN(parseInt(produkid))) return reply('Jumlah Harus Berupa Angka!')
-let idharga = `UPFF${produkid}`
-if (idharga == "UPFF5"){
-global.hargadmff = 1261
+let idharga = `FF${produkid}`
+if (idharga == "FF5"){
+global.hargadmff = 900
 }
-if (idharga == "UPFF12"){
-global.hargadmff = 2523
+if (idharga == "FF10"){
+global.hargadmff = 1800
 }
-if (idharga == "UPFF50"){
-global.hargadmff = 8500
+if (idharga == "FF15"){
+global.hargadmff = 2700
 }
-if (idharga == "UPFF70"){
-global.hargadmff = 11000
+if (idharga == "FF20"){
+global.hargadmff = 3000
 }
-if (idharga == "UPFF140"){
-global.hargadmff = 21000
+if (idharga == "FF25"){
+global.hargadmff = 3900
 }
-if (idharga == "UPFF355"){
-global.hargadmff = 51500
+if (idharga == "FF30"){
+global.hargadmff = 4800
 }
-if (idharga == "UPFF720"){
-global.hargadmff = 105000
+if (idharga == "FF40"){
+global.hargadmff = 6000
 }
-if (idharga == "UPFF1450"){
-global.hargadmff = 210000
+if (idharga == "FF50"){
+global.hargadmff = 7200
 }
-if (idharga == "UPFF2180"){
-global.hargadmff = 315000
+if (idharga == "FF55"){
+global.hargadmff = 8100
 }
-if (idharga == "UPFF3640"){
-global.hargadmff = 525000
+if (idharga == "FF60"){
+global.hargadmff = 9000
 }
-if (idharga == "UPFF7290"){
-global.hargadmff = 1050000
+if (idharga == "FF70"){
+global.hargadmff = 9900
+}
+if (idharga == "FF75"){
+global.hargadmff = 10800
+}
+if (idharga == "FF80"){	
+global.hargadmff =11700
+}
+if (idharga == "FF90"){	
+global.hargadmff =12900
+}
+if (idharga == "FF95"){	
+global.hargadmff =13800
+}	
+if (idharga == "FF100"){	
+global.hargadmff = 14400
+}
+if (idharga == "FF120"){	
+global.hargadmff =17100
+}
+if (idharga == "FF130"){	
+global.hargadmff =18900
+}
+if (idharga == "FF140"){	
+global.hargadmff =19800
+}	
+if (idharga == "FF145"){	
+global.hargadmff =20700
+}
+if (idharga == "FF150"){	
+global.hargadmff =21600
+}
+if (idharga == "FF160"){	
+global.hargadmff =22800
+}
+if (idharga == "FF180"){	
+global.hargadmff =25800
+}
+if (idharga == "FF190"){	
+global.hargadmff =27000
+}
+if (idharga == "FF200"){	
+global.hargadmff =28800
+}
+if (idharga == "FF210"){	
+global.hargadmff =29700
+}
+if (idharga == "FFM"){
+global.hargadmff =30000
+}
+if (idharga == "FF250"){	
+global.hargadmff =35700
+}
+if (idharga == "FF280"){	
+global.hargadmff =39600
+}
+if (idharga == "FF300"){	
+global.hargadmff =42600
+}
+if (idharga == "FF355"){	
+global.hargadmff =49900
+}
+if (idharga == "FF350"){	
+global.hargadmff =49500
+}
+if (idharga == "FF375"){	
+global.hargadmff =52500
+}
+if (idharga == "FF400"){	
+global.hargadmff =56400
+}
+if (idharga == "FF405"){	
+global.hargadmff =56700
+}
+if (idharga == "FF425"){	
+global.hargadmff =59400
+}
+if (idharga == "FF475"){	
+global.hargadmff =66600
+}
+if (idharga == "FF500"){	
+global.hargadmff =70200
+}
+if (idharga == "FF510"){	
+global.hargadmff = 72000
+}
+if (idharga == "FF515"){	
+global.hargadmff = 72300
+}
+
+if (idharga == "FF512"){
+global.hargadmff =72300
+}
+if (idharga == "FF545"){	
+global.hargadmff =76500
+}
+if (idharga == "FF565"){	
+global.hargadmff =79200
+}	
+if (idharga == "FF600"){	
+global.hargadmff =84600
+}
+if (idharga == "FF635"){	
+global.hargadmff = 89100
+}
+if (idharga == "FF645"){	
+global.hargadmff =90900
+}
+if (idharga == "FF655"){	
+global.hargadmff =92100
+}
+if (idharga == "FF720"){	
+global.hargadmff = 99000
+}
+if (idharga == "FF700"){	
+global.hargadmff =99000
+}
+if (idharga == "FF770"){	
+global.hargadmff =106200
+}	
+if (idharga == "FF790"){	
+global.hargadmff = 108900
+}
+if (idharga == "FF800"){	
+global.hargadmff = 110700
+}
+if (idharga == "FF860"){	
+global.hargadmff = 118800
+}
+if (idharga == "FF930"){	
+global.hargadmff =128700
+}
+if (idharga == "FF1000"){	
+global.hargadmff =138600
+}	
+if (idharga == "FF1050"){	
+global.hargadmff =145800
+}
+if (idharga == "FF1075"){	
+global.hargadmff =148500
+}
+if (idharga == "FF1080"){	
+global.hargadmff =149400
+}
+if (idharga == "FFB"){
+global.hargadmff =150000
+}
+if (idharga == "FF1200"){	
+global.hargadmff =166800
+}
+if (idharga == "FF1215"){	
+global.hargadmff =16830
+}
+if (idharga == "FF1300"){	
+global.hargadmff =180900
+}
+if (idharga == "FF1440"){	
+global.hargadmff =198000
+}
+if (idharga == "FF1450"){	
+global.hargadmff =199800
+}
+if (idharga == "FF1490"){	
+global.hargadmff =205200
+}
+if (idharga == "FF1510"){	
+global.hargadmff =207900
+}
+if (idharga == "FF1580"){	
+global.hargadmff =217800
+}
+if (idharga == "FF1795"){	
+global.hargadmff =247500
+}
+if (idharga == "FF1800"){	
+global.hargadmff = 248400
+}
+if (idharga == "FF2000"){	
+global.hargadmff =270000
+}
+if (idharga == "FF2140"){	
+global.hargadmff = 289800
+}
+if (idharga == "FF2190"){	
+global.hargadmff = 297000
+}
+if (idharga == "FF2210"){	
+global.hargadmff = 299700
+}
+if (idharga == "FF2280"){	
+global.hargadmff = 309600
+}
+if (idharga == "FF2355"){	
+global.hargadmff = 319500
+}
+if (idharga == "FF2720"){	
+global.hargadmff = 369000
+}
+if (idharga == "FF4000"){
+global.hargadmff = 540000
+}
+if (idharga == "FF77290"){
+global.hargadmff = 990000
 }
 if (getMonUser(sender) < global.hargadmff) {
  reply('Saldo User Anda Kurang!. Silahkan Melakukan Deposit Terlebih Dahulu')
@@ -1855,7 +2331,7 @@ var axios = require('axios');
 
 var config = {
   method: 'get',
-  url: `https://v1.apigames.id/merchant/M220520RYKU6494XN/cek-username/freefire?user_id=${idff}&signature=9f6bc94244bbc61cef8a3531947d7c10`,
+  url: `https://v1.apigames.id/merchant/${global.merchant}/cek-username/freefire?user_id=${idff}&signature=${global.signature}`,
   headers: { }
 };
 
@@ -1870,9 +2346,9 @@ reply('Invalid Id')
 Manik.sendButtonText(m.chat, buttons, `*── 「 CHECK ID OTOMATIS 」 ──*
                 
 _Silahkan Cek Data Berikut Ini:_
-_》Id Game : ${idff}_
-_》NickName : ${response.data.data.username}_
-_》Nama Item : ${produkid} Diamond ( FreeFire )_
+├ Id Game : ${idff}_
+├ NickName : ${response.data.data.username}_
+├ Nama Item : ${produkid} Diamond ( FreeFire )_
 
 Jika Data Sudah Benar Silahkan Klik Lanjutkan Dan Jika Data Salah Silahkan Mengetik Ulang Transaksi Anda!.`, Manik.user.name, m)
 } 
@@ -1889,97 +2365,568 @@ let idff = text.split("|")[0]
 let produkid = text.split("|")[1]
 let refdi = randomNomor(001, 1000)
 let refid = `${refdi}`
-let idharga = `UPFF${produkid}`
+let idharga = `FF${produkid}`
 var axios = require('axios');
 var config = {
   method: 'get',
-  url: `https://v1.apigames.id/transaksi/http-get-v1?merchant=M220520RYKU6494XN&secret=42daa44256e27383eef66ee653b4fd31c15a2a522019784317725795e965f702&produk=UPF${produkid}&tujuan=${idff}&ref=TRX${refid}`,
+  url: `https://v1.apigames.id/transaksi/http-get-v1?merchant=${global.merchant}&secret=${global.secret}&produk=FF${produkid}&tujuan=${idff}&ref=TRX${refid}`,
   headers: { }
 };
 
 axios(config)
 .then(function (response) {
-let idharga = `UPFF${produkid}`
-if (idharga == "UPFF5"){
-global.hargadmff = 1261
+let idharga = `FF${produkid}`
+if (idharga == "FF5"){
+global.hargadmff = 900
 }
-if (idharga == "UPFF12"){
-global.hargadmff = 2523
+if (idharga == "FF10"){
+global.hargadmff = 1800
 }
-if (idharga == "UPFF50"){
-global.hargadmff = 8500
+if (idharga == "FF15"){
+global.hargadmff = 2700
 }
-if (idharga == "UPFF70"){
-global.hargadmff = 11000
+if (idharga == "FF20"){
+global.hargadmff = 3000
 }
-if (idharga == "UPFF140"){
-global.hargadmff = 21000
+if (idharga == "FF25"){
+global.hargadmff = 3900
 }
-if (idharga == "UPFF355"){
-global.hargadmff = 51500
+if (idharga == "FF30"){
+global.hargadmff = 4800
 }
-if (idharga == "UPFF720"){
-global.hargadmff = 105000
+if (idharga == "FF40"){
+global.hargadmff = 6000
 }
-if (idharga == "UPFF1450"){
-global.hargadmff = 210000
+if (idharga == "FF50"){
+global.hargadmff = 7200
 }
-if (idharga == "UPFF2180"){
-global.hargadmff = 315000
+if (idharga == "FF55"){
+global.hargadmff = 8100
 }
-if (idharga == "UPFF3640"){
-global.hargadmff = 525000
+if (idharga == "FF60"){
+global.hargadmff = 9000
 }
-if (idharga == "UPFF7290"){
-global.hargadmff = 1050000
+if (idharga == "FF70"){
+global.hargadmff = 9900
 }
-let workid = `*── 「 TOPUP SUKSES 」 ──*\n\n_》Harga : Rp${global.hargadmff}_\n_》NickName : ${response.data.data.sn}_\n_》Nama Item : ${produkid} Diamond ( FreeFire )_\n_》Trx Id : ${response.data.data.trx_id}_\n\n_Item Akan Segera Masuk Secara Otomatis Silahkan Melakukan Pengecekan Secara Berkala Pada Game Anda.\n\nNote: Jika Ada Kesalahan Id Atau NickName Bukan Tanggung Jawab Owner!.`
+if (idharga == "FF75"){
+global.hargadmff = 10800
+}
+if (idharga == "FF80"){	
+global.hargadmff =11700
+}
+if (idharga == "FF90"){	
+global.hargadmff =12900
+}
+if (idharga == "FF95"){	
+global.hargadmff =13800
+}	
+if (idharga == "FF100"){	
+global.hargadmff = 14400
+}
+if (idharga == "FF120"){	
+global.hargadmff =17100
+}
+if (idharga == "FF130"){	
+global.hargadmff =18900
+}
+if (idharga == "FF140"){	
+global.hargadmff =19800
+}	
+if (idharga == "FF145"){	
+global.hargadmff =20700
+}
+if (idharga == "FF150"){	
+global.hargadmff =21600
+}
+if (idharga == "FF160"){	
+global.hargadmff =22800
+}
+if (idharga == "FF180"){	
+global.hargadmff =25800
+}
+if (idharga == "FF190"){	
+global.hargadmff =27000
+}
+if (idharga == "FF200"){	
+global.hargadmff =28800
+}
+if (idharga == "FF210"){	
+global.hargadmff =29700
+}
+if (idharga == "FFM"){
+global.hargadmff =30000
+}
+if (idharga == "FF250"){	
+global.hargadmff =35700
+}
+if (idharga == "FF280"){	
+global.hargadmff =39600
+}
+if (idharga == "FF300"){	
+global.hargadmff =42600
+}
+if (idharga == "FF355"){	
+global.hargadmff =49900
+}
+if (idharga == "FF350"){	
+global.hargadmff =49500
+}
+if (idharga == "FF375"){	
+global.hargadmff =52500
+}
+if (idharga == "FF400"){	
+global.hargadmff =56400
+}
+if (idharga == "FF405"){	
+global.hargadmff =56700
+}
+if (idharga == "FF425"){	
+global.hargadmff =59400
+}
+if (idharga == "FF475"){	
+global.hargadmff =66600
+}
+if (idharga == "FF500"){	
+global.hargadmff =70200
+}
+if (idharga == "FF510"){	
+global.hargadmff = 72000
+}
+if (idharga == "FF515"){	
+global.hargadmff = 72300
+}
+
+if (idharga == "FF512"){
+global.hargadmff =72300
+}
+if (idharga == "FF545"){	
+global.hargadmff =76500
+}
+if (idharga == "FF565"){	
+global.hargadmff =79200
+}	
+if (idharga == "FF600"){	
+global.hargadmff =84600
+}
+if (idharga == "FF635"){	
+global.hargadmff = 89100
+}
+if (idharga == "FF645"){	
+global.hargadmff =90900
+}
+if (idharga == "FF655"){	
+global.hargadmff =92100
+}
+if (idharga == "FF720"){	
+global.hargadmff = 99000
+}
+if (idharga == "FF700"){	
+global.hargadmff =99000
+}
+if (idharga == "FF770"){	
+global.hargadmff =106200
+}	
+if (idharga == "FF790"){	
+global.hargadmff = 108900
+}
+if (idharga == "FF800"){	
+global.hargadmff = 110700
+}
+if (idharga == "FF860"){	
+global.hargadmff = 118800
+}
+if (idharga == "FF930"){	
+global.hargadmff =128700
+}
+if (idharga == "FF1000"){	
+global.hargadmff =138600
+}	
+if (idharga == "FF1050"){	
+global.hargadmff =145800
+}
+if (idharga == "FF1075"){	
+global.hargadmff =148500
+}
+if (idharga == "FF1080"){	
+global.hargadmff =149400
+}
+if (idharga == "FFB"){
+global.hargadmff =150000
+}
+if (idharga == "FF1200"){	
+global.hargadmff =166800
+}
+if (idharga == "FF1215"){	
+global.hargadmff =16830
+}
+if (idharga == "FF1300"){	
+global.hargadmff =180900
+}
+if (idharga == "FF1440"){	
+global.hargadmff =198000
+}
+if (idharga == "FF1450"){	
+global.hargadmff =199800
+}
+if (idharga == "FF1490"){	
+global.hargadmff =205200
+}
+if (idharga == "FF1510"){	
+global.hargadmff =207900
+}
+if (idharga == "FF1580"){	
+global.hargadmff =217800
+}
+if (idharga == "FF1795"){	
+global.hargadmff =247500
+}
+if (idharga == "FF1800"){	
+global.hargadmff = 248400
+}
+if (idharga == "FF2000"){	
+global.hargadmff =270000
+}
+if (idharga == "FF2140"){	
+global.hargadmff = 289800
+}
+if (idharga == "FF2190"){	
+global.hargadmff = 297000
+}
+if (idharga == "FF2210"){	
+global.hargadmff = 299700
+}
+if (idharga == "FF2280"){	
+global.hargadmff = 309600
+}
+if (idharga == "FF2355"){	
+global.hargadmff = 319500
+}
+if (idharga == "FF2720"){	
+global.hargadmff = 369000
+}
+if (idharga == "FF4000"){
+global.hargadmff = 540000
+}
+if (idharga == "FF77290"){
+global.hargadmff = 990000
+}
+let workid = `*── 「 TOPUP SUKSES 」 ──*\n\n├ Harga : Rp${global.hargadmff}_\n├ NickName : ${response.data.data.sn}_\n├ Nama Item : ${produkid} Diamond ( FreeFire )_\n├ Trx Id : ${response.data.data.trx_id}_\n\n_Item Akan Segera Masuk Secara Otomatis Silahkan Melakukan Pengecekan Secara Berkala Pada Game Anda.\n\nNote: Jika Ada Kesalahan Id Atau NickName Bukan Tanggung Jawab Owner!.`
 let workd = `*── 「 TOPUP GAGAL 」 ──*
 
 Transaksi Anda Gagal, Saldo Sistem Belum terisi Saldo User Anda Tidak Akan Dipotong, Harap Tumggu Saldo Sistem Reset Setiap 6 Jam Sekali!.`
 if(response.data.data.status == "Sukses"){
-if (idharga == "UPFF5"){
-moneyAdd(m.sender, 1261)
+if (idharga == "FF5"){
+moneyAdd(m.sender, 900)
 reply(workid)
 }
-if (idharga == "UPFF12"){
-moneyAdd(m.sender, 2523)
+if (idharga == "FF10"){
+moneyAdd(m.sender, 1800)
 reply(workid)
 }
-if (idharga == "UPFF50"){
-moneyAdd(m.sender, 8500)
+if (idharga == "FF15"){
+moneyAdd(m.sender, 2700)
 reply(workid)
 }
-if (idharga == "UPFF70"){
-moneyAdd(m.sender, 11000)
+if (idharga == "FF20"){
+moneyAdd(m.sender, 3000)
 reply(workid)
 }
-if (idharga == "UPFF140"){
-moneyAdd(m.sender, 21000)
+if (idharga == "FF25"){
+moneyAdd(m.sender, 3900)
 reply(workid)
 }
-if (idharga == "UPFF355"){
-moneyAdd(m.sender, 51500)
+if (idharga == "FF30"){
+moneyAdd(m.sender, 4800)
 reply(workid)
 }
-if (idharga == "UPFF720"){
-moneyAdd(m.sender, 105000)
+if (idharga == "FF40"){
+moneyAdd(m.sender, 6000)
 reply(workid)
 }
-if (idharga == "UPFF1450"){
-moneyAdd(m.sender, 210000)
+if (idharga == "FF50"){
+moneyAdd(m.sender, 7200)
 reply(workid)
 }
-if (idharga == "UPFF2180"){
-moneyAdd(m.sender, 315000)
+if (idharga == "FF55"){
+moneyAdd(m.sender, 8100)
 reply(workid)
 }
-if (idharga == "UPFF3640"){
-moneyAdd(m.sender, 525000)
+if (idharga == "FF60"){
+moneyAdd(m.sender, 9000)
 reply(workid)
 }
-if (idharga == "UPFF7290"){
-moneyAdd(m.sender, 1050000)
+if (idharga == "FF70"){
+moneyAdd(m.sender, 9900)
+reply(workid)
+}
+if (idharga == "FF75"){
+moneyAdd(m.sender, 10800)
+reply(workid)
+}
+if (idharga == "FF80"){	
+moneyAdd(m.sender,11700)
+reply(workid)
+}
+if (idharga == "FF90"){	
+moneyAdd(m.sender,12900)
+reply(workid)
+}
+if (idharga == "FF95"){	
+moneyAdd(m.sender,13800)
+reply(workid)
+}	
+if (idharga == "FF100"){	
+moneyAdd(m.sender, 14400)
+reply(workid)
+}
+if (idharga == "FF120"){	
+moneyAdd(m.sender,17100)
+reply(workid)
+}
+if (idharga == "FF130"){	
+moneyAdd(m.sender,18900)
+reply(workid)
+}
+if (idharga == "FF140"){	
+moneyAdd(m.sender,19800)
+reply(workid)
+}	
+if (idharga == "FF145"){	
+moneyAdd(m.sender,20700)
+reply(workid)
+}
+if (idharga == "FF150"){	
+moneyAdd(m.sender,21600)
+reply(workid)
+}
+if (idharga == "FF160"){	
+moneyAdd(m.sender,22800)
+reply(workid)
+}
+if (idharga == "FF180"){	
+moneyAdd(m.sender,25800)
+reply(workid)
+}
+if (idharga == "FF190"){	
+moneyAdd(m.sender,27000)
+reply(workid)
+}
+if (idharga == "FF200"){	
+moneyAdd(m.sender,28800)
+reply(workid)
+}
+if (idharga == "FF210"){	
+moneyAdd(m.sender,29700)
+reply(workid)
+}
+if (idharga == "FFM"){
+moneyAdd(m.sender,30000)
+reply(workid)
+}
+if (idharga == "FF250"){	
+moneyAdd(m.sender,35700)
+reply(workid)
+}
+if (idharga == "FF280"){	
+moneyAdd(m.sender,39600)
+reply(workid)
+}
+if (idharga == "FF300"){	
+moneyAdd(m.sender,42600)
+reply(workid)
+}
+if (idharga == "FF355"){	
+moneyAdd(m.sender,49900)
+reply(workid)
+}
+if (idharga == "FF350"){	
+moneyAdd(m.sender,49500)
+reply(workid)
+}
+if (idharga == "FF375"){	
+moneyAdd(m.sender,52500)
+reply(workid)
+}
+if (idharga == "FF400"){	
+moneyAdd(m.sender,56400)
+reply(workid)
+}
+if (idharga == "FF405"){	
+moneyAdd(m.sender,56700)
+reply(workid)
+}
+if (idharga == "FF425"){	
+moneyAdd(m.sender,59400)
+reply(workid)
+}
+if (idharga == "FF475"){	
+moneyAdd(m.sender,66600)
+reply(workid)
+}
+if (idharga == "FF500"){	
+moneyAdd(m.sender,70200)
+reply(workid)
+}
+if (idharga == "FF510"){	
+moneyAdd(m.sender, 72000)
+reply(workid)
+}
+if (idharga == "FF515"){	
+moneyAdd(m.sender, 72300)
+reply(workid)
+}
+
+if (idharga == "FF512"){
+moneyAdd(m.sender,72300)
+reply(workid)
+}
+if (idharga == "FF545"){	
+moneyAdd(m.sender,76500)
+reply(workid)
+}
+if (idharga == "FF565"){	
+moneyAdd(m.sender,79200)
+reply(workid)
+}	
+if (idharga == "FF600"){	
+moneyAdd(m.sender,84600)
+reply(workid)
+}
+if (idharga == "FF635"){	
+moneyAdd(m.sender, 89100)
+reply(workid)
+}
+if (idharga == "FF645"){	
+moneyAdd(m.sender,90900)
+reply(workid)
+}
+if (idharga == "FF655"){	
+moneyAdd(m.sender,92100)
+reply(workid)
+}
+if (idharga == "FF720"){	
+moneyAdd(m.sender, 99000)
+reply(workid)
+}
+if (idharga == "FF700"){	
+moneyAdd(m.sender,99000)
+reply(workid)
+}
+if (idharga == "FF770"){	
+moneyAdd(m.sender,106200)
+reply(workid)
+}	
+if (idharga == "FF790"){	
+moneyAdd(m.sender, 108900)
+reply(workid)
+}
+if (idharga == "FF800"){	
+moneyAdd(m.sender, 110700)
+reply(workid)
+}
+if (idharga == "FF860"){	
+moneyAdd(m.sender, 118800)
+reply(workid)
+}
+if (idharga == "FF930"){	
+moneyAdd(m.sender,128700)
+reply(workid)
+}
+if (idharga == "FF1000"){	
+moneyAdd(m.sender,138600)
+reply(workid)
+}	
+if (idharga == "FF1050"){	
+moneyAdd(m.sender,145800)
+reply(workid)
+}
+if (idharga == "FF1075"){	
+moneyAdd(m.sender,148500)
+reply(workid)
+}
+if (idharga == "FF1080"){	
+moneyAdd(m.sender,149400)
+reply(workid)
+}
+if (idharga == "FFB"){
+moneyAdd(m.sender,150000)
+reply(workid)
+}
+if (idharga == "FF1200"){	
+moneyAdd(m.sender,166800)
+reply(workid)
+}
+if (idharga == "FF1215"){	
+moneyAdd(m.sender,16830)
+reply(workid)
+}
+if (idharga == "FF1300"){	
+moneyAdd(m.sender,180900)
+reply(workid)
+}
+if (idharga == "FF1440"){	
+moneyAdd(m.sender,198000)
+reply(workid)
+}
+if (idharga == "FF1450"){	
+moneyAdd(m.sender,199800)
+reply(workid)
+}
+if (idharga == "FF1490"){	
+moneyAdd(m.sender,205200)
+reply(workid)
+}
+if (idharga == "FF1510"){	
+moneyAdd(m.sender,207900)
+reply(workid)
+}
+if (idharga == "FF1580"){	
+moneyAdd(m.sender,217800)
+reply(workid)
+}
+if (idharga == "FF1795"){	
+moneyAdd(m.sender,247500)
+reply(workid)
+}
+if (idharga == "FF1800"){	
+moneyAdd(m.sender, 248400)
+reply(workid)
+}
+if (idharga == "FF2000"){	
+moneyAdd(m.sender,270000)
+reply(workid)
+}
+if (idharga == "FF2140"){	
+moneyAdd(m.sender, 289800)
+reply(workid)
+}
+if (idharga == "FF2190"){	
+moneyAdd(m.sender, 297000)
+reply(workid)
+}
+if (idharga == "FF2210"){	
+moneyAdd(m.sender, 299700)
+reply(workid)
+}
+if (idharga == "FF2280"){	
+moneyAdd(m.sender, 309600)
+reply(workid)
+}
+if (idharga == "FF2355"){	
+moneyAdd(m.sender, 319500)
+reply(workid)
+}
+if (idharga == "FF2720"){	
+moneyAdd(m.sender, 369000)
+reply(workid)
+}
+if (idharga == "FF4000"){
+moneyAdd(m.sender, 540000)
+reply(workid)
+}
+if (idharga == "FF77290"){
+moneyAdd(m.sender, 990000)
 reply(workid)
 }
 } else if(response.data.data.status == "Gagal"){
@@ -2005,6 +2952,9 @@ global.hargadmml = 1700
 }
 if (idharga == "UPMBL12"){
 global.hargadmml = 4000
+}
+if (idharga == "ZIDMBL17"){
+global.hargadmml = 4500
 }
 if (idharga == "UPMBL19"){
 global.hargadmml = 7000
@@ -2069,7 +3019,7 @@ if (getMonUser(sender) < global.hargadmml) {
 var axios = require('axios');
 var config = {
   method: 'get',
-  url: `https://v1.apigames.id/merchant/M220520RYKU6494XN/cek-username/mobilelegend?user_id=${idml}&signature=9f6bc94244bbc61cef8a3531947d7c10`,
+  url: `https://v1.apigames.id/merchant/${global.merchant}/cek-username/mobilelegend?user_id=${idml}&signature=${global.signature}`,
   headers: { }
 };
 
@@ -2084,9 +3034,9 @@ reply('Invalid Id Or Zone')
 Manik.sendButtonText(m.chat, buttons, `*── 「 CHECK ID OTOMATIS 」 ──*
 
 _Silahkan Cek Data Berikut Ini:_
-_》Id Game : ${idml1} (${idml2})_
-_》NickName : ${response.data.data.username}_
-_》Nama Item : ${produkid} Diamond ( Mlbb )_
+├ Id Game : ${idml1} (${idml2})_
+├ NickName : ${response.data.data.username}_
+├ Nama Item : ${produkid} Diamond ( Mlbb )_
 
 Jika Data Sudah Benar Silahkan Klik Lanjutkan Dan Jika Data Salah Silahkan Mengetik Ulang Transaksi Anda!.`, Manik.user.name, m)
 } 
@@ -2102,14 +3052,14 @@ if (isGroup) return reply('Fitur Ini Hanya Bisa Digunakan Di Private Chat!')
 let idml1 = text.split("|")[0]
 let idml2 = text.split("|")[1]
 let idml =`${idml1}${idml2}`
-let produkid = text.split("|")[2]
+let produkid = `${upm}${text.split("|")[2]}`
 let refdi = randomNomor(001, 1000)
 let refid = `${refdi}`
 let idharga = `UPMBL${produkid}`
 var axios = require('axios');
 var config = {
   method: 'get',
-  url: `https://v1.apigames.id/transaksi/http-get-v1?merchant=M220520RYKU6494XN&secret=42daa44256e27383eef66ee653b4fd31c15a2a522019784317725795e965f702&produk=UPMBL${produkid}&tujuan=${idml}&ref=TRX${refid}`,
+  url: `https://v1.apigames.id/transaksi/http-get-v1?merchant=${global.merchant}&secret=${global.secret}&produk=${produkid}&tujuan=${idml}&ref=TRX${refid}`,
   headers: { }
 };
 
@@ -2120,6 +3070,9 @@ global.hargadmml = 1700
 }
 if (idharga == "UPMBL12"){
 global.hargadmml = 4000
+}
+if (idharga == "ZIDMBL17"){
+global.hargadmml = 4500
 }
 if (idharga == "UPMBL19"){
 global.hargadmml = 7000
@@ -2178,7 +3131,7 @@ global.hargadmml = 555.500
 if (idharga == "UPMBL4830"){
 global.hargadmml = 1322500
     }
-let workid = `*── 「 TOPUP SUKSES 」 ──*\n\n_》Harga : Rp${global.hargadmml}_\n_》NickName : ${response.data.data.sn}_\n_》Nama Item : ${produkid} Diamond ( Mlbb )_\n_》Trx Id : ${response.data.data.trx_id}_\n\n_Item Akan Segera Masuk Secara Otomatis Silahkan Melakukan Pengecekan Secara Berkala Pada Game Anda._\n\nNote: Jika Ada Kesalahan Id Atau NickName Bukan Tanggung Jawab Owner!.`
+let workid = `*── 「 TOPUP SUKSES 」 ──*\n\n├ Harga : Rp${global.hargadmml}_\n├ NickName : ${response.data.data.sn}_\n├ Nama Item : ${produkid} Diamond ( Mlbb )_\n├ Trx Id : ${response.data.data.trx_id}_\n\n_Item Akan Segera Masuk Secara Otomatis Silahkan Melakukan Pengecekan Secara Berkala Pada Game Anda._\n\nNote: Jika Ada Kesalahan Id Atau NickName Bukan Tanggung Jawab Owner!.`
 let workd = `*── 「 TOPUP GAGAL 」 ──*
 
 Transaksi Anda Gagal, Saldo Sistem Belum terisi Saldo User Anda Tidak Akan Dipotong, Harap Tumggu Saldo Sistem Reset Setiap 6 Jam Sekali!.`
@@ -2189,6 +3142,10 @@ reply(workid)
 }
 if (idharga == "UPMBL12"){
 moneyAdd(m.sender, 4000)
+reply(workid)
+}
+if (idharga == "ZIDMBL17"){
+moneyAdd(m.sender, 4500)
 reply(workid)
 }
 if (idharga == "UPMBL19"){
@@ -2273,34 +3230,195 @@ reply(workd)
 })
 break
 }
+case prefix+'topupml2':{
+if (isGroup) return reply('Fitur Ini Hanya Bisa Digunakan Di Private Chat!')
+let idml1 = text.split("|")[0]
+let idml2 = text.split("|")[1]
+let idml = `${idml1}${idml2}`
+let produkid = text.split("|")[2]
+if (isNaN(parseInt(produkid))) return reply('Jumlah Harus Berupa Angka!')
+if (isNaN(parseInt(idml1))) return reply('Id Harus Berupa Angka!')
+if (isNaN(parseInt(idml2))) return reply('Server Harus Berupa Angka!')
+let idharga = `ZIDMBL${produkid}`
+if (idharga == "ZIDMBL17"){
+global.hargadmml = 4500
+}
+if (idharga == "ZIDMBL34"){
+global.hargadmml = 9000
+}
+if (idharga == "ZIDMBL50"){
+global.hargadmml = 13500
+}
+if (idharga == "ZIDMBL66"){
+global.hargadmml = 18000
+}
+if (idharga == "ZIDMBL74"){
+global.hargadmml = 20000
+}
+if (idharga == "ZIDMBL83"){
+global.hargadmml = 22500
+    }
+if (idharga == "ZIDMBL184"){
+global.hargadmml = 50000
+    }
+if (idharga == "ZIDMBL366"){
+global.hargadmml = 100000
+    }
+if (idharga == "ZIDMBL758"){
+global.hargadmml = 200000
+    }
+if (getMonUser(sender) < global.hargadmml) {
+ reply('Saldo User Anda Kurang!. Silahkan Melakukan Deposit Terlebih Dahulu')
+ } else if(getMonUser(sender) > global.hargadmml) {
+var axios = require('axios');
+var config = {
+  method: 'get',
+  url: `https://v1.apigames.id/merchant/${global.merchant}/cek-username/mobilelegend?user_id=${idml}&signature=${global.signature}`,
+  headers: { }
+};
+
+axios(config)
+.then(function (response) {
+let buttons = [
+{ buttonId: prefix+`topupml2yes ${idml1}|${idml2}|${produkid}`, buttonText: { displayText: 'Lanjutkan' }, type: 1 },
+]
+if (response.data.error_msg) {
+reply('Invalid Id Or Zone')
+}else if (response.data.message) {
+Manik.sendButtonText(m.chat, buttons, `*── 「 CHECK ID OTOMATIS 」 ──*
+
+_Silahkan Cek Data Berikut Ini:_
+├ Id Game : ${idml1} (${idml2})_
+├ NickName : ${response.data.data.username}_
+├ Nama Item : ${produkid} Diamond ( Mlbb )_
+
+Jika Data Sudah Benar Silahkan Klik Lanjutkan Dan Jika Data Salah Silahkan Mengetik Ulang Transaksi Anda!.`, Manik.user.name, m)
+} 
+})
+.catch(function (error) {
+  reply(error);
+});
+}
+}
+break
+case prefix+'topupml2yes':{
+if (isGroup) return reply('Fitur Ini Hanya Bisa Digunakan Di Private Chat!')
+let idml1 = text.split("|")[0]
+let idml2 = text.split("|")[1]
+let idml =`${idml1}${idml2}`
+let produkid = `${text.split("|")[2]}`
+let refdi = randomNomor(001, 1000)
+let refid = `${refdi}`
+let idharga = `ZIDMBL${produkid}`
+var axios = require('axios');
+var config = {
+  method: 'get',
+  url: `https://v1.apigames.id/transaksi/http-get-v1?merchant=${global.merchant}&secret=${global.secret}&produk=${produkid}&tujuan=${idml}&ref=TRX${refid}`,
+  headers: { }
+};
+
+axios(config)
+.then(function (response) {
+if (idharga == "ZIDMBL17"){
+global.hargadmml = 4500
+}
+if (idharga == "ZIDMBL34"){
+global.hargadmml = 9000
+}
+if (idharga == "ZIDMBL50"){
+global.hargadmml = 13500
+}
+if (idharga == "ZIDMBL66"){
+global.hargadmml = 18000
+}
+if (idharga == "ZIDMBL74"){
+global.hargadmml = 20000
+}
+if (idharga == "ZIDMBL83"){
+global.hargadmml = 22500
+    }
+if (idharga == "ZIDMBL184"){
+global.hargadmml = 50000
+    }
+if (idharga == "ZIDMBL366"){
+global.hargadmml = 100000
+    }
+if (idharga == "ZIDMBL758"){
+global.hargadmml = 200000
+    }
+let workid = `*── 「 TOPUP SUKSES 」 ──*\n\n├ Harga : Rp${global.hargadmml}_\n├ NickName : ${response.data.data.sn}_\n├ Nama Item : ${produkid} Diamond ( Mlbb )_\n├ Trx Id : ${response.data.data.trx_id}_\n\n_Item Akan Segera Masuk Secara Otomatis Silahkan Melakukan Pengecekan Secara Berkala Pada Game Anda._\n\nNote: Jika Ada Kesalahan Id Atau NickName Bukan Tanggung Jawab Owner!.`
+let workd = `*── 「 TOPUP GAGAL 」 ──*
+
+Transaksi Anda Gagal, Saldo Sistem Belum terisi Saldo User Anda Tidak Akan Dipotong, Harap Tumggu Saldo Sistem Reset Setiap 6 Jam Sekali!.`
+if(response.data.data.status == "Sukses"){
+if (idharga == "ZIDMBL17"){
+moneyAdd(m.sender, 4500)
+reply(workid)
+}
+if (idharga == "ZIDMBL34"){
+moneyAdd(m.sender, 9000)
+reply(workid)
+}
+if (idharga == "ZIDMBL50"){
+moneyAdd(m.sender, 13500)
+reply(workid)
+}
+if (idharga == "ZIDMBL66"){
+moneyAdd(m.sender, 18000)
+reply(workid)
+}
+if (idharga == "ZIDMBL74"){
+moneyAdd(m.sender, 20000)
+reply(workid)
+}
+if (idharga == "ZIDMBL83"){
+moneyAdd(m.sender, 22500)
+reply(workid)
+}
+if (idharga == "ZIDMBL184"){
+moneyAdd(m.sender, 50000)
+reply(workid)
+}
+if (idharga == "ZIDMBL366"){
+moneyAdd(m.sender, 100000)
+reply(workid)
+}
+if (idharga == "ZIDMBL758"){
+moneyAdd(m.sender, 200000)
+reply(workid)
+}
+} else if(response.data.data.status == "Gagal"){
+reply(workd)
+}
+})
+break
+}
 //━━━━━━━━━━━━━━━[ Fitur topup Otomatis server 1 Case Dan Fitur By Manik Only! ]━━━━━━━━━━━━━━━\\
 
 
 //━━━━━━━━━━━━━━━[ Fitur topup Otomatis server Dunia Games Case By Manik Only! ]━━━━━━━━━━━━━━━\\
-case prefix+'listdmff-s2':
+case prefix+'listdmff2':
 let topupp = `*── 「 DIAMOND FREE FIRE 」 ──*
 
-_》5 Diamond : Rp1.261_
-_》12 Diamond : Rp2.523_
-_》70 Diamond : Rp12.614_
-_》140 Diamond : Rp25.227_
-_》355 Diamond : Rp63.068_
-_》720 Diamond : Rp126.136_
-_》1450 Diamond : Rp252.273_
-
-Untuk Saat Ini RzBot Hanya Menyediakan Diamond Free Fire Dengan 7 List Saja, Dukung Terus RzBot Agar Berkembang 🙏😊.
+├ 5 Diamond : Rp1.261_
+├ 12 Diamond : Rp2.523_
+├ 70 Diamond : Rp12.614_
+├ 140 Diamond : Rp25.227_
+├ 355 Diamond : Rp63.068_
+├ 720 Diamond : Rp126.136_
+├ 1450 Diamond : Rp252.273_
 
 Cara Pembelian:
-${prefix}topupff ID|JUMLAH DIAMOND
+${prefix}topupff2 ID|JUMLAH DIAMOND
 Contoh:
-${prefix}topupff 123456789|1450
+${prefix}topupff2 123456789|1450
 
 NOTE: Pembelian Akan Diproses Oleh Sistem Otomatis Ketika Anda Telah Melakukan Pembayaran Dan Diamond Akan Segera Masuk.
 `
 reply(topupp)
 break
 
-case prefix+'topupff-s2':{
+case prefix+'topupff2':{
 let idff = text.split("|")[0]
 let totaldm = text.split("|")[1]
 let nopemu = sender.replace("@s.whatsapp.net", "")
@@ -2308,7 +3426,7 @@ var baseURL = "https://duniagames.co.id";
 var axios = require('axios');
 axios.get(`https://api.lolhuman.xyz/api/freefire/${idff}?apikey=${lolkey}`)
             .then(({data}) => {
-reply('Tunggu Sebentar Kak, RzBot Akan Cek Id Kakak😊')
+reply('Tunggu Sebentar Kak, CekilBOT Akan Cek Id Kakak😊')
             })
             .catch((err) => {
                 reply('Id Atau NickName Tidak Ditemukan!')
@@ -2336,10 +3454,10 @@ if (res2.status != 200) throw new Error(res2.statusText);
 let suksess = `*── 「 TOPUP OTOMATIS 」 ──*
                 
 _Silahkan Scan Qris Dan Transfer Sesuai Harga:_
-_》Harga : Rp${res2.data.data.totalPrice}_
-_》NickName : ${res2.data.data.userGameName}_
-_》Nama Item : ${res.data.data.item.name} ( FreeFire )_
-_》Code Trx : ${res2.data.data.transactionCode}_
+├ Harga : Rp${res2.data.data.totalPrice}_
+├ NickName : ${res2.data.data.userGameName}_
+├ Nama Item : ${res.data.data.item.name} ( FreeFire )_
+├ Code Trx : ${res2.data.data.transactionCode}_
 
 _Qr Scan Berlaku 5 Menit, Setelah 5 Menit Pesan Ini Akan Dihapus!._  
 
@@ -2364,7 +3482,20 @@ case prefix+'say':
 let idfc = args[1]
 reply(idfc)
 break
-
+case 'modesimi':
+          if (args.length < 1) return reply('1/0')
+          if (Number(args[1]) === 1) {
+          simin.push(from)
+          fs.writeFileSync('./database/simi.json', JSON.stringify(simin))
+          reply('Sukses mengaktifkan mode simi')
+          } else if (Number(args[1]) === 0) {
+          simin.splice(from, 1)
+          fs.writeFileSync('./database/simi.json', JSON.stringify(simin))
+          reply('Sukes menonaktifkan mode simi')
+          } else {
+          reply('1 untuk mengaktifkan, 0 untuk menonaktifkan')
+          }
+          break
 case 'anone':{
 let idml1 = text.split("|")[0]
 let idml2 = text.split("|")[1]
@@ -2372,7 +3503,7 @@ let idml =`${idml1}${idml2}`
 let produkid = text.split("|")[2]
 let refdi = randomNomor(001, 1000)
 let refid = `${refdi}`
-reply(`https://v1.apigames.id/merchant/M220510ACSX4641HS/cek-username/mobilelegend?user_id=${idml}&signature=9f6bc94244bbc61cef8a3531947d7c10`)
+reply(`https://v1.apigames.id/merchant/${global.merchant}/cek-username/mobilelegend?user_id=${idml}&signature=${global.signature}`)
 break
 }
 //FITUR WITH TRENDTODAY BY MANIK DENGAN DISTRIBUTOR RAFLI RUSDIANA
@@ -2400,7 +3531,7 @@ reply(statusnya.message)
 }
 break
 case prefix+'registration':
-if (!q.includes("|")) return reply(`Gunakan dengan cara ${command.slice(1)} *Nama|Email|Password*\n\n_Contoh_\n\n${command.slice(1)} Arya|Radithstore000@gmail.com|Radithstore00`)
+if (!q.includes("|")) return reply(`Gunakan dengan cara ${command.slice(1)} *Nama|Email|Password*\n\n_Contoh_\n\n${command.slice(1)} Cekil|cekilxd@gmail.com|cekil12`)
 let trenpon = sender.replace("@s.whatsapp.net", "")
 let trennma = text.split("|")[0]
 let trenmail = text.split("|")[1]
@@ -2632,7 +3763,7 @@ gameAdd(sender, glimit)
 gameAdd(sender, glimit)
                 if (!text) reply(`Example : ${prefix + command} lagu\n\nOption : \n1. lagu\n2. gambar\n3. kata\n4. kalimat\n5. lirik\n6. lontong`)
                 if (args[1] === "lagu") {
-                    if (tebaklagu.hasOwnProperty(m.sender.split('@')[0])) throw "There are still unfinished sessions!"
+                    if (tebaklagu.hasOwnProperty(m.sender.split('@')[0])) reply `There are still unfinished sessions!`
                     let anu = await fetchJson('https://fatiharridho.github.io/tebaklagu.json')
                     let result = anu[Math.floor(Math.random() * anu.length)]
                     let msg = await Manik.sendMessage(m.chat, { audio: { url: result.link_song }, mimetype: 'audio/mpeg' }, { quoted: m })
@@ -2647,7 +3778,7 @@ gameAdd(sender, glimit)
                     
                     }
                 } else if (args[1] === 'gambar') {
-                    if (tebakgambar.hasOwnProperty(m.sender.split('@')[0])) throw "There are still unfinished sessions!"
+                    if (tebakgambar.hasOwnProperty(m.sender.split('@')[0])) reply `There are still unfinished sessions!`
                     let anu = await fetchJson('https://raw.githubusercontent.com/BochilTeam/database/master/games/tebakgambar.json')
                     let result = anu[Math.floor(Math.random() * anu.length)]
                     Manik.sendImage(m.chat, result.img, `Please answer the questions above\n\nDescription : ${result.deskripsi}\nWaktu : 60s`, m).then(() => {
@@ -2661,7 +3792,7 @@ gameAdd(sender, glimit)
                     
                     }
                 } else if (args[1] === 'kata') {
-                    if (tebakkata.hasOwnProperty(m.sender.split('@')[0])) throw "There are still unfinished sessions!"
+                    if (tebakkata.hasOwnProperty(m.sender.split('@')[0])) reply `There are still unfinished sessions!`
                     let anu = await fetchJson('https://raw.githubusercontent.com/BochilTeam/database/master/games/tebakkata.json')
                     let result = anu[Math.floor(Math.random() * anu.length)]
                     Manik.sendText(m.chat, `Silahkan Jawab Pertanyaan Berikut\n\n${result.soal}\nTime : 60s`, m).then(() => {
@@ -2675,7 +3806,7 @@ gameAdd(sender, glimit)
                     
                     }
                 } else if (args[1] === 'kalimat') {
-                    if (tebakkalimat.hasOwnProperty(m.sender.split('@')[0])) throw "There are still unfinished sessions!"
+                    if (tebakkalimat.hasOwnProperty(m.sender.split('@')[0])) reply `There are still unfinished sessions!`
                     let anu = await fetchJson('https://raw.githubusercontent.com/BochilTeam/database/master/games/tebakkalimat.json')
                     let result = anu[Math.floor(Math.random() * anu.length)]
                     Manik.sendText(m.chat, `Silahkan Jawab Pertanyaan Berikut\n\n${result.soal}\nTime : 60s`, m).then(() => {
@@ -2689,7 +3820,7 @@ gameAdd(sender, glimit)
                     
                     }
                 } else if (args[1] === 'lirik') {
-                    if (tebaklirik.hasOwnProperty(m.sender.split('@')[0])) throw "There are still unfinished sessions!"
+                    if (tebaklirik.hasOwnProperty(m.sender.split('@')[0])) reply `There are still unfinished sessions!`
                     let anu = await fetchJson('https://raw.githubusercontent.com/BochilTeam/database/master/games/tebaklirik.json')
                     let result = anu[Math.floor(Math.random() * anu.length)]
                     Manik.sendText(m.chat, `These are the lyrics of the song? : *${result.soal}*?\nTime : 60s`, m).then(() => {
@@ -2703,7 +3834,7 @@ gameAdd(sender, glimit)
                     
                     }
                 } else if (args[1] === 'lontong') {
-                    if (caklontong.hasOwnProperty(m.sender.split('@')[0])) throw "There are still unfinished sessions!"
+                    if (caklontong.hasOwnProperty(m.sender.split('@')[0])) reply `There are still unfinished sessions!`
                     let anu = await fetchJson('https://raw.githubusercontent.com/BochilTeam/database/master/games/caklontong.json')
                     let result = anu[Math.floor(Math.random() * anu.length)]
                     Manik.sendText(m.chat, `*Answer the following questions :*\n${result.soal}*\nTime : 60s`, m).then(() => {
@@ -2737,7 +3868,7 @@ if (isGame(sender, isPremium, gcount, glimit)) return reply(`Limit game kamu sud
 gameAdd(sender, glimit)
             let TicTacToe = require("./FuncBot/tictactoe")
             this.game = this.game ? this.game : {}
-            if (Object.values(this.game).find(room => room.id.startsWith('tictactoe') && [room.game.playerX, room.game.playerO].includes(m.sender))) throw 'You are still in the game'
+            if (Object.values(this.game).find(room => room.id.startsWith('tictactoe') && [room.game.playerX, room.game.playerO].includes(m.sender))) reply `You are still in the game`
             let room = Object.values(this.game).find(room => room.state === 'WAITING' && (text ? room.name === text : true))
             if (room) {
             reply('Partner found!')
@@ -2795,7 +3926,7 @@ Type *give up* to surrender and admit defeat`
             Manik.sendText(m.chat, `Successfully delete the TicTacToe session`, m)
             } else if (!this.game) {
             reply(`TicTacToe Session🎮 there is not any`)
-            } else throw '?'
+            } else reply `?`
             } catch (e) {
             reply('error')
             }
@@ -2812,7 +3943,7 @@ gameAdd(sender, glimit)
             if (Object.values(this.suit).find(roof => roof.id.startsWith('suit') && [roof.p, roof.p2].includes(m.sender))) reply(`Complete your previous suit`)
 	    if (m.mentionedJid[0] === m.sender) return reply(`Can't play with myself !`)
             if (!m.mentionedJid[0]) return reply(`_Who do you want to challenge?_\nTag the person..\n\nExample : ${prefix}suit @${owner[1]}`, m.chat, { mentions: [owner[1] + '@s.whatsapp.net'] })
-            if (Object.values(this.suit).find(roof => roof.id.startsWith('suit') && [roof.p, roof.p2].includes(m.mentionedJid[0]))) throw `The person you are challenging is playing suit with someone else :(`
+            if (Object.values(this.suit).find(roof => roof.id.startsWith('suit') && [roof.p, roof.p2].includes(m.mentionedJid[0]))) reply `The person you are challenging is playing suit with someone else :(`
             let id = 'suit_' + new Date() * 1
             let caption = `_*SUIT PvP*_
 
@@ -2834,7 +3965,7 @@ Please @${m.mentionedJid[0].split`@`[0]} to type accept/reject`
             break
 	    case prefix+'donasi': case prefix+'donate': case prefix+'sewabot': case prefix+'sewa': case prefix+'buypremium': case prefix+'donate':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                reply(` MENU DONATE \n\nHi ${pushname} \n\`\`\`Qris : https://ibb.co/0dn2dcj\`\`\`\nTerimakasih untuk kamu yang sudah donasi untuk perkembangan bot ini dan jika total donasi telah sampai 50k-60k akan ada bagi apikey free _^\n THX FOR YOU ! `)
+                reply(` MENU DONATE \n\nHi ${pushname} \n\`\`\`OVO : 089515023218\`\`\`\n\`\`\`PULSA : 089515023118 (Indosat)\`\`\`\nTerimakasih untuk kamu yang sudah donasi untuk perkembangan bot ini _^\n THX FOR YOU ! `)
             }
             break
             case prefix+'sc': case prefix+'script':{
@@ -2845,8 +3976,8 @@ Please @${m.mentionedJid[0].split`@`[0]} to type accept/reject`
             case prefix+'chat':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
             
-                if (!isManik) throw mess.owner
-                if (!q) throw 'Option : 1. mute\n2. unmute\n3. archive\n4. unarchive\n5. read\n6. unread\n7. delete'
+                if (!isManik) reply(mess.owner)
+                if (!q) reply `Option : 1. mute\n2. unmute\n3. archive\n4. unarchive\n5. read\n6. unread\n7. delete`
                 if (args[1] === 'mute') {
                     Manik.chatModify({ mute: 'Infinity' }, m.chat, []).then((res) => reply(jsonformat(res))).catch((err) => reply(jsonformat(err)))
                 } else if (args[1] === 'unmute') {
@@ -2868,9 +3999,9 @@ Please @${m.mentionedJid[0].split`@`[0]} to type accept/reject`
             if (isGame(sender, isPremium, gcount, glimit)) return reply(`Limit game kamu sudah habis`)
 gameAdd(sender, glimit)
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (kuismath.hasOwnProperty(m.sender.split('@')[0])) throw "There are still unfinished sessions!"
+                if (kuismath.hasOwnProperty(m.sender.split('@')[0])) reply `There are still unfinished sessions!`
                 let { genMath, modes } = require('./src/math')
-                if (!text) throw `Mode: ${Object.keys(modes).join(' | ')}\nExample: ${prefix}math medium`
+                if (!text) reply `Mode: ${Object.keys(modes).join(' | ')}\nExample: ${prefix}math medium`
                 let result = await genMath(text.toLowerCase())
                 Manik.sendText(m.chat, `*What is the result of: ${result.soal.toLowerCase()}*?\n\nTime: ${(result.waktu / 1000).toFixed(2)} seconds`, m).then(() => {
                     kuismath[m.sender.split('@')[0]] = result.jawaban
@@ -2887,7 +4018,7 @@ gameAdd(sender, glimit)
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
             if (!isPremium && global.db.users[m.sender].limit < 1) return reply(mess.endLimit) // respon ketika limit habis
             db.users[m.sender].limit -= 1 // -1 limit
-            if (!m.isGroup) throw mess.group
+            if (!m.isGroup) reply(mess.group)
             let member = participants.map(u => u.id)
             let me = m.sender
             let jodoh = member[Math.floor(Math.random() * member.length)]
@@ -2905,7 +4036,7 @@ gameAdd(sender, glimit)
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
             if (!isPremium && global.db.users[m.sender].limit < 1) return reply(mess.endLimit) // respon ketika limit habis
             db.users[m.sender].limit -= 1 // -1 limit
-            if (!m.isGroup) throw mess.group
+            if (!m.isGroup) reply(mess.group)
             let member = participants.map(u => u.id)
             let orang = member[Math.floor(Math.random() * member.length)]
             let jodoh = member[Math.floor(Math.random() * member.length)]
@@ -2920,9 +4051,9 @@ Ciee Whats Going On💖👀`
             break
             case prefix+'join':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!isManik) throw mess.owner
-                if (!text) throw 'Enter the group link!'
-                if (!isUrl(args[1]) && !args[1].includes('whatsapp.com')) throw 'Link Invalid!'
+                if (!isManik) reply(mess.owner)
+                if (!text) reply `Masukkan Link Group`
+                if (!isUrl(args[1]) && !args[1].includes('whatsapp.com')) reply `Link Invalid`
                 reply('Segera Tuan')
                 let result = args[1].split('https://chat.whatsapp.com/')[1]
                 await Manik.groupAcceptInvite(result).then((res) => reply(jsonformat(res))).catch((err) => reply(jsonformat(err)))
@@ -2930,84 +4061,84 @@ Ciee Whats Going On💖👀`
             break
             case prefix+'leave':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!isManik) throw mess.owner
+                if (!isManik) reply(mess.owner)
                 await Manik.groupLeave(m.chat).then((res) => reply(jsonformat(res))).catch((err) => reply(jsonformat(err)))
             }
             break
 	case prefix+'kick':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-		if (!m.isGroup) throw mess.group
-                if (!isBotAdmins) throw mess.botAdmin
-                if (!isAdmins) throw mess.admin
+		if (!m.isGroup) reply(mess.group)
+                if (!isBotAdmins) reply(mess.botAdmin)
+                if (!isAdmins) reply(mess.admin)
 		let users = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
 		await Manik.groupParticipantsUpdate(m.chat, [users], 'remove').then((res) => reply(jsonformat(res))).catch((err) => reply(jsonformat(err)))
 	}
 	break
 	case prefix+'add':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-		if (!m.isGroup) throw mess.group
-                if (!isBotAdmins) throw mess.botAdmin
-                if (!isAdmins) throw mess.admin
+		if (!m.isGroup) reply(mess.group)
+                if (!isBotAdmins) reply(mess.botAdmin)
+                if (!isAdmins) reply(mess.admin)
 		let users = m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
 		await Manik.groupParticipantsUpdate(m.chat, [users], 'add').then((res) => reply(jsonformat(res))).catch((err) => reply(jsonformat(err)))
 	}
 	break
 	case prefix+'promote':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-		if (!m.isGroup) throw mess.group
-                if (!isBotAdmins) throw mess.botAdmin
-                if (!isAdmins) throw mess.admin
+		if (!m.isGroup) reply(mess.group)
+                if (!isBotAdmins) reply(mess.botAdmin)
+                if (!isAdmins) reply(mess.admin)
 		let users = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
 		await Manik.groupParticipantsUpdate(m.chat, [users], 'promote').then((res) => reply(jsonformat(res))).catch((err) => reply(jsonformat(err)))
 	}
 	break
 	case prefix+'demote':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-		if (!m.isGroup) throw mess.group
-                if (!isBotAdmins) throw mess.botAdmin
-                if (!isAdmins) throw mess.admin
+		if (!m.isGroup) reply(mess.group)
+                if (!isBotAdmins) reply(mess.botAdmin)
+                if (!isAdmins) reply(mess.admin)
 		let users = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
 		await Manik.groupParticipantsUpdate(m.chat, [users], 'demote').then((res) => reply(jsonformat(res))).catch((err) => reply(jsonformat(err)))
 	}
 	break
         case prefix+'block':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-		if (!isManik) throw mess.owner
+		if (!isManik) reply(mess.owner)
 		let users = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
 		await Manik.updateBlockStatus(users, 'block').then((res) => reply(jsonformat(res))).catch((err) => reply(jsonformat(err)))
 	}
 	break
         case prefix+'unblock':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-		if (!isManik) throw mess.owner
+		if (!isManik) reply(mess.owner)
 		let users = m.mentionedJid[0] ? m.mentionedJid[0] : m.quoted ? m.quoted.sender : text.replace(/[^0-9]/g, '')+'@s.whatsapp.net'
 		await Manik.updateBlockStatus(users, 'unblock').then((res) => reply(jsonformat(res))).catch((err) => reply(jsonformat(err)))
 	}
 	break
 	    case prefix+'setname': case prefix+'setsubject':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!m.isGroup) throw mess.group
-                if (!isBotAdmins) throw mess.botAdmin
-                if (!isAdmins) throw mess.admin
-                if (!text) throw 'Text ?'
+                if (!m.isGroup) reply(mess.group)
+                if (!isBotAdmins) reply(mess.botAdmin)
+                if (!isAdmins) reply(mess.admin)
+                if (!text) reply `Text ?`
                 await Manik.groupUpdateSubject(m.chat, text).then((res) => reply(mess.success)).catch((err) => reply(jsonformat(err)))
             }
             break
           case prefix+'setdesc': case prefix+'setdesk':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!m.isGroup) throw mess.group
-                if (!isBotAdmins) throw mess.botAdmin
-                if (!isAdmins) throw mess.admin
-                if (!text) throw 'Text ?'
+                if (!m.isGroup) reply(mess.group)
+                if (!isBotAdmins) reply(mess.botAdmin)
+                if (!isAdmins) reply(mess.admin)
+                if (!text) reply `Text ?`
                 await Manik.groupUpdateDescription(m.chat, text).then((res) => reply(mess.success)).catch((err) => reply(jsonformat(err)))
             }
             break
           case prefix+'setppbot': case prefix+'setbotpp':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!isManik) throw mess.owner
-                if (!quoted) throw `Send/Reply Image With Caption ${prefix + command}`
-                if (!/image/.test(mime)) throw `Send/Reply Image With Caption ${prefix + command}`
-                if (/webp/.test(mime)) throw `Send/Reply Image With Caption ${prefix + command}`
+                if (!isManik) reply(mess.owner)
+                if (!quoted) reply `Send/Reply Image With Caption ${prefix + command}`
+                if (!/image/.test(mime)) reply `Send/Reply Image With Caption ${prefix + command}`
+                if (/webp/.test(mime)) reply `Send/Reply Image With Caption ${prefix + command}`
                 let media = await Manik.downloadAndSaveMediaMessage(quoted)
                 await Manik.updateProfilePicture(botNumber, { url: media }).catch((err) => fs.unlinkSync(media))
                 reply(mess.success)
@@ -3015,11 +4146,11 @@ Ciee Whats Going On💖👀`
                 break
            case prefix+'setppgroup': case prefix+'setgrouppp': case prefix+'setgcpp': case prefix+'setppgrup': case prefix+'setppgc':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!m.isGroup) throw mess.group
-                if (!isAdmins) throw mess.admin
-                if (!quoted) throw `Send/Reply Image With Caption ${prefix + command}`
-                if (!/image/.test(mime)) throw `Send/Reply Image With Caption ${prefix + command}`
-                if (/webp/.test(mime)) throw `Send/Reply Image With Caption ${prefix + command}`
+                if (!m.isGroup) reply(mess.group)
+                if (!isAdmins) reply(mess.admin)
+                if (!quoted) reply `Send/Reply Image With Caption ${prefix + command}`
+                if (!/image/.test(mime)) reply `Send/Reply Image With Caption ${prefix + command}`
+                if (/webp/.test(mime)) reply `Send/Reply Image With Caption ${prefix + command}`
                 let media = await Manik.downloadAndSaveMediaMessage(quoted)
                 await Manik.updateProfilePicture(m.chat, { url: media }).catch((err) => fs.unlinkSync(media))
                 reply(mess.success)
@@ -3039,9 +4170,9 @@ break
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
             if (!isPremium && global.db.users[m.sender].limit < 1) return reply(mess.endLimit) // respon ketika limit habis
             db.users[m.sender].limit -= 1 // -1 limit
-                if (!m.isGroup) throw mess.group
-                if (!isBotAdmins) throw mess.botAdmin
-                if (!isAdmins) throw mess.admin
+                if (!m.isGroup) reply(mess.group)
+                if (!isBotAdmins) reply(mess.botAdmin)
+                if (!isAdmins) reply(mess.admin)
 let teks = `══✪〘 *👥 Tag All* 〙✪══
  
  ➲ *Message : ${q ? q : 'blank'}*\n\n`
@@ -3055,8 +4186,8 @@ let teks = `══✪〘 *👥 Tag All* 〙✪══
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
                 if (!isPremium && global.db.users[m.sender].limit < 1) return reply(mess.endLimit) // respon ketika limit habis
             db.users[m.sender].limit -= 1 // -1 limit
-            if (!m.isGroup) throw mess.group
-            if (!isAdmins) throw mess.admin
+            if (!m.isGroup) reply(mess.group)
+            if (!isAdmins) reply(mess.admin)
             Manik.sendMessage(m.chat, { text : q ? q : '' , mentions: participants.map(a => a.id)}, { quoted: m })
             }
             break
@@ -3065,7 +4196,7 @@ let teks = `══✪〘 *👥 Tag All* 〙✪══
 	        if (!isPremium && global.db.users[m.sender].limit < 1) return reply(mess.endLimit) // response when limit runs out
 		            db.users[m.sender].limit -= 1 // -1 limit
 		let { styletext } = require('./FuncBot/scraper')
-		if (!text) throw 'Enter Query text!'
+		if (!text) reply `Text Mana?`
                 let anu = await styletext(text)
                 let teks = `Entered Text:  ${text}\n\n`
                 for (let i of anu) {
@@ -3078,9 +4209,9 @@ let teks = `══✪〘 *👥 Tag All* 〙✪══
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
                if (!isPremium && global.db.users[m.sender].limit < 1) return reply(mess.endLimit) // respon ketika limit habis
             db.users[m.sender].limit -= 1 // -1 limit
-            if (!m.isGroup) throw mess.group
-            if (m.chat in vote) throw `_There are still votes in this chat!_\n\n*${prefix}deletevote* - to delete votes`
-            if (!text) throw `Enter Reason for Vote, Example: *${prefix + command} Owner is handsome*`
+            if (!m.isGroup) reply(mess.group)
+            if (m.chat in vote) reply `_There are still votes in this chat!_\n\n*${prefix}deletevote* - to delete votes`
+            if (!text) reply `Enter Reason for Vote, Example: *${prefix + command} Owner is handsome*`
             reply(`Voting starts!\n\n*${prefix}upvote* - for yes\n*${prefix}devote* - for no\n*${prefix}checkvote* - to check the votes\n*${prefix}deletevote* - to delete vote`)
             vote[m.chat] = [q, [], []]
             await sleep(1000)
@@ -3115,11 +4246,11 @@ let buttonsVote = [
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
                if (!isPremium && global.db.users[m.sender].limit < 1) return reply(mess.endLimit) // respon ketika limit habis
             db.users[m.sender].limit -= 1 // -1 limit
-            if (!m.isGroup) throw mess.group
-            if (!(m.chat in vote)) throw `_*no voting in this group!*_\n\n*Type ${prefix}vote* - to start voting`
+            if (!m.isGroup) reply(mess.group)
+            if (!(m.chat in vote)) reply `_*no voting in this group!*_\n\n*Type ${prefix}vote* - to start voting`
             isVote = vote[m.chat][1].concat(vote[m.chat][2])
             wasVote = isVote.includes(m.sender)
-            if (wasVote) throw 'You have Voted'
+            if (wasVote) reply `You have Voted`
             vote[m.chat][1].push(m.sender)
             menvote = vote[m.chat][1].concat(vote[m.chat][2])
             teks_vote = `*「 VOTE 」*
@@ -3158,11 +4289,11 @@ ${vote[m.chat][2].map((v, i) => `• ${i + 1}. @${v.split`@`[0]}`).join('\n')}
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
                 if (!isPremium && global.db.users[m.sender].limit < 1) return reply(mess.endLimit) // respon ketika limit habis
             db.users[m.sender].limit -= 1 // -1 limit
-            if (!m.isGroup) throw mess.group
-            if (!(m.chat in vote)) throw `_*no voting in this group!*_\n\n*${prefix}vote* - to start voting`
+            if (!m.isGroup) reply(mess.group)
+            if (!(m.chat in vote)) reply `_*no voting in this group!*_\n\n*${prefix}vote* - to start voting`
             isVote = vote[m.chat][1].concat(vote[m.chat][2])
             wasVote = isVote.includes(m.sender)
-            if (wasVote) throw 'You Have Voted'
+            if (wasVote) reply `You have Voted`
             vote[m.chat][2].push(m.sender)
             menvote = vote[m.chat][1].concat(vote[m.chat][2])
             teks_vote = `*「 VOTE 」*
@@ -3201,8 +4332,8 @@ ${vote[m.chat][2].map((v, i) => `• ${i + 1}. @${v.split`@`[0]}`).join('\n')}
 case prefix+'cekvote':
 if (!isPremium && global.db.users[m.sender].limit < 1) return reply(mess.endLimit) // respon ketika limit habis
             db.users[m.sender].limit -= 1 // -1 limit
-if (!m.isGroup) throw mess.group
-if (!(m.chat in vote)) throw `_*no voting in this group!*_\n\n*${prefix}vote* - to start voting`
+if (!m.isGroup) reply(mess.group)
+if (!(m.chat in vote)) reply `_*no voting in this group!*_\n\n*${prefix}vote* - to start voting`
 teks_vote = `*「 VOTE 」*
 
 *Reason:* ${vote[m.chat][0]}
@@ -3227,17 +4358,17 @@ break
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
 		if (!isPremium && global.db.users[m.sender].limit < 1) return reply(mess.endLimit) // respon ketika limit habis
             db.users[m.sender].limit -= 1 // -1 limit
-            if (!m.isGroup) throw mess.group
-            if (!(m.chat in vote)) throw `_*tidak ada voting digrup ini!*_\n\n*${prefix}vote* - to start voting`
+            if (!m.isGroup) reply(mess.group)
+            if (!(m.chat in vote)) reply `_*tidak ada voting digrup ini!*_\n\n*${prefix}vote* - to start voting`
             delete vote[m.chat]
             reply('Successfully Deleted Vote Session In This Group')
 	    }
             break
                case prefix+'group': case prefix+'grup':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!m.isGroup) throw mess.group
-                if (!isBotAdmins) throw mess.botAdmin
-                if (!isAdmins) throw mess.admin
+                if (!m.isGroup) reply(mess.group)
+                if (!isBotAdmins) reply(mess.botAdmin)
+                if (!isAdmins) reply(mess.admin)
                 if (args[1] === 'close'){
                     await Manik.groupSettingUpdate(m.chat, 'announcement').then((res) => reply(`Successful Closing The Group`)).catch((err) => reply(jsonformat(err)))
                 } else if (args[1] === 'open'){
@@ -3254,9 +4385,9 @@ break
             break
             case prefix+'editinfo':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!m.isGroup) throw mess.group
-                if (!isBotAdmins) throw mess.botAdmin
-                if (!isAdmins) throw mess.admin
+                if (!m.isGroup) reply(mess.group)
+                if (!isBotAdmins) reply(mess.botAdmin)
+                if (!isAdmins) reply(mess.admin)
              if (args[1] === 'open'){
                 await Manik.groupSettingUpdate(m.chat, 'unlocked').then((res) => reply(`Successfully Opened Edit Group Info`)).catch((err) => reply(jsonformat(err)))
              } else if (args[1] === 'close'){
@@ -3347,9 +4478,9 @@ case prefix+'antilink':
 					break 
 					case prefix+'antiwame':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!m.isGroup) throw mess.group
-                if (!isBotAdmins) throw mess.botAdmin
-                if (!isAdmins) throw mess.admin
+                if (!m.isGroup) reply(mess.group)
+                if (!isBotAdmins) reply(mess.botAdmin)
+                if (!isAdmins) reply(mess.admin)
                 if (args[1] === "on") {
                 if (db.chats[m.chat].wame) return reply(`Already Activated`)
                 db.chats[m.chat].wame = true
@@ -3440,8 +4571,8 @@ Nick : ${data.result}`
             }
 					   case prefix+'mute':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!m.isGroup) throw mess.group
-                if (!isAdmins) throw mess.admin
+                if (!m.isGroup) reply(mess.group)
+                if (!isAdmins) reply(mess.admin)
                 if (args[1] === "on") {
                 if (db.chath[m.chat].mute) return reply(`Already activated`)
                 db.chats[m.chat].mute = true
@@ -3478,23 +4609,23 @@ Bot gw jalan awokawoak
 Jika sudah dipahami rules-nya, silakan ketik *#menu* untuk memulai!
 
 Owner  BOTZ:
-wa.me/6288293406700
+wa.me/17242332244
 `
              reply(rulesBot)
              break
             case prefix+'linkgroup': case prefix+'grouplink': case prefix+'gclink': case prefix+'linkgc':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!m.isGroup) throw mess.group
+                if (!m.isGroup) reply(mess.group)
                 let response = await Manik.groupInviteCode(m.chat)
                 Manik.sendText(m.chat, `https://chat.whatsapp.com/${response}\n\nLink of: ${groupMetadata.subject} Group`, m, { detectLink: true })
             }
             break
             case prefix+'ephemeral':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!m.isGroup) throw mess.group
-                if (!isBotAdmins) throw mess.botAdmin
-                if (!isAdmins) throw mess.admin
-                if (!text) throw 'Enter the enable/disable value, For Example ${prefix}ephemeral enable'
+                if (!m.isGroup) reply(mess.group)
+                if (!isBotAdmins) reply(mess.botAdmin)
+                if (!isAdmins) reply(mess.admin)
+                if (!text) reply `Enter the enable/disable value, For Example ${prefix}ephemeral enable`
                 if (args[1] === 'enable') {
                     await Manik.sendMessage(m.chat, { disappearingMessagesInChat: WA_DEFAULT_EPHEMERAL }).then((res) => reply(jsonformat(res))).catch((err) => reply(jsonformat(err)))
                 } else if (args[1] === 'disable') {
@@ -3506,14 +4637,14 @@ wa.me/6288293406700
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
                 if (!m.quoted) throw false
                 let { chat, fromMe, id, isBaileys } = m.quoted
-                if (!isBaileys) throw 'The message was not sent by a bot!'
+                if (!isBaileys) reply `The message was not sent by a bot!`
                 Manik.sendMessage(m.chat, { delete: { remoteJid: m.chat, fromMe: true, id: m.quoted.id, participant: m.quoted.sender } })
             }
             break
             case prefix+'bcgc': case prefix+'bcgroup':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!isManik) throw mess.owner
-                if (!text) throw `Where is the text?\n\nExample : ${prefix + command} hello guys, am back`
+                if (!isManik) reply(mess.owner)
+                if (!text) reply `Where is the text?\n\nExample : ${prefix + command} hello guys, am back`
                 let getGroups = await Manik.groupFetchAllParticipating()
                 let groups = Object.entries(getGroups).slice(0).map(entry => entry[1])
                 let anu = groups.map(v => v.id)
@@ -3527,21 +4658,21 @@ wa.me/6288293406700
                                 }
                             }, {
                                 quickReplyButton: {
-                                    displayText: 'Owner',
-                                    id: 'owner'
+                                    displayText: 'TopUp Game',
+                                    id: '.topup'
                                 }
                             }]
-                      fatihgans = fs.readFileSync('./media/Manik.jpg')
+                      manixgans = fs.readFileSync('./media/Manik.jpg')
                       let txt = `「 BROADCAST BOT 」\n\n${text}`
-                      Manik.send5ButImg(i, txt, Manik.user.name, fatihgans, btn)
+                      Manik.send5ButImg(i, txt, Manik.user.name, manixgans, btn)
                     }
                 reply(`Successful Sending Broadcast To ${anu.length} Group(s)`)
             }
             break
             case prefix+'bc': case prefix+'broadcast': case prefix+'bcall':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!isManik) throw mess.owner
-                if (!text) throw `Where is the text?\n\nExample : ${prefix + command} halo`
+                if (!isManik) reply(mess.owner)
+                if (!text) reply `Where is the text?\n\nExample : ${prefix + command} halo`
                 let anu = await stire.chats.all().map(v => v.id)
                 reply(`Send Broadcast To ${anu.length} Chat\nIn ${anu.length * 1.5} second`)
 		for (let yoi of anu) {
@@ -3553,13 +4684,13 @@ wa.me/6288293406700
                                 }
                             }, {
                                 quickReplyButton: {
-                                    displayText: 'Owner',
-                                    id: 'owner'
+                                    displayText: 'Top Up',
+                                    id: '.topup'
                                 }
                             }]
-                      fatihgans = fs.readFileSync('./media/Manik.jpg')
+                      manixgans = fs.readFileSync('./media/Manik.jpg')
                       let txt = `「 BROADCAST BOT 」\n\n${text}`
-                      Manik.send5ButImg(yoi, txt, `${global.pengguna}`, fatihgans, btn)
+                      Manik.send5ButImg(yoi, txt, `${ownerName}`, manixgans, btn)
 		}
 		reply('Broadcast Success')
             }
@@ -3568,7 +4699,7 @@ wa.me/6288293406700
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
                 if (!m.quoted) reply('Reply to mesaage')
                 let msg = await m.getQuotedObj()
-                if (!m.quoted.isBaileys) throw 'The message was not sent by a bot!'
+                if (!m.quoted.isBaileys) reply `The message was not sent by a bot!`
                 let teks = ''
                 for (let i of msg.userReceipt) {
                     let read = i.readTimestamp
@@ -3621,24 +4752,24 @@ wa.me/6288293406700
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
             if (!isPremium && global.db.users[m.sender].limit < 1) return reply(mess.endLimit) // respon ketika limit habis
             db.users[m.sender].limit -= 1 // -1 limit
-            if (!quoted) throw `Balas Video/Image Dengan Caption ${prefix + command}`
+            if (!quoted) reply `Balas Video/Image Dengan Caption ${prefix + command}`
                     if (/image/.test(mime)) {
                 let media = await quoted.download()
-                let encmedia = await Manik.sendImageAsSticker(m.chat, media, m, { packname: global.packname, author: global.author })
+                let encmedia = await Manik.sendImageAsSticker(m.chat, media, m, { packName: global.packName, author: global.author })
                 await fs.unlinkSync(encmedia)
             } else if (/video/.test(mime)) {
                 if ((quoted.msg || quoted).seconds > 11) return reply('Maksimal 10 detik!')
                 let media = await quoted.download()
-                let encmedia = await Manik.sendVideoAsSticker(m.chat, media, m, { packname: global.packname, author: global.author })
+                let encmedia = await Manik.sendVideoAsSticker(m.chat, media, m, { packName: global.packName, author: global.author })
                 await fs.unlinkSync(encmedia)
             } else {
-                throw `Kirim Gambar/Video Dengan Caption ${prefix + command}\nDurasi Video 1-9 Detik`
+                reply `Kirim Gambar/Video Dengan Caption ${prefix + command}\nDurasi Video 1-9 Detik`
                 }
             }
             break
             case prefix+'ebinary':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-            if (!m.quoted.text && !text) throw `Kirim/reply text dengan caption ${prefix + command}`
+            if (!m.quoted.text && !text) reply `Kirim/reply text dengan caption ${prefix + command}`
             let { eBinary } = require('./FuncBot/binary')
             let teks = text ? text : m.quoted && m.quoted.text ? m.quoted.text : m.text
             let eb = await eBinary(teks)
@@ -3647,7 +4778,7 @@ wa.me/6288293406700
         break
             case prefix+'dbinary':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-            if (!m.quoted.text && !text) throw `Kirim/reply text dengan caption ${prefix + command}`
+            if (!m.quoted.text && !text) reply `Kirim/reply text dengan caption ${prefix + command}`
             let { dBinary } = require('./FuncBot/binary')
             let teks = text ? text : m.quoted && m.quoted.text ? m.quoted.text : m.text
             let db = await dBinary(teks)
@@ -3658,11 +4789,11 @@ wa.me/6288293406700
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
             if (!isPremium && global.db.users[m.sender].limit < 1) return reply(mess.endLimit) // respon ketika limit habis
             db.users[m.sender].limit -= 1 // -1 limit
-	        if (!text) throw `Example : ${prefix + command} ðŸ˜…+ðŸ¤”`
+	        if (!text) reply `Example : ${prefix + command} ðŸ˜…+ðŸ¤”`
 		let [emoji1, emoji2] = text.split`+`
 		let anu = await fetchJson(`https://tenor.googleapis.com/v2/featured?key=AIzaSyAyimkuYQYF_FXVALexPuGQctUWRURdCYQ&contentfilter=high&media_filter=png_transparent&component=proactive&collection=emoji_kitchen_v5&q=${encodeURIComponent(emoji1)}_${encodeURIComponent(emoji2)}`)
 		for (let res of anu.results) {
-		    let encmedia = await Manik.sendImageAsSticker(m.chat, res.url, m, { packname: global.packname, author: global.author, categories: res.tags })
+		    let encmedia = await Manik.sendImageAsSticker(m.chat, res.url, m, { packName: global.packName, author: global.author, categories: res.tags })
 		    await fs.unlinkSync(encmedia)
 		}
 	    }
@@ -3671,8 +4802,8 @@ wa.me/6288293406700
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
             if (!isPremium && global.db.users[m.sender].limit < 1) return reply(mess.endLimit) // respon ketika limit habis
             db.users[m.sender].limit -= 1 // -1 limit
-                if (!quoted) throw 'Reply Image'
-                if (!/webp/.test(mime)) throw `balas stiker dengan caption *${prefix + command}*`
+                if (!quoted) reply `Reply Image`
+                if (!/webp/.test(mime)) reply `balas stiker dengan caption *${prefix + command}*`
                 let media = await Manik.downloadAndSaveMediaMessage(quoted)
                 let ran = await getRandom('.png')
                 exec(`ffmpeg -i ${media} ${ran}`, (err) => {
@@ -3688,8 +4819,8 @@ wa.me/6288293406700
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
 	        if (!isPremium && global.db.users[m.sender].limit < 1) return reply(mess.endLimit) // respon ketika limit habis
             db.users[m.sender].limit -= 1 // -1 limit
-                if (!quoted) throw 'Reply Image'
-                if (!/webp/.test(mime)) throw `balas stiker dengan caption *${prefix + command}*`
+                if (!quoted) reply `Reply Image`
+                if (!/webp/.test(mime)) reply `balas stiker dengan caption *${prefix + command}*`
 		let { webp2mp4File } = require('./FuncBot/uploader')
                 let media = await Manik.downloadAndSaveMediaMessage(quoted)
                 let webpToMp4 = await webp2mp4File(media)
@@ -3701,8 +4832,8 @@ wa.me/6288293406700
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
             if (!isPremium && global.db.users[m.sender].limit < 1) return reply(mess.endLimit) // respon ketika limit habis
             db.users[m.sender].limit -= 1 // -1 limit
-            if (!/video/.test(mime) && !/audio/.test(mime)) throw `Kirim/Reply Video/Audio Yang Ingin Dijadikan Audio Dengan Caption ${prefix + command}`
-            if (!quoted) throw `Kirim/Reply Video/Audio Yang Ingin Dijadikan Audio Dengan Caption ${prefix + command}`
+            if (!/video/.test(mime) && !/audio/.test(mime)) reply `Kirim/Reply Video/Audio Yang Ingin Dijadikan Audio Dengan Caption ${prefix + command}`
+            if (!quoted) reply `Kirim/Reply Video/Audio Yang Ingin Dijadikan Audio Dengan Caption ${prefix + command}`
             let media = await quoted.download()
             let { toAudio } = require('./FuncBot/converter')
             let audio = await toAudio(media, 'mp4')
@@ -3713,9 +4844,9 @@ wa.me/6288293406700
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
             if (!isPremium && global.db.users[m.sender].limit < 1) return reply(mess.endLimit) // respon ketika limit habis
             db.users[m.sender].limit -= 1 // -1 limit
-            if (/document/.test(mime)) throw `Kirim/Reply Video/Audio Yang Ingin Dijadikan MP3 Dengan Caption ${prefix + command}`
-            if (!/video/.test(mime) && !/audio/.test(mime)) throw `Kirim/Reply Video/Audio Yang Ingin Dijadikan MP3 Dengan Caption ${prefix + command}`
-            if (!quoted) throw `Kirim/Reply Video/Audio Yang Ingin Dijadikan MP3 Dengan Caption ${prefix + command}`
+            if (/document/.test(mime)) reply `Kirim/Reply Video/Audio Yang Ingin Dijadikan MP3 Dengan Caption ${prefix + command}`
+            if (!/video/.test(mime) && !/audio/.test(mime)) reply `Kirim/Reply Video/Audio Yang Ingin Dijadikan MP3 Dengan Caption ${prefix + command}`
+            if (!quoted) reply `Kirim/Reply Video/Audio Yang Ingin Dijadikan MP3 Dengan Caption ${prefix + command}`
             let media = await quoted.download()
             let { toAudio } = require('./FuncBot/converter')
             let audio = await toAudio(media, 'mp4')
@@ -3726,8 +4857,8 @@ wa.me/6288293406700
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
             if (!isPremium && global.db.users[m.sender].limit < 1) return reply(mess.endLimit) // respon ketika limit habis
             db.users[m.sender].limit -= 1 // -1 limit
-            if (!/video/.test(mime) && !/audio/.test(mime)) throw `Reply Video/Audio Yang Ingin Dijadikan VN Dengan Caption ${prefix + command}`
-            if (!quoted) throw `Reply Video/Audio Yang Ingin Dijadikan VN Dengan Caption ${prefix + command}`
+            if (!/video/.test(mime) && !/audio/.test(mime)) reply `Reply Video/Audio Yang Ingin Dijadikan VN Dengan Caption ${prefix + command}`
+            if (!quoted) reply `Reply Video/Audio Yang Ingin Dijadikan VN Dengan Caption ${prefix + command}`
             let media = await quoted.download()
             let { toPTT } = require('./FuncBot/converter')
             let audio = await toPTT(media, 'mp4')
@@ -3738,8 +4869,8 @@ wa.me/6288293406700
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
             if (!isPremium && global.db.users[m.sender].limit < 1) return reply(mess.endLimit) // respon ketika limit habis
             db.users[m.sender].limit -= 1 // -1 limit
-                if (!quoted) throw 'Reply Image'
-                if (!/webp/.test(mime)) throw `balas stiker dengan caption *${prefix + command}*`
+                if (!quoted) reply `Reply Image`
+                if (!/webp/.test(mime)) reply `balas stiker dengan caption *${prefix + command}*`
 		let { webp2mp4File } = require('./FuncBot/uploader')
                 let media = await Manik.downloadAndSaveMediaMessage(quoted)
                 let webpToMp4 = await webp2mp4File(media)
@@ -3767,9 +4898,9 @@ wa.me/6288293406700
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
             if (!isPremium && global.db.users[m.sender].limit < 1) return reply(mess.endLimit) // respon ketika limit habis
             db.users[m.sender].limit -= 1 // -1 limit
-	    if (!quoted) throw `Kirim/Reply Image Dengan Caption ${prefix + command}`
-	    if (!/image/.test(mime)) throw `Kirim/Reply Image Dengan Caption ${prefix + command}`
-	    if (/webp/.test(mime)) throw `Kirim/Reply Image Dengan Caption ${prefix + command}`
+	    if (!quoted) reply `Kirim/Reply Image Dengan Caption ${prefix + command}`
+	    if (!/image/.test(mime)) reply `Kirim/Reply Image Dengan Caption ${prefix + command}`
+	    if (/webp/.test(mime)) reply `Kirim/Reply Image Dengan Caption ${prefix + command}`
 	    let remobg = require('remove.bg')
 	    let apirnobg = ['q61faXzzR5zNU6cvcrwtUkRU','S258diZhcuFJooAtHTaPEn4T','5LjfCVAp4vVNYiTjq9mXJWHF','aT7ibfUsGSwFyjaPZ9eoJc61','BY63t7Vx2tS68YZFY6AJ4HHF','5Gdq1sSWSeyZzPMHqz7ENfi8','86h6d6u4AXrst4BVMD9dzdGZ','xp8pSDavAgfE5XScqXo9UKHF','dWbCoCb3TacCP93imNEcPxcL']
 	    let apinobg = apirnobg[Math.floor(Math.random() * apirnobg.length)]
@@ -3794,7 +4925,7 @@ wa.me/6288293406700
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
 	    if (!isPremium && global.db.users[m.sender].limit < 1) return reply(mess.endLimit) // respon ketika limit habis
             db.users[m.sender].limit -= 1 // -1 limit
-                if (!text) throw `Example : ${prefix + command} story wa anime`
+                if (!text) reply `Example : ${prefix + command} story wa anime`
                 let yts = require("yt-search")
                 let search = await yts(text)
                 let teks = 'YouTube Search\n\n Result From '+text+'\n\n'
@@ -3809,7 +4940,7 @@ wa.me/6288293406700
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
         if (!isPremium && global.db.users[m.sender].limit < 1) return reply(mess.endLimit) // respon ketika limit habis
             db.users[m.sender].limit -= 1 // -1 limit
-                if (!text) throw `Example : ${prefix + command} fatih arridho`
+                if (!text) reply `Example : ${prefix + command} fatih arridho`
                 let google = require('google-it')
                 google({'query': text}).then(res => {
                 let teks = `Google Search From : ${text}\n\n`
@@ -3826,7 +4957,7 @@ wa.me/6288293406700
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
         if (!isPremium && global.db.users[m.sender].limit < 1) return reply(mess.endLimit) // respon ketika limit habis
             db.users[m.sender].limit -= 1 // -1 limit
-        if (!text) throw `Example : ${prefix + command} ml nana`
+        if (!text) reply `Example : ${prefix + command} ml nana`
         let gis = require('g-i-s')
         gis(text, async (error, result) => {
         n = result
@@ -3851,7 +4982,7 @@ wa.me/6288293406700
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
 	    if (!isPremium && global.db.users[m.sender].limit < 1) return reply(mess.endLimit) // respon ketika limit habis
             db.users[m.sender].limit -= 1 // -1 limit
-                if (!text) throw `Example : ${prefix + command} bts boy with luv`
+                if (!text) reply `Example : ${prefix + command} bts boy with luv`
                 let yts = require("yt-search")
                 let search = await yts(text)
                 let anu = search.videos[Math.floor(Math.random() * search.videos.length)]
@@ -3899,7 +5030,7 @@ message = await prepareWAMessageMedia({ image : { url: anu.thumbnail } }, { uplo
 	    if (!isPremium && global.db.users[m.sender].limit < 1) return reply(mess.endLimit) // respon ketika limit habis
             db.users[m.sender].limit -= 1 // -1 limit
                 let { yta } = require('./FuncBot/y2mate')
-                if (!text) throw `Example : ${prefix + command} https://youtube.com/watch?v=PtFMh6Tccag%27 320kbps`
+                if (!text) reply `Example : ${prefix + command} https://youtube.com/watch?v=PtFMh6Tccag%27 320kbps`
                 let quality = args[2] ? args[2] : '320kbps'
                 let media = await yta(text, quality)
                 if (media.filesize >= 999999) return reply('Audio size is too big '+util.format(media))
@@ -3912,7 +5043,7 @@ message = await prepareWAMessageMedia({ image : { url: anu.thumbnail } }, { uplo
             if (!isPremium && global.db.users[m.sender].limit < 1) return reply(mess.endLimit) // respon ketika limit habis
             db.users[m.sender].limit -= 1 // -1 limit
                 let { ytv } = require('./FuncBot/y2mate')
-                if (!text) throw `Example : ${prefix + command} https://youtube.com/watch?v=PtFMh6Tccag%27 360p`
+                if (!text) reply `Example : ${prefix + command} https://youtube.com/watch?v=PtFMh6Tccag%27 360p`
                 let quality = args[2] ? args[2] : '360p'
                 let media = await ytv(args[1], quality)
                 if (media.filesize >= 999999) return reply('Video size is too big '+util.format(media))
@@ -3923,11 +5054,11 @@ message = await prepareWAMessageMedia({ image : { url: anu.thumbnail } }, { uplo
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
 	    if (!isPremium && global.db.users[m.sender].limit < 1) return reply(mess.endLimit) // respon ketika limit habis
             db.users[m.sender].limit -= 1 // -1 limit
-                if (!text) throw `Example : ${prefix + command} 1`
+                if (!text) reply `Example : ${prefix + command} 1`
                 if (!m.quoted) return reply('Reply Pesan')
-                if (!m.quoted.isBaileys) throw `Hanya Bisa Membalas Pesan Dari Bot`
+                if (!m.quoted.isBaileys) reply `Hanya Bisa Membalas Pesan Dari Bot`
                 let urls = quoted.text.match(new RegExp(/(?:https?:\/\/)?(?:youtu\.be\/|(?:www\.|m\.)?youtube\.com\/(?:watch|v|embed|shorts)(?:\.php)?(?:\?.*v=|\/))([a-zA-Z0-9\_-]+)/, 'gi'))
-                if (!urls) throw `Mungkin pesan yang anda reply tidak mengandung result ytsearch`
+                if (!urls) reply `Mungkin pesan yang anda reply tidak mengandung result ytsearch`
 		let { aiovideodl } = require('./FuncBot/scraper')
                 let result = await aiovideodl(urls[text - 1])
                 let { url, title, thumbnail, duration, medias } = result
@@ -3942,11 +5073,11 @@ message = await prepareWAMessageMedia({ image : { url: anu.thumbnail } }, { uplo
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
             if (!isPremium && global.db.users[m.sender].limit < 1) return reply(mess.endLimit) // respon ketika limit habis
             db.users[m.sender].limit -= 1 // -1 limit
-                if (!text) throw `Example : ${prefix + command} 1`
+                if (!text) reply `Example : ${prefix + command} 1`
                 if (!m.quoted) return reply('Reply Pesan')
-                if (!m.quoted.isBaileys) throw `Hanya Bisa Membalas Pesan Dari Bot`
+                if (!m.quoted.isBaileys) reply `Hanya Bisa Membalas Pesan Dari Bot`
                 let urls = quoted.text.match(new RegExp(/(?:https?:\/\/)?(?:youtu\.be\/|(?:www\.|m\.)?youtube\.com\/(?:watch|v|embed|shorts)(?:\.php)?(?:\?.*v=|\/))([a-zA-Z0-9\_-]+)/, 'gi'))
-                if (!urls) throw `Mungkin pesan yang anda reply tidak mengandung result ytsearch`
+                if (!urls) reply `Mungkin pesan yang anda reply tidak mengandung result ytsearch`
 		let { aiovideodl } = require('./FuncBot/scraper')
                 let result = await aiovideodl(urls[text - 1])
                 let { url, title, thumbnail, duration, medias } = result
@@ -4019,7 +5150,7 @@ break
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
             if (!isPremium && global.db.users[m.sender].limit < 1) return reply(mess.endLimit) // respon ketika limit habis
             db.users[m.sender].limit -= 1 // -1 limit
-                if (!text) throw 'Enter Query Title'
+                if (!text) reply `Titlenya mana?`
 		let { wallpaper } = require('./FuncBot/scraper')
                 anu = await wallpaper(text)
                 result = anu[Math.floor(Math.random() * anu.length)]
@@ -4040,7 +5171,7 @@ break
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
             if (!isPremium && global.db.users[m.sender].limit < 1) return reply(mess.endLimit) // respon ketika limit habis
             db.users[m.sender].limit -= 1 // -1 limit
-                if (!text) throw 'Enter Query Title'
+                if (!text) reply `Titlenya mana?`
 		let { wikimedia } = require('./FuncBot/scraper')
                 anu = await wikimedia(text)
                 result = anu[Math.floor(Math.random() * anu.length)]
@@ -4078,7 +5209,7 @@ headerType: 1
             case prefix+'yatim':{
             if (!isPremium && global.db.users[m.sender].limit < 1) return reply(mess.endLimit) // respon ketika limit habis
             db.users[m.sender].limit -= 1 // -1 limit
- if (!m.isGroup) throw mess.group
+ if (!m.isGroup) reply(mess.group)
             let member = participants.map(u => u.id)
             let oi = m.sender
             let ytm = member[Math.floor(Math.random() * member.length)]
@@ -4097,7 +5228,7 @@ case prefix+'piyatu':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
 if (!isPremium && global.db.users[m.sender].limit < 1) return reply(mess.endLimit) // respon ketika limit habis
             db.users[m.sender].limit -= 1 // -1 limit
- if (!m.isGroup) throw mess.group
+ if (!m.isGroup) reply(mess.group)
             let member = participants.map(u => u.id)
             let bh = m.sender
             let bra = member[Math.floor(Math.random() * member.length)]
@@ -4135,7 +5266,7 @@ break
                 case prefix+'wetglass':case prefix+'multicolor3d':case prefix+'watercolor':case prefix+'luxurygold':case prefix+'galaxywallpaper':case prefix+'lighttext':case prefix+'beautifulflower':case prefix+'puppycute':case prefix+'royaltext':case prefix+'heartshaped':case prefix+'birthdaycake':case prefix+'galaxystyle':case prefix+'hologram3d':case prefix+'greenneon':case prefix+'glossychrome':case prefix+'greenbush':case prefix+'metallogo':case prefix+'noeltext':case prefix+'glittergold':case prefix+'textcake':case prefix+'starsnight':case prefix+'wooden3d':case prefix+'textbyname':case prefix+'writegalacy':case prefix+'galaxybat':case prefix+'snow3d':case prefix+'birthdayday':case prefix+'goldplaybutton':case prefix+'silverplaybutton':case prefix+'freefire':{
  if (!isPremium && global.db.users[m.sender].limit < 1) return reply(mess.endLimit) // respon ketika limit habis
             db.users[m.sender].limit -= 1 // -1 limit
-                               if (!text) throw 'No Query Text'
+                               if (!text) reply('Textnya Mana Kak?')
                 reply(mess.wait)
                 Manik.sendMessage(m.chat, { image: { url: `https://api.lolhuman.xyz/api/ephoto1/${command.slice(1)}?apikey=${lolkey}&text=${text}`}, caption: `Nih Dah Jadi ${command.slice(1)}📸` }, { quoted: m })
             }
@@ -4143,7 +5274,7 @@ break
             case prefix+'ttlogo':case prefix+'arcade8bit':case prefix+'battlefield4':case prefix+'pubg':{
             if (!isPremium && global.db.users[m.sender].limit < 1) return reply(mess.endLimit) // respon ketika limit habis
             db.users[m.sender].limit -= 1 // -1 limit
-            if (!text) throw 'No Query Text'
+            if (!text) reply('Textnya Mana Kak?')
                 reply(mess.wait)
                 Manik.sendMessage(m.chat, { image: { url: `https://api.lolhuman.xyz/api/photooxy2/${command.slice(1)}?apikey=${lolkey}&text=${text}`}, caption: `Nih Dah Jadi ${command.slice(1)}📸` }, { quoted: m })
             }
@@ -4152,20 +5283,20 @@ break
             case prefix+'shadow':case prefix+'cup':case prefix+'cup1':case prefix+'romance':case prefix+'smoke':case prefix+'burnpaper':case prefix+'lovemessage':case prefix+'undergrass':case prefix+'love':case prefix+'coffe':case prefix+'woodheart':case prefix+'woodenboard':case prefix+'summer3d':case prefix+'wolfmetal':case prefix+'nature3d':case prefix+'underwater':case prefix+'goldenrose':case prefix+'summernature':case prefix+'letterleaves':case prefix+'glowingneon':case prefix+'fallleaves':case prefix+'flamming':case prefix+'harrypotter':case prefix+'carvedwood':{
             if (!isPremium && global.db.users[m.sender].limit < 1) return reply(mess.endLimit) // respon ketika limit habis
             db.users[m.sender].limit -= 1 // -1 limit
-            if (!text) throw 'No Query Text'
+            if (!text) reply('Textnya Mana Kak?')
                 reply(mess.wait)
                 Manik.sendMessage(m.chat, { image: { url: `https://api.lolhuman.xyz/api/photooxy1/${command.slice(1)}?apikey=${lolkey}&text=${text}`}, caption: `Nih Dah Jadi ${command.slice(1)}📸` }, { quoted: m })
             }
             break
             case prefix+'pornhub':case prefix+'glitch':case prefix+'avenger':case prefix+'space':case prefix+'ninjalogo':case prefix+'marvelstudio':case prefix+'lionlogo':case prefix+'wolflogo':case prefix+'steel3d':case prefix+'wallgravity':{
-            if (!text) throw 'No Query Text'
+            if (!text) reply('Textnya Mana Kak?')
                 reply(mess.wait)
                 Manik.sendMessage(m.chat, { image: { url: `https://api.lolhuman.xyz/api/textprome2/${command.slice(1)}?apikey=${lolkey}&text=${text}`}, caption: `Nih Dah Jadi ${command.slice(1)}📸` }, { quoted: m })
             }
             break
             case prefix+'jodohku':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-            if (!m.isGroup) throw mess.group
+            if (!m.isGroup) reply(mess.group)
             let member = participants.map(u => u.id)
             let me = m.sender
             let jodoh = member[Math.floor(Math.random() * member.length)]
@@ -4181,7 +5312,7 @@ break
             break
             case prefix+'jadian':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-            if (!m.isGroup) throw mess.group
+            if (!m.isGroup) reply(mess.group)
             let member = participants.map(u => u.id)
             let orang = member[Math.floor(Math.random() * member.length)]
             let jodoh = member[Math.floor(Math.random() * member.length)]
@@ -4197,7 +5328,7 @@ break
             break
                 // Textprome //
                 case prefix+'blackpink':case prefix+'neon':case prefix+'greenneon':case prefix+'advanceglow':case prefix+'futureneon':case prefix+'sandwriting':case prefix+'sandsummer':case prefix+'sandengraved':case prefix+'metaldark':case prefix+'neonlight':case prefix+'holographic':case prefix+'text1917':case prefix+'minion':case prefix+'deluxesilver':case prefix+'newyearcard':case prefix+'bloodfrosted':case prefix+'halloween':case prefix+'jokerlogo':case prefix+'fireworksparkle':case prefix+'natureleaves':case prefix+'bokeh':case prefix+'toxic':case prefix+'strawberry':case prefix+'box3d':case prefix+'roadwarning':case prefix+'breakwall':case prefix+'icecold':case prefix+'luxury':case prefix+'cloud':case prefix+'summersand':case prefix+'horrorblood':case prefix+'thunder':{
-                if (!text) throw 'No Query Text'
+                if (!text) reply('Textnya Mana Kak?')
                 reply(mess.wait)
                 Manik.sendMessage(m.chat, { image: { url: `https://api.lolhuman.xyz/api/textprome/${command.slice(1)}?apikey=${lolkey}&text=${text}`}, caption: `Nih Dah Jadi ${command.slice(1)}📸` }, { quoted: m })
             }
@@ -4208,14 +5339,14 @@ break
             }
             break
             case prefix+'chiisaihentai':case prefix+'trap':case prefix+'blowjob':case prefix+'yaoi':case prefix+'ecchi':case prefix+'ahegao':case prefix+'hololewd':case prefix+'sideoppai':case prefix+'animefeets':case prefix+'animebooty':case prefix+'animethighss':case prefix+'hentaiparadise':case prefix+'animearmpits':case prefix+'hentaifemdom':case prefix+'lewdanimegirls':case prefix+'biganimetiddies':case prefix+'animebellybutton':case prefix+'hentai4everyone':{
-            if (!text) throw 'No Query Text'
+            if (!text) reply('Textnya Mana Kak?')
                 reply(mess.wait)
                 Manik.sendMessage(m.chat, { image: { url: `https://api.lolhuman.xyz/api/random/nsfw/${command.slice(1)}?apikey=${lolkey}`}, caption: `Nih Dah Jadi ${command.slice(1)}📸` }, { quoted: m })
             }
             break
 	    case prefix+'nomerhoki': case prefix+'nomorhoki':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!Number(text)) throw `Example : ${prefix + command} 6288292024190`
+                if (!Number(text)) reply(`Example : ${prefix + command} 6288292024190`)
                 let anu = await primbon.nomer_hoki(Number(text))
                 if (anu.status == false) return m.reply(anu.message)
                 Manik.sendText(m.chat, `≻ *Nomor HP :* ${anu.message.nomer_hp}\n≻ *Angka Shuzi :* ${anu.message.angka_shuzi}\n≻ *Energi Positif :*\n- Kekayaan : ${anu.message.energi_positif.kekayaan}\n- Kesehatan : ${anu.message.energi_positif.kesehatan}\n- Cinta : ${anu.message.energi_positif.cinta}\n- Kestabilan : ${anu.message.energi_positif.kestabilan}\n- Persentase : ${anu.message.energi_positif.persentase}\n≻ *Energi Negatif :*\n- Perselisihan : ${anu.message.energi_negatif.perselisihan}\n- Kehilangan : ${anu.message.energi_negatif.kehilangan}\n- Malapetaka : ${anu.message.energi_negatif.malapetaka}\n- Kehancuran : ${anu.message.energi_negatif.kehancuran}\n- Persentase : ${anu.message.energi_negatif.persentase}`, m)
@@ -4223,7 +5354,7 @@ break
             break
             case prefix+'artimimpi': case prefix+'tafsirmimpi':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!text) throw `Example : ${prefix + command} belanja`
+                if (!text) reply(`Example : ${prefix + command} belanja`)
                 let anu = await primbon.tafsir_mimpi(text)
                 if (anu.status == false) return m.reply(anu.message)
                 Manik.sendText(m.chat, `≻ *Mimpi :* ${anu.message.mimpi}\n≻ *Arti :* ${anu.message.arti}\n≻ *Solusi :* ${anu.message.solusi}`, m)
@@ -4231,7 +5362,7 @@ break
             break
             case prefix+'ramalanjodoh': case prefix+'ramaljodoh':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!text) throw `Example : ${prefix + command} Manik, 28, 10, 2005, Dini, 1, 7, 2004`
+                if (!text) reply `Example : ${prefix + command} Manik, 28, 10, 2005, Dini, 1, 7, 2004`
                 let [nama1, tgl1, bln1, thn1, nama2, tgl2, bln2, thn2] = text.split`,`
                 let anu = await primbon.ramalan_jodoh(nama1, tgl1, bln1, thn1, nama2, tgl2, bln2, thn2)
                 if (anu.status == false) return m.reply(anu.message)
@@ -4240,7 +5371,7 @@ break
             break
             case prefix+'ramalanjodohbali': case prefix+'ramaljodohbali':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!text) throw `Example : ${prefix + command} Manik, 28, 10, 2005, Dini, 1, 7, 2004`
+                if (!text) reply `Example : ${prefix + command} Manik, 28, 10, 2005, Dini, 1, 7, 2004`
                 let [nama1, tgl1, bln1, thn1, nama2, tgl2, bln2, thn2] = text.split`,`
                 let anu = await primbon.ramalan_jodoh_bali(nama1, tgl1, bln1, thn1, nama2, tgl2, bln2, thn2)
                 if (anu.status == false) return m.reply(anu.message)
@@ -4249,7 +5380,7 @@ break
             break
             case prefix+'suamiistri':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!text) throw `Example : ${prefix + command} Manik, 28, 10, 2005, Dini, 1, 7, 2004`
+                if (!text) reply `Example : ${prefix + command} Manik, 28, 10, 2005, Dini, 1, 7, 2004`
                 let [nama1, tgl1, bln1, thn1, nama2, tgl2, bln2, thn2] = text.split`,`
                 let anu = await primbon.suami_istri(nama1, tgl1, bln1, thn1, nama2, tgl2, bln2, thn2)
                 if (anu.status == false) return m.reply(anu.message)
@@ -4258,7 +5389,7 @@ break
             break
             case prefix+'ramalancinta': case prefix+'ramalcinta':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!text) throw `Example : ${prefix + command} Manik, 28, 10, 2005, Dini, 1, 7, 2004`
+                if (!text) reply `Example : ${prefix + command} Manik, 28, 10, 2005, Dini, 1, 7, 2004`
                 let [nama1, tgl1, bln1, thn1, nama2, tgl2, bln2, thn2] = text.split`,`
                 let anu = await primbon.ramalan_cinta(nama1, tgl1, bln1, thn1, nama2, tgl2, bln2, thn2)
                 if (anu.status == false) return m.reply(anu.message)
@@ -4267,7 +5398,7 @@ break
             break
             case prefix+'artinama':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!text) throw `Example : ${prefix + command} Manik`
+                if (!text) reply `Example : ${prefix + command} Manik`
                 let anu = await primbon.arti_nama(text)
                 if (anu.status == false) return m.reply(anu.message)
                 Manik.sendText(m.chat, `≻ *Nama :* ${anu.message.nama}\n≻ *Arti :* ${anu.message.arti}\n≻ *Catatan :* ${anu.message.catatan}`, m)
@@ -4275,7 +5406,7 @@ break
             break
             case prefix+'kecocokannama': case prefix+'cocoknama':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!text) throw `Example : ${prefix + command} Manik, 28, 10, 2005`
+                if (!text) reply(`Example : ${prefix + command} Manik, 28, 10, 2005`)
                 let [nama, tgl, bln, thn] = text.split`,`
                 let anu = await primbon.kecocokan_nama(nama, tgl, bln, thn)
                 if (anu.status == false) return m.reply(anu.message)
@@ -4284,7 +5415,7 @@ break
             break
             case prefix+'kecocokanpasangan': case prefix+'cocokpasangan': case prefix+'pasangan':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!text) throw `Example : ${prefix + command} Manik|Dini`
+                if (!text) reply `Example : ${prefix + command} Manik|Dini`
                 let [nama1, nama2] = text.split`|`
                 let anu = await primbon.kecocokan_nama_pasangan(nama1, nama2)
                 if (anu.status == false) return m.reply(anu.message)
@@ -4293,7 +5424,7 @@ break
             break
             case prefix+'jadianpernikahan': case prefix+'jadiannikah':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!text) throw `Example : ${prefix + command} 6, 12, 2020`
+                if (!text) reply `Example : ${prefix + command} 6, 12, 2020`
                 let [tgl, bln, thn] = text.split`,`
                 let anu = await primbon.tanggal_jadian_pernikahan(tgl, bln, thn)
                 if (anu.status == false) return m.reply(anu.message)
@@ -4302,7 +5433,7 @@ break
             break
             case prefix+'sifatusaha':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!ext)throw `Example : ${prefix+ command} 28, 12, 2021`
+                if (!ext)reply `Example : ${prefix+ command} 28, 12, 2021`
                 let [tgl, bln, thn] = text.split`,`
                 let anu = await primbon.sifat_usaha_bisnis(tgl, bln, thn)
                 if (anu.status == false) return m.reply(anu.message)
@@ -4311,7 +5442,7 @@ break
             break
             case prefix+'rejeki': case prefix+'rezeki':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!text) throw `Example : ${prefix + command} 28, 10, 2005`
+                if (!text) reply(`Example : ${prefix + command} 28, 10, 2005`)
                 let [tgl, bln, thn] = text.split`,`
                 let anu = await primbon.rejeki_hoki_weton(tgl, bln, thn)
                 if (anu.status == false) return m.reply(anu.message)
@@ -4320,7 +5451,7 @@ break
             break
             case prefix+'pekerjaan': case prefix+'kerja':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!text) throw `Example : ${prefix + command} 28, 10, 2005`
+                if (!text) reply(`Example : ${prefix + command} 28, 10, 2005`)
                 let [tgl, bln, thn] = text.split`,`
                 let anu = await primbon.pekerjaan_weton_lahir(tgl, bln, thn)
                 if (anu.status == false) return m.reply(anu.message)
@@ -4329,7 +5460,7 @@ break
             break
             case prefix+'ramalannasib': case prefix+'ramalnasib': case prefix+'nasib':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!text) throw `Example : 28, 10, 2005`
+                if (!text) reply `Example : 28, 10, 2005`
                 let [tgl, bln, thn] = text.split`,`
                 let anu = await primbon.ramalan_nasib(tgl, bln, thn)
                 if (anu.status == false) return m.reply(anu.message)
@@ -4338,7 +5469,7 @@ break
             break
             case prefix+'potensipenyakit': case prefix+'penyakit':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!text) throw `Example : ${prefix + command} 28, 10, 2005`
+                if (!text) reply(`Example : ${prefix + command} 28, 10, 2005`)
                 let [tgl, bln, thn] = text.split`,`
                 let anu = await primbon.cek_potensi_penyakit(tgl, bln, thn)
                 if (anu.status == false) return m.reply(anu.message)
@@ -4347,7 +5478,7 @@ break
             break
             case prefix+'artitarot': case prefix+'tarot':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!text) throw `Example : ${prefix + command} 28, 10, 2005`
+                if (!text) reply(`Example : ${prefix + command} 28, 10, 2005`)
                 let [tgl, bln, thn] = text.split`,`
                 let anu = await primbon.arti_kartu_tarot(tgl, bln, thn)
                 if (anu.status == false) return m.reply(anu.message)
@@ -4356,7 +5487,7 @@ break
             break
             case prefix+'fengshui':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!text) throw `Example : ${prefix + command} Manik, 1, 2005\n\nNote : ${prefix + command} Nama, gender, tahun lahir\nGender : 1 untuk laki-laki & 2 untuk perempuan`
+                if (!text) reply `Example : ${prefix + command} Manik, 1, 2005\n\nNote : ${prefix + command} Nama, gender, tahun lahir\nGender : 1 untuk laki-laki & 2 untuk perempuan`
                 let [nama, gender, tahun] = text.split`,`
                 let anu = await primbon.perhitungan_feng_shui(nama, gender, tahun)
                 if (anu.status == false) return m.reply(anu.message)
@@ -4365,7 +5496,7 @@ break
             break
             case prefix+'haribaik':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!text) throw `Example : ${prefix + command} 28, 10, 2005`
+                if (!text) reply(`Example : ${prefix + command} 28, 10, 2005`)
                 let [tgl, bln, thn] = text.split`,`
                 let anu = await primbon.petung_hari_baik(tgl, bln, thn)
                 if (anu.status == false) return m.reply(anu.message)
@@ -4374,7 +5505,7 @@ break
             break
             case prefix+'harisangar': case prefix+'taliwangke':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!text) throw `Example : ${prefix + command} 28, 10, 2005`
+                if (!text) reply(`Example : ${prefix + command} 28, 10, 2005`)
                 let [tgl, bln, thn] = text.split`,`
                 let anu = await primbon.hari_sangar_taliwangke(tgl, bln, thn)
                 if (anu.status == false) return m.reply(anu.message)
@@ -4383,7 +5514,7 @@ break
             break
             case prefix+'harinaas': case prefix+'harisial':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!text) throw `Example : ${prefix + command} 28, 10, 2005`
+                if (!text) reply(`Example : ${prefix + command} 28, 10, 2005`)
                 let [tgl, bln, thn] = text.split`,`
                 let anu = await primbon.primbon_hari_naas(tgl, bln, thn)
                 if (anu.status == false) return m.reply(anu.message)
@@ -4392,7 +5523,7 @@ break
             break
             case prefix+'nagahari': case prefix+'harinaga':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!text) throw `Example : ${prefix + command} 28, 10, 2005`
+                if (!text) reply(`Example : ${prefix + command} 28, 10, 2005`)
                 let [tgl, bln, thn] = text.split`,`
                 let anu = await primbon.rahasia_naga_hari(tgl, bln, thn)
                 if (anu.status == false) return m.reply(anu.message)
@@ -4401,7 +5532,7 @@ break
             break
             case prefix+'arahrejeki': case prefix+'arahrezeki':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!text) throw `Example : ${prefix + command} 28, 10, 2005`
+                if (!text) reply(`Example : ${prefix + command} 28, 10, 2005`)
                 let [tgl, bln, thn] = text.split`,`
                 let anu = await primbon.primbon_arah_rejeki(tgl, bln, thn)
                 if (anu.status == false) return m.reply(anu.message)
@@ -4410,7 +5541,7 @@ break
             break
             case prefix+'peruntungan':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!text) throw `Example : ${prefix + command} Manik, 28, 10, 2005, 2022\n\nNote : ${prefix + command} Nama, tanggal lahir, bulan lahir, tahun lahir, untuk tahun`
+                if (!text) reply `Example : ${prefix + command} Manik, 28, 10, 2005, 2022\n\nNote : ${prefix + command} Nama, tanggal lahir, bulan lahir, tahun lahir, untuk tahun`
                 let [nama, tgl, bln, thn, untuk] = text.split`,`
                 let anu = await primbon.ramalan_peruntungan(nama, tgl, bln, thn, untuk)
                 if (anu.status == false) return m.reply(anu.message)
@@ -4419,7 +5550,7 @@ break
             break
             case prefix+'weton': case prefix+'wetonjawa':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!text) throw `Example : ${prefix + command} 28, 10, 2005`
+                if (!text) reply(`Example : ${prefix + command} 28, 10, 2005`)
                 let [tgl, bln, thn] = text.split`,`
                 let anu = await primbon.weton_jawa(tgl, bln, thn)
                 if (anu.status == false) return m.reply(anu.message)
@@ -4428,7 +5559,7 @@ break
             break
             case prefix+'sifat': case prefix+'karakter':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!text) throw `Example : ${prefix + command} Manik, 28, 10, 2005`
+                if (!text) reply(`Example : ${prefix + command} Manik, 28, 10, 2005`)
                 let [nama, tgl, bln, thn] = text.split`,`
                 let anu = await primbon.sifat_karakter_tanggal_lahir(nama, tgl, bln, thn)
                 if (anu.status == false) return m.reply(anu.message)
@@ -4437,7 +5568,7 @@ break
             break
             case prefix+'keberuntungan':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!text) throw `Example : ${prefix + command} Manik, 28, 10, 2005`
+                if (!text) reply(`Example : ${prefix + command} Manik, 28, 10, 2005`)
                 let [nama, tgl, bln, thn] = text.split`,`
                 let anu = await primbon.potensi_keberuntungan(nama, tgl, bln, thn)
                 if (anu.status == false) return m.reply(anu.message)
@@ -4446,7 +5577,7 @@ break
             break
             case prefix+'memancing':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!text) throw `Example : ${prefix + command} 12, 1, 2022`
+                if (!text) reply `Example : ${prefix + command} 12, 1, 2022`
                 let [tgl, bln, thn] = text.split`,`
                 let anu = await primbon.primbon_memancing_ikan(tgl, bln, thn)
                 if (anu.status == false) return m.reply(anu.message)
@@ -4455,7 +5586,7 @@ break
             break
             case prefix+'masasubur':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!text) throw `Example : ${prefix + command} 12, 1, 2022, 28\n\nNote : ${prefix + command} hari pertama menstruasi, siklus`
+                if (!text) reply `Example : ${prefix + command} 12, 1, 2022, 28\n\nNote : ${prefix + command} hari pertama menstruasi, siklus`
                 let [tgl, bln, thn, siklus] = text.split`,`
                 let anu = await primbon.masa_subur(tgl, bln, thn, siklus)
                 if (anu.status == false) return m.reply(anu.message)
@@ -4464,7 +5595,7 @@ break
             break
             case prefix+'zodiak': case prefix+'zodiac':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!text) throw `Example : ${prefix+ command} 28 10 2005`
+                if (!text) reply `Example : ${prefix+ command} 28 10 2005`
                 let zodiak = [
                     ["capricorn", new Date(1970, 0, 1)],
                     ["aquarius", new Date(1970, 0, 20)],
@@ -4500,7 +5631,7 @@ break
             break
             case prefix+'shio':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!text) throw `Example : ${prefix + command} tikus\n\nNote : For Detail https://primbon.com/shio.htm`
+                if (!text) reply `Example : ${prefix + command} tikus\n\nNote : For Detail https://primbon.com/shio.htm`
                 let anu = await primbon.shio(text)
                 if (anu.status == false) return m.reply(anu.message)
                 Manik.sendText(m.chat, `≻ *Hasil :* ${anu.message}`, m)
@@ -4550,13 +5681,13 @@ break
 	
             case prefix+'joox': case prefix+'jooxdl':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!text) throw 'No Query Title'
+                if (!text) reply('Titel Mana Kak?')
                 reply('Fitur Eror Males Fix')
             }
             break
             case prefix+'soundcloud': case prefix+'scdl':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!text) throw 'No Query Title'
+                if (!text) reply('Titel Mana Kak?')
                 reply('Gatau Bisa Apa Gak')
                 let anu = await fetchJson(api('xteam', '/dl/soundcloud', { url: isUrl(text)[0] }, 'apikey'))
                 let msg = await Manik.sendImage(m.chat, anu.result.thumb, `âž£ Title : ${anu.result.title}\nâž£ Url : ${isUrl(text)[0]}`)
@@ -4586,11 +5717,11 @@ sendFile(m.chat,data.medias[0].url,txt,msg)
 
 break
 
-case prefix+'ig': case prefix+'igdl': case prefix+'youtube': case prefix+'youtubedl':
+case prefix+'ig': case prefix+'igdl': case prefix+'instagram': case prefix+'instagramdl':
 if (!q) reply(`Kirim perintah ${command.slice(1)} link`)
  reply(mess.wait)
-xfar.youtube(q).then(async data => {
-let txt = `*youtube Downloader*\n\n`
+xfar.Instagram(q).then(async data => {
+let txt = `*Instagram Downloader*\n\n`
 txt += `*Title :* ${data.title}\n`
 txt += `*Url Source :* ${data.url}\n\n`
 txt += `*Tunggu sebentar kak, media sedang di kirim..*`
@@ -4603,13 +5734,13 @@ sendFile(m.chat, i.url, '', res)
 break
 	        case prefix+'pindl': case prefix+'pinterestdl':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!text) throw 'Masukkan Query Link!'
+                if (!text) reply('Link Mana Kak?')
                 reply('Eror Bodo Males Fix Buka Github')
             }
             break
             case prefix+'umma': case prefix+'ummadl':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-	        if (!text) throw `Example : ${prefix + command} https://umma.id/channel/video/post/gus-arafat-sumber-kecewa-84464612933698`
+	        if (!text) reply `Example : ${prefix + command} https://umma.id/channel/video/post/gus-arafat-sumber-kecewa-84464612933698`
                 let { umma } = require('./FuncBot/scraper')
 		let anu = await umma(isUrl(text)[0])
 		if (anu.type == 'video') {
@@ -4641,7 +5772,7 @@ Untuk Download Media Silahkan Klik salah satu Button dibawah ini atau masukkan c
 	    break
         case prefix+'ringtone':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-		if (!text) throw `Example : ${prefix + command} black rover`
+		if (!text) reply `Example : ${prefix + command} black rover`
         let { ringtone } = require('./FuncBot/scraper')
 		let anu = await ringtone(text)
 		let result = anu[Math.floor(Math.random() * anu.length)]
@@ -4651,7 +5782,7 @@ Untuk Download Media Silahkan Klik salah satu Button dibawah ini atau masukkan c
 		case prefix+'iqra':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
 		oh = `Example : ${prefix + command} 3\n\nIQRA Yang tersedia : 1,2,3,4,5,6`
-		if (!text) throw oh
+		if (!text) reply(oh)
 		yy = await getBuffer(`https://islamic-api-indonesia.herokuapp.com/api/data/pdf/iqra${text}`)
 		Manik.sendMessage(m.chat, {document: yy, mimetype: 'application/pdf', fileName: `iqra${text}.pdf`}, {quoted:m}).catch ((err) => reply(oh))
 		}
@@ -4679,7 +5810,7 @@ Format yang tersedia : pdf, docx, pptx, xlsx`)
 		break
 		case prefix+'hadis': case prefix+'hadist':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-		if (!args[1]) throw `Contoh:
+		if (!args[1]) reply `Contoh:
 ${prefix + command} bukhari 1
 ${prefix + command} abu-daud 1
 
@@ -4700,7 +5831,7 @@ malik
 1 - 1594
 muslim
 1 - 5362`
-		if (!args[1]) throw `Hadis yang ke berapa?\n\ncontoh:\n${prefix + command} muslim 1`
+		if (!args[1]) reply `Hadis yang ke berapa?\n\ncontoh:\n${prefix + command} muslim 1`
 		try {
 		let res = await fetchJson(`https://islamic-api-indonesia.herokuapp.com/api/data/json/hadith/${args[1]}`)
 		let { number, arab, id } = res.find(v => v.number == args[1])
@@ -4716,8 +5847,8 @@ ${id}`)
 		break
 		case prefix+'alquran':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-		if (!args[1]) throw `Contoh penggunaan:\n${prefix + command} 1 2\n\nmaka hasilnya adalah surah Al-Fatihah ayat 2 beserta audionya, dan ayatnya 1 aja`
-		if (!args[1]) throw `Contoh penggunaan:\n${prefix + command} 1 2\n\nmaka hasilnya adalah surah Al-Fatihah ayat 2 beserta audionya, dan ayatnya 1 aja`
+		if (!args[1]) reply `Contoh penggunaan:\n${prefix + command} 1 2\n\nmaka hasilnya adalah surah Al-Fatihah ayat 2 beserta audionya, dan ayatnya 1 aja`
+		if (!args[1]) reply `Contoh penggunaan:\n${prefix + command} 1 2\n\nmaka hasilnya adalah surah Al-Fatihah ayat 2 beserta audionya, dan ayatnya 1 aja`
 		let res = await fetchJson(`https://islamic-api-indonesia.herokuapp.com/api/data/quran?surah=${args[1]}&ayat=${args[1]}`)
 		let txt = `*Arab* : ${res.result.data.text.arab}
 *English* : ${res.result.data.translation.en}
@@ -4730,8 +5861,8 @@ ${id}`)
 		break
 		case prefix+'tafsirsurah':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-		if (!args[1]) throw `Contoh penggunaan:\n${prefix + command} 1 2\n\nmaka hasilnya adalah tafsir surah Al-Fatihah ayat 2`
-		if (!args[1]) throw `Contoh penggunaan:\n${prefix + command} 1 2\n\nmaka hasilnya adalah tafsir surah Al-Fatihah ayat 2`
+		if (!args[1]) reply `Contoh penggunaan:\n${prefix + command} 1 2\n\nmaka hasilnya adalah tafsir surah Al-Fatihah ayat 2`
+		if (!args[1]) reply `Contoh penggunaan:\n${prefix + command} 1 2\n\nmaka hasilnya adalah tafsir surah Al-Fatihah ayat 2`
 		let res = await fetchJson(`https://islamic-api-indonesia.herokuapp.com/api/data/quran?surah=${args[1]}&ayat=${args[1]}`)
 		let txt = `「 *Tafsir Surah*  」
 
@@ -4776,11 +5907,11 @@ ${id}`)
                 break
             case prefix+'setcmd':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!m.quoted) throw 'Reply Pesan!'
-                if (!m.quoted.fileSha256) throw 'SHA256 Hash Missing'
-                if (!text) throw `Untuk Command Apa?`
+                if (!m.quoted) reply `Reply Pesan!`
+                if (!m.quoted.fileSha256) reply `SHA256 Hash Missing`
+                if (!text) reply `Untuk Command Apa?`
                 let hash = m.quoted.fileSha256.toString('base64')
-                if (global.db.sticker[hash] && global.db.sticker[hash].locked) throw 'You have no permission to change this sticker command'
+                if (global.db.sticker[hash] && global.db.sticker[hash].locked) reply `You have no permission to change this sticker command`
                 global.db.sticker[hash] = {
                     text,
                     mentionedJid: m.mentionedJid,
@@ -4794,8 +5925,8 @@ ${id}`)
             case prefix+'delcmd':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
                 let hash = m.quoted.fileSha256.toString('base64')
-                if (!hash) throw `Tidak ada hash`
-                if (global.db.sticker[hash] && global.db.sticker[hash].locked) throw 'You have no permission to delete this sticker command'              
+                if (!hash) reply `Tidak ada hash`
+                if (global.db.sticker[hash] && global.db.sticker[hash].locked) reply `You have no permission to delete this sticker command`              
                 delete global.db.sticker[hash]
                 reply(`Done!`)
             }
@@ -4812,21 +5943,21 @@ ${Object.entries(global.db.sticker).map(([key, value], index) => `${index + 1}. 
             break
             case prefix+'lockcmd':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!isManik) throw mess.owner
-                if (!m.quoted) throw 'Reply Message!'
-                if (!m.quoted.fileSha256) throw 'SHA256 Hash Missing'
+                if (!isManik) reply(mess.owner)
+                if (!m.quoted) reply `Reply Message!`
+                if (!m.quoted.fileSha256) reply `SHA256 Hash Missing`
                 let hash = m.quoted.fileSha256.toString('base64')
-                if (!(hash in global.db.sticker)) throw 'Hash not found in database'
+                if (!(hash in global.db.sticker)) reply `Hash not found in database`
                 global.db.sticker[hash].locked = !/^un/i.test(command)
                 reply('Done!')
             }
             break
             case prefix+'addmsg':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!m.quoted) throw 'Reply Message Yang Ingin Disave Di Database'
-                if (!text) throw `Example : ${prefix + command} nama file`
+                if (!m.quoted) reply `Reply Message Yang Ingin Disave Di Database`
+                if (!text) reply `Example : ${prefix + command} nama file`
                 let msgs = global.db.database
-                if (text.toLowerCase() in msgs) throw `'${text}' telah terdaftar di list pesan`
+                if (text.toLowerCase() in msgs) reply `'${text}' telah terdaftar di list pesan`
                 msgs[text.toLowerCase()] = quoted.fakeObj
 m.reply(`Berhasil menambahkan pesan di list pesan sebagai '${text}'
     
@@ -4843,7 +5974,7 @@ let woi = `*「 𝗜𝗡𝗦𝗧𝗔𝗚𝗥𝗔𝗠 」*
 
 _Username : ${i.username}_
 _Nickname : ${i.fullname}_
-_Source : https://youtube.com/${q}_
+_Source : https://instagram.com/${q}_
 _Verified : ${i.verified}_
 _Followers : ${i.followers}_
 _Following : ${i.follow}_
@@ -4855,9 +5986,9 @@ sendFile(m.chat ,i.thumbnail,woi, m)
 break
             case prefix+'getmsg':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!text) throw `Example : ${prefix + command} file name\n\nLihat list pesan dengan ${prefix}listmsg`
+                if (!text) reply `Example : ${prefix + command} file name\n\nLihat list pesan dengan ${prefix}listmsg`
                 let msgs = global.db.database
-                if (!(text.toLowerCase() in msgs)) throw `'${text}' tidak terdaftar di list pesan`
+                if (!(text.toLowerCase() in msgs)) reply `'${text}' tidak terdaftar di list pesan`
                 Manik.copyNForward(m.chat, msgs[text.toLowerCase()], true)
             }
             break
@@ -4896,7 +6027,7 @@ break
 🔮 ${prefix}owner - _kirim kontak pemilik bot_
 👤 ${prefix}author - _kirim kontak pembuat bot_
 ———————————————————
-Note: Owner Tidak Bertanggung Jawab Jika Ada Masalah Antara Pengguna Bot`, image: { url: "./media/anonymous.jpg" }, templateButtons: buttonsAnon, footer: 'RzBot By Own-Manik√', mentions: [m.sender] })
+Note: Owner Tidak Bertanggung Jawab Jika Ada Masalah Antara Pengguna Bot`, image: { url: "./media/anonymous.jpg" }, templateButtons: buttonsAnon, footer: 'CekilBOT By Own-Cekil√', mentions: [m.sender] })
 			break
 			}
 case prefix+'sendprofile': case prefix+'sendcontact':{
@@ -5025,14 +6156,14 @@ case prefix+'sendprofile': case prefix+'sendcontact':{
             }
             case prefix+'public':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!isManik) throw mess.owner
+                if (!isManik) reply(mess.owner)
                 Manik.public = true
                 reply('Successfully Changed To Public Usage')
             }
             break
             case prefix+'self':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                if (!isManik) throw mess.owner
+                if (!isManik) reply(mess.owner)
                 Manik.public = false
                 reply('Successfully Changed To Self Usage')
             }
@@ -5089,45 +6220,45 @@ ${cpus.map((cpu, i) => `${i + 1}. ${cpu.model.trim()} (${cpu.speed} MHZ)\n${Obje
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
                 let vcard = 'BEGIN:VCARD\n'
     + 'VERSION:3.0\n' 
-    + 'N:;Radithstore;;;'
-    + 'FN:Radithstore\n'
-    + 'ORG:Radithstore;\n'
-    + 'item1.TEL;type=CELL;type=VOICE;waid=6288293406700:+62 882-9340-6700\n' 
-    + 'item1.X-ABLabel:Creator Rz Bott\n'
-    + 'item2.EMAIL;type=INTERNET:none\n'
+    + 'N:;Manik;;;'
+    + 'FN:Manik\n'
+    + 'ORG:Arya Manik;\n'
+    + 'item1.TEL;type=CELL;type=VOICE;waid=17242332244:+62 857-3713-4572\n' 
+    + 'item1.X-ABLabel:Creator Manik Bott\n'
+    + 'item2.EMAIL;type=INTERNET:aryamanik107@gmail.com\n'
     + 'item2.X-ABLabel:Email\n'
-    + 'item3.URL:https://youtube.com/channel/uckd2cb9j_xkhuytcbk_jozg\n'
-    + 'item3.X-ABLabel:youtube\n'
+    + 'item3.URL:https://instagram.com/cekilgans\n'
+    + 'item3.X-ABLabel:Instagram\n'
     + 'item4.ADR:;;Indonesia;;;;\n'
     + 'item4.X-ABLabel:Region\n'
     + 'END:VCARD'
-Manik.sendMessage(m.chat, { contacts: { displayName: 'radithstore', contacts: [{ vcard }] } }, { quoted: m })
+Manik.sendMessage(m.chat, { contacts: { displayName: 'AryaManik√', contacts: [{ vcard }] } }, { quoted: m })
             }
             break            
             case prefix+'author':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
                 let vcard = 'BEGIN:VCARD\n'
     + 'VERSION:3.0\n' 
-    + 'N:;Radithstore;;;'
-    + 'FN:Radithstore\n'
-    + 'ORG:Radithstore;\n'
-    + 'item1.TEL;type=CELL;type=VOICE;waid=6288293406700:+62 882-9340-6700\n' 
-    + 'item1.X-ABLabel:Creator Rz Bott\n'
-    + 'item2.EMAIL;type=INTERNET:none\n'
+    + 'N:;Manik;;;'
+    + 'FN:Manik\n'
+    + 'ORG:Arya Manik;\n'
+    + 'item1.TEL;type=CELL;type=VOICE;waid=17242332244:+62 857-3713-4572\n' 
+    + 'item1.X-ABLabel:Creator Manik Bott\n'
+    + 'item2.EMAIL;type=INTERNET:aryamanik107@gmail.com\n'
     + 'item2.X-ABLabel:Email\n'
-    + 'item3.URL:https://youtube.com/channel/uckd2cb9j_xkhuytcbk_jozg\n'
-    + 'item3.X-ABLabel:youtube\n'
+    + 'item3.URL:https://instagram.com/cekilgans\n'
+    + 'item3.X-ABLabel:Instagram\n'
     + 'item4.ADR:;;Indonesia;;;;\n'
     + 'item4.X-ABLabel:Region\n'
     + 'END:VCARD'
-Manik.sendMessage(m.chat, { contacts: { displayName: 'radithstore', contacts: [{ vcard }] } }, { quoted: m })
+Manik.sendMessage(m.chat, { contacts: { displayName: 'Arya Manik', contacts: [{ vcard }] } }, { quoted: m })
 reply('Hai Kak Ini Adalah Nomor Author Saya')
             }
             break            
                     case prefix+'bug': case prefix+'report':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-                    	if(!text) throw `Enter The Bug Example\n\n${command.slice(1)} Menu Error `
-                    	Manik.sendMessage(`6288293406700@s.whatsapp.net`, {text: `*Bug Report From:* wa.me/${m.sender.split("@")[0]}
+                    	if(!text) reply `Enter The Bug Example\n\n${command.slice(1)} Menu Error `
+                    	Manik.sendMessage(`17242332244@s.whatsapp.net`, {text: `*Bug Report From:* wa.me/${m.sender.split("@")[0]}
 Report Message: ${text}` })
 reply(`Successfully Reported To The Owner\n\nPlease Make Sure The Bug Is Valid, If You Play With This, Use This Feature Again And Again For No Reason, You Will Be Blocked For Sure !`)
                     }
@@ -5140,16 +6271,16 @@ const template = generateWAMessageFromContent(m.chat, proto.Message.fromObject({
                             hydratedContentText: anu,
                             locationMessage: {
                             jpegThumbnail: fs.readFileSync('./media/Manik.jpg')},
-                            hydratedFooterText: `RzBot - Md Beta`,
+                            hydratedFooterText: `CekilBOT - Md Beta`,
                             hydratedButtons: [{
                                 urlButton: {
-                                    displayText: 'youtube',
-                                    url: 'https://youtube.com/channel/uckd2cb9j_xkhuytcbk_jozg'
+                                    displayText: 'Instagram',
+                                    url: 'https://instagram.com/cekilgans'
                                 }
                             }, {
                             	urlButton: {
                                 displayText: 'Group',
-                                    url: 'https://chat.whatsapp.com/Gz9bSMZnFFr9avr61IVOKa'
+                                    url: 'https://chat.whatsapp.com/JO6WNiEfdyZCiviZ0tZcih'
                                 }
                             }, {
                                 quickReplyButton: {
@@ -5193,15 +6324,15 @@ case prefix+'loli':
               Manik.sendImage(m.chat, lolis, `Nih Kak😊`, m)
               break
             case prefix+'halah': case prefix+'hilih': case prefix+'huluh': case prefix+'heleh': case prefix+'holoh': 
-            if (!m.quoted && !text) throw `Send/reply text with caption ${prefix + command}`
-            ter = command[1].toLowerCase()
+            if (!m.quoted && !text) reply `Send/reply text with caption ${command}`
+            ter = command[2].toLowerCase()
             tex = m.quoted ? m.quoted.text ? m.quoted.text : q ? q : m.text : q ? q : m.text
             reply(tex.replace(/[aiueo]/g, ter).replace(/[AIUEO]/g, ter.toUpperCase()))
             break
 case prefix+'manga':
 addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-              if (!text) throw `Example : ${prefix + command} black rover`
-              reply('Tunggu Ya Kakak😊, RzBot Carikan')
+              if (!text) reply `Example : ${prefix + command} black rover`
+              reply('Tunggu Ya Kakak😊, CekilBOT Carikan')
               get_result = await fetchJson(`https://api.lolhuman.xyz/api/manga?apikey=${lolkey}&query=${text}`)
               get_result = get_result.result
               ini_txt = `Id : ${get_result.id}\n`
@@ -5229,8 +6360,8 @@ addCountCmd(`#${command.slice(1)}`, sender, _cmd)
               Manik.sendImage(m.chat, buff, `${ini_txt}`, m)
          break
          case prefix+'anime':
-             if (!text) throw `Example : ${prefix + command} black rover`
-             reply('Tunggu Ya Kakak😊, RzBot Carikan')
+             if (!text) reply `Example : ${prefix + command} black rover`
+             reply('Tunggu Ya Kakak😊, CekilBOT Carikan')
              get_result = await fetchJson(`https://api.lolhuman.xyz/api/anime?apikey=${lolkey}&query=${text}`)
              get_result = get_result.result
              ini_txt = `Id : ${get_result.id}\n`
@@ -5260,8 +6391,8 @@ addCountCmd(`#${command.slice(1)}`, sender, _cmd)
              Manik.sendImage(m.chat, thumbnail, `${ini_txt}`, m)
              break
       case prefix+'kusonime':
-             if (!text) throw `Example : ${prefix + command} black rover`
-             reply('Tunggu Ya Kakak😊, RzBot Carikan')
+             if (!text) reply `Example : ${prefix + command} black rover`
+             reply('Tunggu Ya Kakak😊, CekilBOT Carikan')
              get_result = await fetchJson(`https://api.lolhuman.xyz/api/kusonimesearch?apikey=${lolkey}&query=${query}`)
              get_result = get_result.result
              ini_txt = `Title : ${get_result.title}\n`
@@ -5288,8 +6419,8 @@ addCountCmd(`#${command.slice(1)}`, sender, _cmd)
              break
        case prefix+'otakudesu':
 addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-              if (!text) throw `Example : ${prefix + command} black rover`
-             reply('Tunggu Ya Kakak😊, RzBot Carikan')
+              if (!text) reply `Example : ${prefix + command} black rover`
+             reply('Tunggu Ya Kakak😊, CekilBOT Carikan')
               get_result = await fetchJson(`https://api.lolhuman.xyz/api/otakudesusearch?apikey=${lolkey}&query=${query}`)
               get_result = get_result.result
               ini_txt = `Title : ${get_result.title}\n`
@@ -5326,7 +6457,7 @@ addCountCmd(`#${command.slice(1)}`, sender, _cmd)
        case prefix+'megumin':
        case prefix+'wallnime':
        addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-              reply('Tunggu Ya Kak😊, RzBot Carikan')
+              reply('Tunggu Ya Kak😊, CekilBOT Carikan')
               buff = await getBuffer(`https://api.lolhuman.xyz/api/random/${command.slice(1)}?apikey=${lolkey}`)
               Manik.sendImage(m.chat, buff, `Nih Kak😊`, m)
               break
@@ -5347,7 +6478,7 @@ addCountCmd(`#${command.slice(1)}`, sender, _cmd)
               case prefix+'lolkey':
        case prefix+'cekapikey':
 addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-              if (!text) throw `Example : ${prefix + command} Textnya Mana Kak😡`
+              if (!text) reply `Example : ${prefix + command} Textnya Mana Kak😡`
               anu = await fetchJson(`https://api.lolhuman.xyz/api/checkapikey?apikey=${text}`)
               teks = `*YOUR APIKEY*\n\n➸ Username= ${anu.result.username}\n➸ Request= ${anu.result.requests}\n➸ Today= ${anu.result.today}\n➸ Akun Type= ${anu.result.account_type}\n➸ Expired= ${anu.result.expired}\n➸ API = https://api.lolhuman.xyz`
               reply(teks)
@@ -5355,13 +6486,13 @@ addCountCmd(`#${command.slice(1)}`, sender, _cmd)
        case prefix+'storyanime':
               case prefix+'videoanime':
        addCountCmd(`#${command.slice(1)}`, sender, _cmd)
-              reply('Tunggu Ya Kak😊, RzBot Carikan')
+              reply('Tunggu Ya Kak😊, CekilBOT Carikan')
               anu = await fetchJson(`https://api.lolhuman.xyz/api/storynime?apikey=${lolkey}`)
               Manik.sendMessage(m.chat, { video: { url: anu.result }, mimetype: 'video/mp4', caption: `Nih Kak😊` }, { quoted: m })
               break
               case prefix+'doujindesu':
-             if (!text) throw `Example : ${prefix + command} Textnya Mana Kak😡`
-             reply('Tunggu Ya Kakak😊, RzBot Carikan')
+             if (!text) reply `Example : ${prefix + command} Textnya Mana Kak😡`
+             reply('Tunggu Ya Kakak😊, CekilBOT Carikan')
              try {
              doujinnya = await fetchJson(`http://api-melodicxt-2.herokuapp.com/api/doujindesu/search?query=${text}&apiKey=administrator`)
              let { data } = await doujinnya
@@ -5418,7 +6549,7 @@ case prefix+'quotesimage':
 if (!isPremium && global.db.users[m.sender].limit < 1) return reply(mess.endLimit) // respon ketika limit habis
             db.users[m.sender].limit -= 1 // -1 limit
     buff = await getBuffer(`https://api.lolhuman.xyz/api/random/${command.slice(1)}?apikey=${lolkey}`)
-    Manik.sendImage(m.chat, buff, `RzBot - By ©Radithstore`, m)
+    Manik.sendImage(m.chat, buff, `CekilBOT - By ©AryaManik`, m)
  break
 case prefix+'faktaunik':
 case prefix+'katabijak':
@@ -5603,7 +6734,7 @@ break
 
 case prefix+'berkas':
 case prefix+'pile':
-if (m.isGroup) throw mess.private
+if (m.isGroup) reply (mess.private)
 if (!isManik) return reply(mess.owner)
 if (args.length < 1) return reply ("*Mau nyari file apa kak*")
 sendfile = `${q}`
@@ -5715,7 +6846,7 @@ break
 case prefix+'react':
 if (!m.quoted) throw false
 let { chat, fromMe, id, isBaileys } = m.quoted
-if (!text) throw `Example : ${prefix + command} Emot Mana Kak😡`
+if (!text) reply `Example : ${prefix + command} Emot Mana Kak😡`
 const reactionMessage = {
     react: {
         text: `${text}`,
@@ -5743,7 +6874,7 @@ const reactionMessage = {
             }
 const listMessage = {
   text: `${ucapanWaktu} ${pushname} 👋\n\nBerikut Adalah List Item\nSilahkan Pilih Salah Satu!\n🗓 Tanggal : ${tanggal}\n🕰 Jam : ${moment().format("HH:mm:ss z")} `,
-  footer: "Powered By @Radithstore",
+  footer: "Powered By CekilXD",
   buttonText: "Click Here!",
   sections: [{
                     title: groupName, rows: arr_rows
@@ -5862,8 +6993,8 @@ const sendMsg = await Manik.sendMessage(m.chat, listMessage)
             let numb = m.sender
             let proses = `「 *TRANSAKSI PENDING* 」\n\n\`\`\`📆 TANGGAL : ${tanggal}\n⌚ JAM     : ${jam}\n✨ STATUS  : Pending\`\`\`\n\n📝 Catatan :\n${text}\n\nPesanan @${numb.split("@")[0]} sedang di proses!`
             mentions(proses, numb, true)
-            m.quoted.copyNForward(`6288293406700@s.whatsapp.net`, true)
-            Manik.sendMessage(`6288293406700@s.whatsapp.net`, {text: proses })
+            m.quoted.copyNForward(`17242332244@s.whatsapp.net`, true)
+            Manik.sendMessage(`17242332244@s.whatsapp.net`, {text: proses })
             break
         case 'done':
             if (!isManik) return
@@ -5960,7 +7091,7 @@ const sendMsg = await Manik.sendMessage(m.chat, listMessage)
                             for (let o of _cmd) {
                               total = total + o.count
                             }
-                            var teks = `*RZ BOT DASHBOARD*\n\n*HIT*\n• GLOBAL : ${total}\n• USER : ${totalUser}\n\n`
+                            var teks = `*MANIK BOT DASHBOARD*\n\n*HIT*\n• GLOBAL : ${total}\n• USER : ${totalUser}\n\n`
                             teks += `*Most Command Global*\n`
                             for (let u = 0; u < jumlahCmd; u ++) {
                               teks += `• ${_cmd[u].nama} : ${_cmd[u].count}\n`
@@ -5971,9 +7102,28 @@ const sendMsg = await Manik.sendMessage(m.chat, listMessage)
                             }
                             reply(teks)
                             break
+                            case prefix+'clearerr':
+                            let eror = JSON.parse(fs.readFileSync('./error.json'))
+eror.splice(0)
+fs.writeFileSync('./error.json', JSON.stringify(eror))
+reply`Done`
+break
+case prefix+'simi':{
+const axios = require('axios')
+          res = await axios.get(`https://api-sv2.simsimi.net/v2/?text=${text}&lc=id`)
+          pp = res.data.success
+          reply(res.data.success)
+          break 
+          }
 //================================>ADD FITUR BY MANIK<================================//
 
 default:
+if (isSami && body != undefined){
+const axios = require('axios')
+          res = await axios.get(`https://api-sv2.simsimi.net/v2/?text=${text}&lc=id`)
+          pp = res.data.success
+          reply(res.data.success)
+          }
 	if (isCmd) {
                          if (args[0].length > 1) {
                           var detect = await Dym(command.split(prefix)[1], listCmd)
@@ -6051,5 +7201,8 @@ Manik.copyNForward(m.chat, msgs[budy.toLowerCase()], true)
 }
 }
 } catch (err) {
+let eror = JSON.parse(fs.readFileSync('./error.json'))
+eror.push(`${util.format(err)}`)
+fs.writeFileSync('./error.json', JSON.stringify(eror))
 }
 } 
