@@ -1090,58 +1090,552 @@ Games Draw, Tidak Ada Pemenang`
 }
 
         switch(command) {          
-case prefix+'menu': case prefix+'help':{
-const sections = [
-    {
-	title: `Format: ${prefix}topupff id|jumlah`,
-	rows: [
-	    {title: "List Diamond Free Fire💎", rowId: `${prefix}listdmff`}
-	]
-    },
-   {
-   	title: `Format: ${prefix}DEPOSIT SALDO`,
-	rows: [
-	    {title: "Deposit", rowId: `${prefix}deposit`}
-	]
-    },
-   {
-   	title: `Format: ${prefix}TopUp Mobile Legends id|server|jumlah`,
-	rows: [
-	    {title: "List Diamond Mobile Legends💎", rowId: `${prefix}listdmml`}
-	]
-    },
-   {
-    title: `Format: ${prefix}Convert Ovo`,
-    rows: [
-        {title: "Convert Saldo Ovo", rowld: `${prefix}covo`}
-    ]
-    },
-   {
-    title: `Format: ${prefix}Convert Dana`,
-    rows: [
-        {title: "Convert Saldo Dana", rowld: `${prefix}cdana`}
-     ]
-     },
-    {
-    title: `Format: ${prefix}Payment`,
-    rows: [
-        {title: "Pament", rowld: `${prefix}donasi`}
-]
-let isian = `    
-_Berikut Adalah Data Akun Anda_
-├Saldo User :${getMonUser(sender)}_
-├Name : ${pushname}_
-├Id : ${sender.replace("@s.whatsapp.net", "")}_
+case prefix+'manik': case prefix+'js':{
+const more = String.fromCharCode(8206)
+const readmore = more.repeat(4001)
+addCountCmd(`#${command.slice(1)}`, sender, _cmd) 
+                anu = `*── 「 RzBot - Versi MD 」 ──*
+                
+    _*${ucapanWaktu} ${pushname !== undefined ? pushname : 'Kak'}*_
+  
+  Library : *Baileys-MD*.
+  Prefix : ( ${prefix} )
+  Tanggal Server : ${moment.tz('Asia/Jakarta').format('DD/MM/YY')}
+  Waktu Server : ${moment.tz('Asia/Jakarta').format('HH:mm:ss')}
+  
+  Status Anda : ${isManik ? 'Owner' : isPremium ? 'Premium' : 'Free'}
+  Limit Harian : ${isManik ? '∞' : isPremium ? '∞' : global.db.users[m.sender].limit}
+  Limit Game : ${cekGLimit(sender, gcount, glimit)}
+  Total Pengguna : ${pendaftar.length}
+  ${readmore}
+   *｢  TOPUP MENU OTOMATIS  ｣*
+  ● ${prefix}topup
+  ● ${prefix}topupff
+  ● ${prefix}topupml
+  ● ${prefix}listdmff
+  ● ${prefix}listdmml
+  ● ${prefix}topupff-s2
+  ● ${prefix}listdmff-s2
+  ● ${prefix}mydepo
+  ● ${prefix}deposit
+  ● ${prefix}topdeposit
+    
+  *｢  WITH TRENDTODAY  ｣*
+  ● ${prefix}myotp
+  ● ${prefix}verification
+  ● ${prefix}registration
+  
+ *｢  ANONYMOUS MENU  ｣*  	
+ ● ${prefix}anonymous
+ ● ${prefix}start
+ ● ${prefix}next
+ ● ${prefix}stop
+ ● ${prefix}sendprofile
+ ● ${prefix}author
+ ● ${prefix}bug
+ 
+  *｢ STORE MENU ｣*
+ ● ${prefix}item
+ ● ${prefix}additem
+ ● ${prefix}delitem
+ ● ${prefix}changeitem
+ ● proses
+ ● done
+ 
+  *｢ MOVIE MENU ｣*    
+ ● ${prefix}addtugas
+ ● ${prefix}resettugas
+ ● ${prefix}outputtugas
+ ● ${prefix}hapustugas
+ ● ${prefix}addjudultugas
+ ● ${prefix}tambah
+ ● ${prefix}kali
+ ● ${prefix}kurang
+ ● ${prefix}bagi
+ 
+  *｢  BANK & PAYMENT  ｣*
+ ● ${prefix}topbalance
+ ● ${prefix}buylimit
+ ● ${prefix}buyglimit
+ ● ${prefix}transfer
+ ● ${prefix}checklimit
+ ● ${prefix}balance
+ 
+ *｢  GROUP MENU  ｣*
+ ● ${prefix}linkgroup
+ ● ${prefix}antilink [enable/disable]
+ ● ${prefix}ephemeral [option]
+ ● ${prefix}setppgc [image]
+ ● ${prefix}setname [text]
+ ● ${prefix}setdesc [text]
+ ● ${prefix}group [option]
+ ● ${prefix}editinfo [option]
+ ● ${prefix}add @tag
+ ● ${prefix}kick @tag
+ ● ${prefix}hidetag [text]
+ ● ${prefix}tagall [text]
+ ● ${prefix}promote @tag
+ ● ${prefix}demote @tag
+ ● ${prefix}vote [text]
+ ● ${prefix}devote
+ ● ${prefix}upvote
+ ● ${prefix}cekvote
+ ● ${prefix}hapusvote         
+ 
+ *｢  OWNER MENU  ｣*    
+ ● ${prefix}chat [option]
+  ● ${prefix}getcase [name]
+ ● ${prefix}join [link]
+ ● ${prefix}leave
+ ● ${prefix}setbotpp
+ ● ${prefix}block @user
+ ● ${prefix}unblock @user
+ ● ${prefix}bcgroup
+ ● ${prefix}bcall
+ ● ${prefix}self
+ ● ${prefix}public
+ ● ${prefix}setcmd
+ ● ${prefix}listcmd
+ ● ${prefix}delcmd
+ ● ${prefix}lockcmd
+ ● ${prefix}addmsg
+ ● ${prefix}listmsg
+ ● ${prefix}getmsg
+ ● ${prefix}delmsg
+ 
+ *｢  MAIN MENU  ｣*  
+ ● ${prefix}ping
+ ● ${prefix}owner
+ ● ${prefix}donate
+ ● ${prefix}menu
+ ● ${prefix}delete
+ ● ${prefix}chatinfo
+ ● ${prefix}quoted
+ ● ${prefix}listpc
+ ● ${prefix}listgc
+ ● ${prefix}listonline
+ ● ${prefix}report     
+ ● ${prefix}dashboard
+ ● ${prefix}rules
+  
+ *｢ MOVIE MENU ｣*    
+ ● ${prefix}drakorongoing
+ ● ${prefix}lk21 query
+ ● ${prefix}wattpad url_wattpad
+ ● ${prefix}wattpadsearch query
+ ● ${prefix}cerpen
+ ● ${prefix}ceritahoror
+ 
+ *｢ RANDOM TEXT MENU ｣*    
+ ● ${prefix}quotes
+ ● ${prefix}quotesdiLan
+ ● ${prefix}quotesanime
+ ● ${prefix}quotesimage
+ ● ${prefix}faktaunik
+ ● ${prefix}katabijak
+ ● ${prefix}pantun
+ ● ${prefix}bucin
+ ● ${prefix}randomnama
+  
+ *｢  WIBU MENU  ｣*  
+ ● ${prefix}'
+ ● ${prefix}manga
+ ● ${prefix}anime 
+ ● ${prefix}videoanime
+ ● ${prefix}husbu
+ ● ${prefix}waifu
+ ● ${prefix}milf
+ ● ${prefix}neko
+ ● ${prefix}kanna
+ ● ${prefix}sagiri
+ ● ${prefix}hentai
+ ● ${prefix}cosplay
+ ● ${prefix}wallnime
+ ● ${prefix}kusonime
+ ● ${prefix}megumin
+ ● ${prefix}otakudesu
+ ● ${prefix}doujindesu
+ ● ${prefix}storyanime
+ ● ${prefix}nakanomiku
+ ● ${prefix}nakanonino
+ ● ${prefix}nakanoitsuki
+ ● ${prefix}otakuongoing
+ ● ${prefix}nhentai *code*
+ ● ${prefix}nekopoi *link*
+ ● ${prefix}nekopoisearch
+ 
+  *｢  FUN GAME MENU  ｣*  	
+ ● ${prefix}piatu
+ ● ${prefix}holoh
+ ● ${prefix}jadian
+ ● ${prefix}jodohku
+ ● ${prefix}delttt
+ ● ${prefix}tictactoe
+ ● ${prefix}family100
+ ● ${prefix}tebak [option]
+ ● ${prefix}math [mode]
+ ● ${prefix}suitpvp [@tag]
+ ● ${prefix}casino
+ ● ${prefix}delcasino
+ ● ${prefix}akinator
+ ● ${prefix}cancelakinator
+  
+ *｢  DOWNLOAD MENU  ｣*
+ ● ${prefix}tiktok [url]
+ ● ${prefix}tiktokaudio [url]
+ ● ${prefix}tiktoknowm [url]     
+ ● ${prefix}youtube [url]
+ ● ${prefix}twitter [url]
+ ● ${prefix}twittermp3 [url]
+ ● ${prefix}facebook [url]
+ ● ${prefix}pinterestdl [url]
+ ● ${prefix}ytmp3 [url]
+ ● ${prefix}ytmp4 [url]
+ ● ${prefix}getmusic [query]
+ ● ${prefix}getvideo [query]
+ ● ${prefix}umma [url]
+ ● ${prefix}joox [query]
+ ● ${prefix}soundcloud [url]
+ ● ${prefix}ttnowm [url] 
+ ● ${prefix}ttaudio [url]     
+                
+ *｢  TOOLS MENU  ｣*
+ ● ${prefix}toimage
+ ● ${prefix}removebg
+ ● ${prefix}sticker
+ ● ${prefix}emojimix
+ ● ${prefix}tovideo
+ ● ${prefix}togif
+ ● ${prefix}tourl
+ ● ${prefix}tovn
+ ● ${prefix}tomp3
+ ● ${prefix}toaudio
+ ● ${prefix}ebinary
+ ● ${prefix}dbinary
 
-Saldo Hanya Bisa Untuk Topup Saja, Tidak Bisa Ditarik!.`
-const listMessage = {
-  text: isian,
-  footer: "Powered By @CekilStore",
-  title: "━━[ Topup CekilStore ]━━",
-  buttonText: "Klik Disini",
-  sections
-}
-break 
+ *｢  RANDOM MENU  ｣*
+ ● ${prefix}coffe
+ ● ${prefix}quotesanime
+ ● ${prefix}motivasi
+ ● ${prefix}dilanquote
+ ● ${prefix}bucinquote
+ ● ${prefix}katasenja
+ ● ${prefix}puisi
+ ● ${prefix}ppcp
+ ● ${prefix}anime
+ ● ${prefix}waifu
+ ● ${prefix}husbu
+ ● ${prefix}neko
+ ● ${prefix}shinobu
+ ● ${prefix}megumin
+ ● ${prefix}loli
+
+ *｢  SEARCH MENU  ｣*
+ ● ${prefix}play [query]
+ ● ${prefix}yts [query]
+ ● ${prefix}google [query]
+ ● ${prefix}gimage [query]
+ ● ${prefix}pinterest [query]
+ ● ${prefix}wallpaper [query]
+ ● ${prefix}wikimedia [query]
+ ● ${prefix}ytsearch [query]
+ ● ${prefix}ringtone [query]
+ ● ${prefix}nickff 
+ ● ${prefix}nickml
+ ● ${prefix}nickpubg
+ ● ${prefix}nickdomino
+  
+ *｢  VOCAL MENU  ｣*  	
+ ● ${prefix}halah
+ ● ${prefix}hilih
+ ● ${prefix}huluh
+ ● ${prefix}heleh
+ ● ${prefix}holoh
+  
+ *｢  AUDIO MENU  ｣*  	
+ ● ${prefix}bass
+ ● ${prefix}blown
+ ● ${prefix}deep
+ ● ${prefix}earrape
+ ● ${prefix}fast
+ ● ${prefix}fat
+ ● ${prefix}nightcore
+ ● ${prefix}reverse
+ ● ${prefix}robot
+ ● ${prefix}slow
+ ● ${prefix}squirrel
+
+ *｢  ISLAM MENU  ｣*  	
+ ● ${prefix}iqra
+ ● ${prefix}hadith
+ ● ${prefix}alquran
+ ● ${prefix}juzamma
+ ● ${prefix}tafsirsurah
+ 
+ *｢ CEK MENU ｣*  	
+ ● ${prefix}goblokcek 
+ ● ${prefix}jelekcek 
+ ● ${prefix}rate
+ ● ${prefix}haram
+ ● ${prefix}gaycek
+ ● ${prefix}lesbicek
+ ● ${prefix}gantengcek 
+ ● ${prefix}cantikcek
+ ● ${prefix}begocek 
+ ● ${prefix}suhucek
+ ● ${prefix}pintercek
+ ● ${prefix}jagocek
+ ● ${prefix}nolepcek
+ ● ${prefix}babicek
+ ● ${prefix}bebancek
+ ● ${prefix}baikcek
+ ● ${prefix}jahatcek
+ ● ${prefix}anjingcek
+ ● ${prefix}haramcek
+ ● ${prefix}pakboycek
+ ● ${prefix}pakgirlcek
+ ● ${prefix}sangecek 
+ ● ${prefix}bapercek
+ ● ${prefix}fakboycek
+ ● ${prefix}alimcek
+ ● ${prefix}suhucek
+ ● ${prefix}fakgirlcek
+ ● ${prefix}kerencek
+ ● ${prefix}wibucek
+ ● ${prefix}pasarkascek
+ 
+  *｢  STALKING MENU  ｣*  	
+ ● ${prefix}stalkig    _<nama>_
+ ● ${prefix}stalkgithub    _<nama>_
+ ● ${prefix}stalktwitter    _<nama>_
+ ● ${prefix}mlstalk    _<nama>_
+
+ *｢  PRIMBON MENU  ｣*  	
+ ● ${prefix}nomorhoki
+ ● ${prefix}artimimpi
+ ● ${prefix}artinama
+ ● ${prefix}ramaljodoh
+ ● ${prefix}ramaljodohbali
+ ● ${prefix}suamiistri
+ ● ${prefix}ramalcinta
+ ● ${prefix}cocoknama
+ ● ${prefix}pasangan
+ ● ${prefix}jadiannikah
+ ● ${prefix}sifatusaha
+ ● ${prefix}rezeki
+ ● ${prefix}pekerjaan
+ ● ${prefix}nasib
+ ● ${prefix}penyakit
+ ● ${prefix}tarot
+ ● ${prefix}fengshui
+ ● ${prefix}haribaik
+ ● ${prefix}harisangar
+ ● ${prefix}harisial
+ ● ${prefix}nagahari
+ ● ${prefix}arahrezeki
+ ● ${prefix}peruntungan
+ ● ${prefix}weton
+ ● ${prefix}karakter
+ ● ${prefix}keberuntungan
+ ● ${prefix}memancing
+ ● ${prefix}masasubur
+ ● ${prefix}zodiak
+ ● ${prefix}shio
+
+ *｢  BOT MENU  ｣*  	
+ ● ${prefix}antilink On/Off
+ ● ${prefix}mute On/Off
+ ● ${prefix}antiwame On/Off
+ ● ${prefix}antiyt On/Off
+ ● ${prefix}antitele On/Off
+ ● ${prefix}antibitly On/Off
+ 
+  *｢ Text Pro Me ｣*  	
+ ● ${prefix}blackpink text
+ ● ${prefix}neon text
+ ● ${prefix}greenneon text
+ ● ${prefix}advanceglow text
+ ● ${prefix}futureneon text
+ ● ${prefix}sandwriting text
+ ● ${prefix}sandsummer text
+ ● ${prefix}sandengraved text
+ ● ${prefix}metaldark text
+ ● ${prefix}neonlight text
+ ● ${prefix}holographic text
+ ● ${prefix}text1917 text
+ ● ${prefix}minion text
+ ● ${prefix}deluxesilver text
+ ● ${prefix}newyearcard text
+ ● ${prefix}bloodfrosted text
+ ● ${prefix}halloween text
+ ● ${prefix}jokerlogo text
+ ● ${prefix}fireworksparkle text
+ ● ${prefix}natureleaves text
+ ● ${prefix}bokeh text
+ ● ${prefix}toxic text
+ ● ${prefix}strawberry text
+ ● ${prefix}box3d text
+ ● ${prefix}roadwarning text
+ ● ${prefix}breakwall text
+ ● ${prefix}icecold text
+ ● ${prefix}luxury text
+ ● ${prefix}cloud text
+ ● ${prefix}summersand text
+ ● ${prefix}horrorblood text
+ ● ${prefix}thunder text
+ ● ${prefix}pornhub text1 text2
+ ● ${prefix}glitch text1 text2
+ ● ${prefix}avenger text1 text2
+ ● ${prefix}space text1 text2
+ ● ${prefix}ninjalogo text1 text2
+ ● ${prefix}marvelstudio text1 text2
+ ● ${prefix}lionlogo text1 text2
+ ● ${prefix}wolflogo text1 text2
+ ● ${prefix}steel3d text1 text2
+ ● ${prefix}wallgravity text1 text2
+
+  *｢ Nsfw Anime ｣*  	
+ ● ${prefix}chiisaihentai
+ ● ${prefix}trap
+ ● ${prefix}blowjob
+ ● ${prefix}yaoi
+ ● ${prefix}ecchi
+ ● ${prefix}hentai
+ ● ${prefix}ahegao
+ ● ${prefix}hololewd
+ ● ${prefix}sideoppai
+ ● ${prefix}animefeets
+ ● ${prefix}animebooty
+ ● ${prefix}animethighss
+ ● ${prefix}hentaiparadise
+ ● ${prefix}animearmpits
+ ● ${prefix}hentaifemdom
+ ● ${prefix}lewdanimegirls
+ ● ${prefix}biganimetiddies
+ ● ${prefix}animebellybutton
+ ● ${prefix}hentai4everyone
+
+  *｢ Random Image ｣*  	
+ ● ${prefix}bj
+ ● ${prefix}ero
+ ● ${prefix}ppcp
+ ● ${prefix}cum
+ ● ${prefix}feet
+ ● ${prefix}yuri
+ ● ${prefix}trap
+ ● ${prefix}lewd
+ ● ${prefix}feed
+ ● ${prefix}eron
+ ● ${prefix}solo
+ ● ${prefix}gasm
+ ● ${prefix}poke
+ ● ${prefix}anal
+ ● ${prefix}holo
+ ● ${prefix}tits
+ ● ${prefix}kuni
+ ● ${prefix}kiss
+ ● ${prefix}erok
+ ● ${prefix}smug
+ ● ${prefix}baka
+ ● ${prefix}solog
+ ● ${prefix}feetg
+ ● ${prefix}lewdk
+ ● ${prefix}waifu
+ ● ${prefix}pussy
+ ● ${prefix}femdom
+ ● ${prefix}cuddle
+ ● ${prefix}hentai
+ ● ${prefix}eroyuri
+ ● ${prefix}cum_jpg
+ ● ${prefix}blowjob
+ ● ${prefix}erofeet
+ ● ${prefix}holoero
+ ● ${prefix}classic
+ ● ${prefix}erokemo
+ ● ${prefix}fox_girl
+ ● ${prefix}futanari
+ ● ${prefix}lewdkemo
+ ● ${prefix}wallpaper
+ ● ${prefix}pussy_jpg
+ ● ${prefix}kemonomimi
+ ● ${prefix}nsfw_avatar
+ ● ${prefix}ngif
+ ● ${prefix}nsfw_neko_gif
+ ● ${prefix}random_hentai_gif
+  
+  *｢ Photo Oxy ｣*  	
+ ● ${prefix}shadow text
+ ● ${prefix}cup text
+ ● ${prefix}cup1 text
+ ● ${prefix}romance text
+ ● ${prefix}smoke text
+ ● ${prefix}burnpaper text
+ ● ${prefix}lovemessage text
+ ● ${prefix}undergrass text
+ ● ${prefix}love text
+ ● ${prefix}coffe text
+ ● ${prefix}woodheart text
+ ● ${prefix}woodenboard text
+ ● ${prefix}summer3d text
+ ● ${prefix}wolfmetal text
+ ● ${prefix}nature3d text
+ ● ${prefix}underwater text
+ ● ${prefix}goldenrose text
+ ● ${prefix}summernature text
+ ● ${prefix}letterleaves text
+ ● ${prefix}glowingneon text
+ ● ${prefix}fallleaves text
+ ● ${prefix}flamming text
+ ● ${prefix}harrypotter text
+ ● ${prefix}carvedwood text
+ ● ${prefix}tiktok text1 text2
+ ● ${prefix}arcade8bit text1 text2
+ ● ${prefix}battlefield4 text1 text2
+ ● ${prefix}pubg text1 text2
+
+  *｢ Ephoto 360 ｣*  	
+ ● ${prefix}wetglass text
+ ● ${prefix}multicolor3d text
+ ● ${prefix}watercolor text
+ ● ${prefix}luxurygold text
+ ● ${prefix}galaxywallpaper text
+ ● ${prefix}lighttext text
+ ● ${prefix}beautifulflower text
+ ● ${prefix}puppycute text
+ ● ${prefix}royaltext text
+ ● ${prefix}heartshaped text
+ ● ${prefix}birthdaycake text
+ ● ${prefix}galaxystyle text
+ ● ${prefix}hologram3d text
+ ● ${prefix}greenneon text
+ ● ${prefix}glossychrome text
+ ● ${prefix}greenbush text
+ ● ${prefix}metallogo text
+ ● ${prefix}noeltext text
+ ● ${prefix}glittergold text
+ ● ${prefix}textcake text
+ ● ${prefix}starsnight text
+ ● ${prefix}wooden3d text
+ ● ${prefix}textbyname text
+ ● ${prefix}writegalacy text
+ ● ${prefix}galaxybat text
+ ● ${prefix}snow3d text
+ ● ${prefix}birthdayday text
+ ● ${prefix}goldplaybutton text
+ ● ${prefix}silverplaybutton text
+ ● ${prefix}freefire text
+ 
+ ♥Thx To♥
+ ●All creator bot
+ ●Tuhanku
+ ●Ortuku
+ ●Penyemangatku
+ ●Manik
+ ●Radithstore
+
+ © DESIGN: Radithstore`
+ Manik.sendMessage(m.chat, { caption: anu, image: { url: "./media/menu.jpg" }, templateButtons: buttonsDefault, footer: 'RzBot By Own-Radith√', mentions: [m.sender] })
+break
 }
 //━━━━━━━━━━━━━━━[ Fitur topup Otomatis server 1 Case Dan Fitur By Manik Only! ]━━━━━━━━━━━━━━━\\
 case prefix+'topdeposit':{
@@ -1223,21 +1717,51 @@ case prefix+'depono':
 if (!isManik) throw mess.owner
 let umbelah = text.split("|")[0]
 let iapah = text.split("|")[1]
-reply('Deposit Tidak Akan Dilanjutkan')
-Manik.sendMessage(`${iapah}`, {text: `Topup Anda Ditolak!, Mungkin Anda Melakukan Fake Topup Atau Kekeliruan Lain, Silahkan Chat Owner Jika Ada Masalah!.` })
+reply('Deposit Gagal')
+Manik.sendButtonText(`${iapah}`, nbuttons, `Topup Anda Berhasil Di Acc, Silahkan Melakukan TopUp Dengan Mudah Hanya Di CekilStore!`, Manik.user.name, m)
 break
-case prefix+'topup':{
+case prefix+'menu':{
 const sections = [
     {
 	title: `Format: ${prefix}topupff id|jumlah`,
 	rows: [
-	    {title: "List Diamond Free Fire", rowId: `${prefix}listdmff`}
+	    {title: "List Diamond Free Fire Otomatis", rowId: `${prefix}listdmff`}
 	]
     },
    {
    	title: `Format: ${prefix}topupml id|server|jumlah`,
 	rows: [
-	    {title: "List Diamond Mobile Legends", rowId: `${prefix}listdmml`}
+	    {title: "List Diamond Mobile Legends Otomatis", rowId: `${prefix}listdmml`}
+	]
+    },
+       {
+   	title: `Format: ${prefix}Deposit Kirim bukti`,
+	rows: [
+	    {title: "Deposit", rowId: `${prefix}deposit`}
+	]
+    },
+       {
+   	title: `Format: ${prefix}Convert Ovo`,
+	rows: [
+	    {title: "Convert Ovo", rowId: `${prefix}covo`}
+	]
+    },
+       {
+   	title: `Format: ${prefix}Convert Dana`,
+	rows: [
+	    {title: "Convert Dana", rowId: `${prefix}cdana`}
+	]
+    },
+       {
+   	title: `Format: ${prefix}Convert Shopeepay`,
+	rows: [
+	    {title: "Convert ShopeePay", rowId: `${prefix}cshopee`}
+	]
+    },
+       {
+   	title: `Format: ${prefix}Payment Metode`,
+	rows: [
+	    {title: "Payment", rowId: `${prefix}payment`}
 	]
     },
 ]
@@ -2338,7 +2862,7 @@ Please @${m.mentionedJid[0].split`@`[0]} to type accept/reject`
             }
             }
             break
-	    case prefix+'donasi': case prefix+'donate': case prefix+'sewabot': case prefix+'sewa': case prefix+'buypremium': case prefix+'donate':{
+	    case prefix+'donasi': case prefix+'donate': case prefix+'payment': case prefix+'sewa': case prefix+'buypremium': case prefix+'donate':{
              addCountCmd(`#${command.slice(1)}`, sender, _cmd)
                 reply(` MENU PAYMENT \n\nHi ${pushname} \n\`\`\`Qris : https://telegra.ph/file/d6db90b03b7df7748ef90.jpg\`\`\`\nOVO:089515023118\nGOPAY:NEXT\nDANA:089515023218\n THX FOR YOU ! `)
             }
